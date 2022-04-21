@@ -5,41 +5,131 @@
       "blocks": {
         "slideshow-0": {
           "type": "image",
-          "settings": {}
+          "settings": {
+            "image": "shopify:\/\/shop_images\/Dog_Bowl_Skin_Coat2_ad25bfa6-386c-4eee-a079-6bb8994c9a3c.jpg",
+            "bg_position": "center-center",
+            "overlay_opacity": 25,
+            "text_color": "text-light",
+            "title": "Original Super Food Powdered Supplements",
+            "slide_subheading": "These natural powder supplements are veterinarian formulated with whole food nutrition and key vitamins and minerals that can be missing from even the best commercial pet foods.  Help your pet go from good to best with one spoonful a day.",
+            "slide_btn_text": "Shop Original Powders",
+            "slide_btn_link": "shopify:\/\/collections\/original-powders",
+            "slide_btn_style": "primary",
+            "slide_btn_text_2": "",
+            "slide_btn_link_2": "",
+            "slide_btn_style_2": "secondary",
+            "video_btn_text": "",
+            "video_btn_link": ""
+          }
         },
         "slideshow-1": {
           "type": "image",
-          "settings": {}
+          "settings": {
+            "image": "shopify:\/\/shop_images\/Dog_and_cat_with_products_5-20-21_1500.jpg",
+            "bg_position": "center-center",
+            "overlay_opacity": 20,
+            "text_color": "text-light",
+            "title": "Welcome to The Missing Link!",
+            "slide_subheading": "For almost 30 years, The Missing Link® has been creating wholesome, natural, easy-to-add nutritional supplements to empower your pet’s food and enhance their wellbeing.  We’re here to help you find the very best nutritional solutions for your pet’s health and happiness.",
+            "slide_btn_text": "Shop",
+            "slide_btn_link": "shopify:\/\/collections\/all",
+            "slide_btn_style": "primary",
+            "slide_btn_text_2": "",
+            "slide_btn_link_2": "",
+            "slide_btn_style_2": "secondary",
+            "video_btn_text": "",
+            "video_btn_link": ""
+          }
+        },
+        "f39f9227-2506-4b03-a0df-7b750f42a6e6": {
+          "type": "image",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/Desktop_V2_1.jpg",
+            "image_mobile": "shopify:\/\/shop_images\/smartmouth_mobile.jpg",
+            "bg_position": "center-center",
+            "overlay_opacity": 15,
+            "text_color": "text-light",
+            "title": "",
+            "slide_subheading": "",
+            "slide_btn_text": "Shop Dental Chews",
+            "slide_btn_link": "shopify:\/\/collections\/dental-chews",
+            "slide_btn_style": "primary",
+            "slide_btn_text_2": "",
+            "slide_btn_link_2": "",
+            "slide_btn_style_2": "secondary",
+            "video_btn_text": "Video",
+            "video_btn_link": "https:\/\/www.youtube.com\/watch?v=FToCCwCQqR8"
+          }
+        },
+        "9c1ffd0d-3931-4f07-8d13-6c0dce3a7883": {
+          "type": "image",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/Collagen_Care_Soft_Chews-2_bab37d40-2258-44ef-9e40-1b7e157ae62e.jpg",
+            "bg_position": "center-center",
+            "overlay_opacity": 30,
+            "text_color": "text-light",
+            "title": "NEW! Collagen Care soft chews",
+            "slide_subheading": "Dogs naturally lose their ability to build collagen over time, which can affect their overall health.  Check out our line of Collagen soft chews that may be just what your dog's body is craving.",
+            "slide_btn_text": "Shop Soft Chews",
+            "slide_btn_link": "shopify:\/\/collections\/soft-chews",
+            "slide_btn_style": "primary",
+            "slide_btn_text_2": "",
+            "slide_btn_link_2": "",
+            "slide_btn_style_2": "secondary",
+            "video_btn_text": "Video",
+            "video_btn_link": "https:\/\/youtu.be\/FIgOnbhe3Zg"
+          }
         }
       },
       "block_order": [
         "slideshow-0",
-        "slideshow-1"
+        "slideshow-1",
+        "f39f9227-2506-4b03-a0df-7b750f42a6e6",
+        "9c1ffd0d-3931-4f07-8d13-6c0dce3a7883"
       ],
-      "settings": {}
+      "settings": {
+        "slide_height": "one-hundred-height-hero",
+        "content_alignment": "bottom-left",
+        "show_nav_dots": true,
+        "show_nav_arrows": true,
+        "show_arrow_down": false,
+        "autoplay": false,
+        "duration": 4,
+        "transition": "slide"
+      }
     },
     "collection-list": {
       "type": "section-list-collection",
       "blocks": {
         "collection-list-0": {
           "type": "collection",
-          "settings": {}
+          "settings": {
+            "collection": ""
+          }
         },
         "collection-list-1": {
           "type": "collection",
-          "settings": {}
+          "settings": {
+            "collection": ""
+          }
         },
         "collection-list-2": {
           "type": "collection",
-          "settings": {}
+          "settings": {
+            "collection": ""
+          }
         },
         "collection-list-3": {
           "type": "collection",
-          "settings": {}
+          "settings": {
+            "collection": ""
+          }
         },
         "collection-list-4": {
           "type": "collection",
-          "settings": {}
+          "settings": {
+            "collection": ""
+          }
         }
       },
       "block_order": [
@@ -50,20 +140,47 @@
         "collection-list-4"
       ],
       "settings": {
-        "title": "Collection list"
+        "layout": "carousel",
+        "columns": 3,
+        "title": "Collection list",
+        "button_text": "Shop all",
+        "button_style": "secondary",
+        "overlay_opacity": 20,
+        "bg_color": "",
+        "text_color": "light",
+        "enable_slider": true
       }
     },
     "product-feature": {
       "type": "section-product-feature",
       "settings": {
+        "image_layout": "square",
+        "image_position": "inline",
+        "text_position": "right",
         "text_alignment": "left",
-        "button_text": "Learn more"
+        "image_link_1": "",
+        "image_link_2": "",
+        "hide_image_2": false,
+        "heading": "This is a heading for a Product feature block.",
+        "description": "<p>Use this text to share information about the point put forth above. Describe a product, your brand, or what makes you special.<\/p>",
+        "button_text": "Learn more",
+        "button_link": "",
+        "button_style": "primary",
+        "video_url": "",
+        "bg_color": ""
       }
     },
     "featured-collection": {
       "type": "section-collection",
       "settings": {
-        "show_title": true
+        "collection": "",
+        "products_rows": 2,
+        "products_layout": "grid",
+        "show_title": true,
+        "show_collection_button": true,
+        "button_style": "primary",
+        "bg_color": "",
+        "enable_slider": true
       }
     },
     "image-with-text": {
@@ -73,7 +190,14 @@
         "text_position": "left",
         "image_background": true,
         "bg_position": "center-center",
-        "button_style": "secondary"
+        "subheading": "Subheading",
+        "heading": "Our Story",
+        "text": "<p>Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.<\/p>",
+        "button_text": "Learn More",
+        "button_url": "",
+        "button_style": "secondary",
+        "video_url": "",
+        "bg_color": ""
       }
     },
     "tabbed-collections": {
@@ -81,15 +205,27 @@
       "blocks": {
         "collection-0": {
           "type": "collection",
-          "settings": {}
+          "settings": {
+            "collection": "",
+            "title": "",
+            "product": ""
+          }
         },
         "collection-1": {
           "type": "collection",
-          "settings": {}
+          "settings": {
+            "collection": "",
+            "title": "",
+            "product": ""
+          }
         },
         "collection-2": {
           "type": "collection",
-          "settings": {}
+          "settings": {
+            "collection": "",
+            "title": "",
+            "product": ""
+          }
         }
       },
       "block_order": [
@@ -97,22 +233,38 @@
         "collection-1",
         "collection-2"
       ],
-      "settings": {}
+      "settings": {
+        "title": "Featured collections",
+        "button_style": "primary",
+        "bg_color": ""
+      }
     },
     "icons-row": {
       "type": "section-icons-row",
       "blocks": {
         "icons-row-0": {
           "type": "text",
-          "settings": {}
+          "settings": {
+            "icon_name": "shop",
+            "title": "Feature",
+            "content": "Palo Alto is a powerful Shopify theme that will set you apart from the rest with a variety of sections and features."
+          }
         },
         "icons-row-1": {
           "type": "text",
-          "settings": {}
+          "settings": {
+            "icon_name": "shop",
+            "title": "Feature",
+            "content": "Palo Alto is a powerful Shopify theme that will set you apart from the rest with a variety of sections and features."
+          }
         },
         "icons-row-2": {
           "type": "text",
-          "settings": {}
+          "settings": {
+            "icon_name": "shop",
+            "title": "Feature",
+            "content": "Palo Alto is a powerful Shopify theme that will set you apart from the rest with a variety of sections and features."
+          }
         }
       },
       "block_order": [
@@ -121,7 +273,10 @@
         "icons-row-2"
       ],
       "settings": {
-        "alignment": "left"
+        "alignment": "left",
+        "icons_width": 45,
+        "bg_color": "#fafafa",
+        "text_color": "#333"
       }
     },
     "press": {
@@ -129,19 +284,35 @@
       "blocks": {
         "press-0": {
           "type": "press",
-          "settings": {}
+          "settings": {
+            "text": "<p>Provide some information about what the company below thinks about your brand.<\/p>",
+            "link": "",
+            "logo_width": 120
+          }
         },
         "press-1": {
           "type": "press",
-          "settings": {}
+          "settings": {
+            "text": "<p>Provide some information about what the company below thinks about your brand.<\/p>",
+            "link": "",
+            "logo_width": 120
+          }
         },
         "press-2": {
           "type": "press",
-          "settings": {}
+          "settings": {
+            "text": "<p>Provide some information about what the company below thinks about your brand.<\/p>",
+            "link": "",
+            "logo_width": 120
+          }
         },
         "press-3": {
           "type": "press",
-          "settings": {}
+          "settings": {
+            "text": "<p>Provide some information about what the company below thinks about your brand.<\/p>",
+            "link": "",
+            "logo_width": 120
+          }
         }
       },
       "block_order": [
@@ -150,27 +321,51 @@
         "press-2",
         "press-3"
       ],
-      "settings": {}
+      "settings": {
+        "title": "Press",
+        "bg_color": ""
+      }
     },
     "video": {
       "type": "section-video",
       "disabled": true,
-      "settings": {}
+      "settings": {
+        "video_height": "sixty-fifty-height-hero",
+        "text_position": "center-center",
+        "hero_video_link": "https:\/\/www.youtube.com\/watch?v=_9VUPq3SxOc",
+        "video_enable_sound": false,
+        "overlay_opacity": 20,
+        "text_color": "text-light",
+        "title": "Welcome to Palo Alto",
+        "main_subheading": "This subheading helps you provide some more detail to the title above.",
+        "button_text": "Welcome",
+        "button_link": "",
+        "button_style": "secondary"
+      }
     },
     "locations": {
       "type": "section-locations",
       "blocks": {
         "locations-0": {
           "type": "locations",
-          "settings": {}
+          "settings": {
+            "title": "566 Emerson Street Palo Alto, California",
+            "working_time": "<p>Mon - Fri: 8am - 5pm<\/p><p>Sat: Closed<\/p><p>Sun: Closed<\/p>"
+          }
         },
         "locations-1": {
           "type": "locations",
-          "settings": {}
+          "settings": {
+            "title": "566 Emerson Street Palo Alto, California",
+            "working_time": "<p>Mon - Fri: 8am - 5pm<\/p><p>Sat: Closed<\/p><p>Sun: Closed<\/p>"
+          }
         },
         "locations-2": {
           "type": "locations",
-          "settings": {}
+          "settings": {
+            "title": "566 Emerson Street Palo Alto, California",
+            "working_time": "<p>Mon - Fri: 8am - 5pm<\/p><p>Sat: Closed<\/p><p>Sun: Closed<\/p>"
+          }
         }
       },
       "block_order": [
@@ -178,30 +373,49 @@
         "locations-1",
         "locations-2"
       ],
-      "settings": {}
+      "settings": {
+        "subheading": "Our stores",
+        "title": "Locations & hours",
+        "bg_color": ""
+      }
     },
     "logo-list": {
       "type": "section-logo-list",
       "blocks": {
         "logo-list-0": {
           "type": "item_logo",
-          "settings": {}
+          "settings": {
+            "logos_width": 120,
+            "url": ""
+          }
         },
         "logo-list-1": {
           "type": "item_logo",
-          "settings": {}
+          "settings": {
+            "logos_width": 120,
+            "url": ""
+          }
         },
         "logo-list-2": {
           "type": "item_logo",
-          "settings": {}
+          "settings": {
+            "logos_width": 120,
+            "url": ""
+          }
         },
         "logo-list-3": {
           "type": "item_logo",
-          "settings": {}
+          "settings": {
+            "logos_width": 120,
+            "url": ""
+          }
         },
         "logo-list-4": {
           "type": "item_logo",
-          "settings": {}
+          "settings": {
+            "logos_width": 120,
+            "url": ""
+          }
         }
       },
       "block_order": [
@@ -211,30 +425,57 @@
         "logo-list-3",
         "logo-list-4"
       ],
-      "settings": {}
+      "settings": {
+        "bg_color": ""
+      }
     },
     "featured-blog": {
       "type": "section-blog",
       "blocks": {
         "featured-blog-0": {
           "type": "article",
-          "settings": {}
+          "settings": {
+            "article": "",
+            "product1": "",
+            "product2": "",
+            "product3": ""
+          }
         },
         "featured-blog-1": {
           "type": "article",
-          "settings": {}
+          "settings": {
+            "article": "",
+            "product1": "",
+            "product2": "",
+            "product3": ""
+          }
         },
         "featured-blog-2": {
           "type": "article",
-          "settings": {}
+          "settings": {
+            "article": "",
+            "product1": "",
+            "product2": "",
+            "product3": ""
+          }
         },
         "featured-blog-3": {
           "type": "article",
-          "settings": {}
+          "settings": {
+            "article": "",
+            "product1": "",
+            "product2": "",
+            "product3": ""
+          }
         },
         "featured-blog-4": {
           "type": "article",
-          "settings": {}
+          "settings": {
+            "article": "",
+            "product1": "",
+            "product2": "",
+            "product3": ""
+          }
         }
       },
       "block_order": [
@@ -244,7 +485,10 @@
         "featured-blog-3",
         "featured-blog-4"
       ],
-      "settings": {}
+      "settings": {
+        "title": "",
+        "bg_color": ""
+      }
     }
   },
   "order": [
