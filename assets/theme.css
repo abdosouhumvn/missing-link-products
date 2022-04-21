@@ -26,3 +26,18 @@ https://flickity.metafizzy.co
 .has-scrolled .site-header--fixed .nav__icons {
     color: #fff;
 }
+
+.site-footer #Email--footer {
+    border-color: #fff;
+}
+
+.site-footer #SubscribeSubmit--footer {
+    border-color: #fff;
+    background-color: #fff;
+    color: #6fbbde;
+}
+
+.site-footer #SubscribeSubmit--footer:hover {
+    background-color: #6fbbde;
+    color: #fff;
+}

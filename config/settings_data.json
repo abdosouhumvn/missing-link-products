@@ -14,6 +14,8 @@
     "color_button_secondary": "#6fbbde",
     "type_heading_font": "oswald_n6",
     "type_base_font": "neuzeit_office_soft_rounded_n4",
+    "text_size": 90,
+    "nav_size": 90,
     "products_per_row_on_desktop": 4,
     "product_grid_hover_image": false,
     "product_grid_slideshow": false,
@@ -64,30 +66,32 @@
           "header_position": "fixed",
           "header_transparent": true,
           "header_text_color": "white",
-          "logo_max_width": 100,
-          "show_shop_name": true,
+          "logo": "shopify:\/\/shop_images\/The_Missing_Link_Logo_RBG_300px.png",
+          "logo_not_home": "shopify:\/\/shop_images\/The_Missing_Link_Logo_RBG_300px.png",
+          "logo_max_width": 190,
+          "show_shop_name": false,
           "main-menu": "main-menu",
           "menu_position": "right",
-          "show_search": true,
+          "show_search": false,
           "menu_searches_list": "",
-          "show_search_links": true
+          "show_search_links": false
         }
       },
       "footer": {
         "type": "footer",
         "blocks": {
+          "footer-block-1": {
+            "type": "text",
+            "settings": {
+              "title": "The Missing Link®",
+              "footer_text": "<p>Pioneering fresh, high-quality end effective solutions to meet the health needs of every unique pet.<\/p>"
+            }
+          },
           "footer-block-0": {
             "type": "link",
             "settings": {
               "menu": "footer",
-              "show_title": true
-            }
-          },
-          "footer-block-1": {
-            "type": "text",
-            "settings": {
-              "title": "About us",
-              "footer_text": "<p>Leave your customers with a final message about your brand in this rich text block.<\/p>"
+              "show_title": false
             }
           },
           "footer-block-2": {
@@ -98,17 +102,17 @@
           }
         },
         "block_order": [
-          "footer-block-0",
           "footer-block-1",
+          "footer-block-0",
           "footer-block-2"
         ],
         "settings": {
           "logo_width": 100,
-          "show_shop_name": true,
+          "show_shop_name": false,
           "show_social_links": true,
           "show_payment_icons": true,
-          "color_text": "#000000",
-          "color_bg": "#ffffff",
+          "color_text": "#ffffff",
+          "color_bg": "#6fbbde",
           "show_locale_selector": false,
           "show_currency_selector": false,
           "currency_type": "currency"
