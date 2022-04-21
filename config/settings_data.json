@@ -1,5 +1,145 @@
 {
-  "current": "Palo Alto",
+  "current": {
+    "show_spacer_lines": true,
+    "mobile_menu_behaviour": "link",
+    "enable_infinity_scroll": true,
+    "button_style": "square",
+    "favicon": "shopify:\/\/shop_images\/The_Missing_Link_Favicon.png",
+    "color_body_bg": "#ffffff",
+    "color_headings": "#000",
+    "color_body_text": "#000",
+    "color_accent": "#6fbbde",
+    "color_borders_and_lines": "#6fbbde",
+    "color_button_primary": "#6fbbde",
+    "color_button_secondary": "#6fbbde",
+    "type_heading_font": "oswald_n6",
+    "type_base_font": "neuzeit_office_soft_rounded_n4",
+    "products_per_row_on_desktop": 4,
+    "product_grid_hover_image": false,
+    "product_grid_slideshow": false,
+    "product_grid_slideshow_arrows": "black",
+    "product_badge_style": "circle",
+    "enable_variant_boxes": true,
+    "enable_color_swatches": true,
+    "product_grid_hover_swatches": true,
+    "show_payment_button": true,
+    "quick_button": "none",
+    "cart_type": "drawer",
+    "enable_cart_animation": true,
+    "enable_cart_notes": false,
+    "show_continue_shopping": false,
+    "show_free_shipping_message": true,
+    "free_shipping_limit": "25",
+    "social_facebook_link": "https:\/\/www.facebook.com\/missinglinkproducts",
+    "social_twitter_link": "",
+    "social_pinterest_link": "",
+    "social_instagram_link": "https:\/\/www.instagram.com\/themissinglinkpet\/",
+    "share_facebook": true,
+    "share_twitter": true,
+    "share_pinterest": true,
+    "checkout_header_image": "",
+    "checkout_logo_image": "",
+    "checkout_logo_position": "left",
+    "checkout_logo_size": "medium",
+    "checkout_body_background_image": "",
+    "checkout_body_background_color": "#ffffff",
+    "checkout_input_background_color_mode": "white",
+    "checkout_sidebar_background_image": "",
+    "checkout_sidebar_background_color": "#fafafa",
+    "checkout_heading_font": "Helvetica Neue",
+    "checkout_body_font": "Helvetica Neue",
+    "checkout_accent_color": "#1990c6",
+    "checkout_button_color": "#1990c6",
+    "checkout_error_color": "#ff6d6d",
+    "type_body_font": "open_sans_n3",
+    "show_popup_newsletter": true,
+    "popup_delay": "3000",
+    "popup_reappear_time": "7",
+    "logo_max_width": "30",
+    "show_shop_name": true,
+    "sections": {
+      "header": {
+        "type": "header",
+        "settings": {
+          "header_position": "fixed",
+          "header_transparent": true,
+          "header_text_color": "white",
+          "logo_max_width": 100,
+          "show_shop_name": true,
+          "main-menu": "main-menu",
+          "menu_position": "right",
+          "show_search": true,
+          "menu_searches_list": "",
+          "show_search_links": true
+        }
+      },
+      "footer": {
+        "type": "footer",
+        "blocks": {
+          "footer-block-0": {
+            "type": "link",
+            "settings": {
+              "menu": "footer",
+              "show_title": true
+            }
+          },
+          "footer-block-1": {
+            "type": "text",
+            "settings": {
+              "title": "About us",
+              "footer_text": "<p>Leave your customers with a final message about your brand in this rich text block.<\/p>"
+            }
+          },
+          "footer-block-2": {
+            "type": "newsletter",
+            "settings": {
+              "title": "<p>Newsletter<\/p>"
+            }
+          }
+        },
+        "block_order": [
+          "footer-block-0",
+          "footer-block-1",
+          "footer-block-2"
+        ],
+        "settings": {
+          "logo_width": 100,
+          "show_shop_name": true,
+          "show_social_links": true,
+          "show_payment_icons": true,
+          "color_text": "#000000",
+          "color_bg": "#ffffff",
+          "show_locale_selector": false,
+          "show_currency_selector": false,
+          "currency_type": "currency"
+        }
+      },
+      "popup": {
+        "type": "popup",
+        "settings": {
+          "show_popup": "enabled",
+          "popup_width": "large",
+          "popup_position": "right",
+          "overlay_color": "#6fbbde",
+          "overlay_opacity": 80,
+          "popup_header": "Newsletter",
+          "popup_content": "<p><strong>Sign up for our newsletter to get a code for 10% off your first purchase! All orders over $25 ship free.<\/strong><\/p>",
+          "text_color": "dark",
+          "show_popup_newsletter": true,
+          "popup_delay": "30000",
+          "popup_reappear_time": "7"
+        }
+      },
+      "announcement-bar": {
+        "type": "announcement-bar",
+        "settings": {
+          "color_announcement_bar_bg": "#fafafa",
+          "color_announcement_bar_text": "#333333"
+        }
+      }
+    },
+    "content_for_index": []
+  },
   "presets": {
     "Palo Alto": {
       "favicon": "",
