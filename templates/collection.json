@@ -2,15 +2,36 @@
   "sections": {
     "hero": {
       "type": "collection-image-with-title",
-      "settings": {}
+      "settings": {
+        "show_image": true,
+        "banner_height": "normal",
+        "text_position": "center",
+        "text_color": "text-light",
+        "overlay_opacity": 20,
+        "banner_bg_color": "#fafafa"
+      }
     },
     "subcollections": {
       "type": "subcollections",
-      "settings": {}
+      "settings": {
+        "layout": "grid",
+        "image_source": "collection",
+        "image_aspect_ratio": 0.6,
+        "image_overlay_opacity": 0,
+        "image_overlay_color": "#000",
+        "bg_color": "",
+        "text_color": "text-light"
+      }
     },
     "main": {
       "type": "collection",
-      "settings": {}
+      "settings": {
+        "show_breadcrumbs": true,
+        "enable_sorting": true,
+        "enable_filters": true,
+        "filter_mode": "tag",
+        "bg_color": ""
+      }
     }
   },
   "order": [

@@ -2,7 +2,17 @@
   "sections": {
     "main": {
       "type": "list-collections",
-      "settings": {}
+      "settings": {
+        "layout": "grid",
+        "columns": 4,
+        "title": "Collections",
+        "button_text": "Shop all",
+        "button_style": "primary",
+        "overlay_opacity": 20,
+        "bg_color": "",
+        "text_color": "light",
+        "enable_slider": true
+      }
     }
   },
   "order": [
