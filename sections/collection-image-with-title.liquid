@@ -1,0 +1,197 @@
+{% liquid
+  assign show_banner_image = section.settings.show_image
+  assign banner_image = collection.image
+  if collection.handle == 'all'
+    assign banner_image = section.settings.banner_image
+  endif
+
+  assign banner_bg_color = section.settings.banner_bg_color
+  assign has_banner_bg_color = false
+  if banner_bg_color != 'rgba(0,0,0,0)' and banner_bg_color != ''
+    assign has_banner_bg_color = true
+  endif
+
+  if show_banner_image and banner_image
+    assign show_banner_image = true
+  else
+    assign show_banner_image = false
+  endif
+%}
+
+{%- if has_banner_bg_color and show_banner_image == false -%}
+  {%- style -%}
+    body:not(.has-scrolled) .site-header:not(.is-megamenu-open),
+    .collection__header--no-image {
+      background-color: {{ banner_bg_color }};
+    }
+  {%- endstyle -%}
+{%- endif -%}
+
+{%- capture collection_header -%}
+  {%- if show_banner_image -%}
+    {%- assign collection_header_class = 'collection__header--has-image' -%}
+  {%- else -%}
+    {%- assign collection_header_class = 'collection__header--no-image' -%}
+  {%- endif -%}
+
+  <header class="collection__header {{ collection_header_class }}{% if show_banner_image %} {{ section.settings.text_color }}{% endif %}" {% unless show_banner_image %}data-prevent-transparent-header{% endunless %}>
+    <div class="wrapper wrapper--small">
+      {%- if collection.description != blank -%}
+        <h1 class="section-header__title collection__title">{{ collection.title | escape }}</h1>
+
+        <div class="rte rte--header collection__description">
+          {{- collection.description -}}
+        </div>
+      {%- else -%}
+        {%- if collection.handle == 'all' -%}
+          <h1 class="section-header__title collection__title">{{ 'products.general.catalog' | t }}</h1>
+        {%- else -%}
+          <h1 class="section-header__title collection__title">{{ collection.title }}</h1>
+        {%- endif -%}
+      {%- endif -%}
+    </div>
+  </header>
+{%- endcapture -%}
+
+{%- if show_banner_image -%}
+  {% comment %} Banner Settings {% endcomment %}
+  {%- liquid
+    assign banner_height = section.settings.banner_height
+    assign text_position = section.settings.text_position
+    assign overlay_opacity = section.settings.overlay_opacity | times: 0.01 | round: 2
+  -%}
+
+  {%- style -%}
+    .banner { --overlay-opacity: {{ overlay_opacity }}; }
+  {%- endstyle -%}
+
+  <section class="banner" data-section-type="image-with-title" data-section-id="{{ section.id }}">
+    <div class="banner-inner banner--{{ banner_height }} banner--text-{{ text_position }}" data-overflow-container>
+      <div class="banner-img lazyload"
+        data-bgset="{% render 'bgset', image: banner_image %}"
+        data-sizes="auto"
+        data-parent-fit="cover"
+        {% if banner_height == 'original-height' %}
+          style="padding-top: {{ 1 | divided_by: banner_image.aspect_ratio | times: 100 | round: 1 }}%;"
+        {% endif %}
+      >
+      </div>
+      <noscript>
+        <div class="banner-img" style="background-image: url('{{ banner_image | img_url: '1024x' }}');{% if banner_height == 'original-height' %}padding-top: {{ 1 | divided_by: banner_image.aspect_ratio | times: 100 | round: 1 }}%;{% endif %}"></div>
+      </noscript>
+
+      <div class="banner-content" data-overflow-content>
+        {{- collection_header -}}
+      </div>
+    </div>
+  </section>
+{%- else -%}
+  {{- collection_header -}}
+{%- endif -%}
+
+{% schema %}
+  {
+    "name": "Image with title",
+    "templates": ["collection"],
+    "class": "transparent-header",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Banner image"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_image",
+        "label": "Show image",
+        "default": true
+      },
+      {
+        "type": "image_picker",
+        "id": "banner_image",
+        "label": "Default image",
+        "info": "Will be shown on collections/all"
+      },
+      {
+        "type": "select",
+        "id": "banner_height",
+        "label": "Height",
+        "options": [
+            {
+              "value": "one-hundred",
+              "label": "Full screen"
+            },
+            {
+              "value": "original-height",
+              "label": "Original"
+            },
+            {
+              "value": "big",
+              "label": "750px"
+            },
+            {
+              "value": "normal",
+              "label": "650px"
+            },
+            {
+              "value": "small",
+              "label": "550px"
+            }
+          ],
+          "default": "normal"
+      },
+      {
+        "type": "select",
+        "id": "text_position",
+        "label": "Text position",
+        "default": "center",
+        "options": [
+          { "label": "Left", "value": "left" },
+          { "label": "Center", "value": "center" },
+          { "label": "Right", "value": "right" },
+          { "label": "Bottom left", "value": "bottom-left" },
+          { "label": "Bottom right", "value": "bottom-right" }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "text_color",
+        "label": "Text color",
+        "default": "text-light",
+        "options": [
+          {
+            "value": "text-light",
+            "label": "Light"
+          },
+          {
+            "value": "text-dark",
+            "label": "Dark"
+          }
+        ]
+      },
+      {
+        "type": "header",
+        "content": "Overlay"
+      },
+      {
+        "type": "range",
+        "id": "overlay_opacity",
+        "label": "Opacity",
+        "step": 5,
+        "max": 95,
+        "min": 0,
+        "unit": "%",
+        "default": 20
+      },
+      {
+        "type": "header",
+        "content": "Colors"
+      },
+      {
+        "type": "color",
+        "id": "banner_bg_color",
+        "label": "Background ",
+        "default": "#fafafa"
+      }
+    ]
+  }
+{% endschema %}

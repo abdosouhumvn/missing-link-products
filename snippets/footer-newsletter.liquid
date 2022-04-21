@@ -1,0 +1,20 @@
+{%- form 'customer', id: 'FooterNewsletter' -%}
+	{%- if form.posted_successfully? -%}
+		<div class="note form-success">{{ 'general.newsletter_form.newsletter_success' | t }}</div>
+	{%- elsif form.errors -%}
+		{{ form.errors | default_errors }}
+	{%- endif -%}
+
+	<input type="hidden" name="contact[accepts_marketing]" value="true">
+
+	<div class="input-group">
+		<input type="email" value="{% if customer %}{{ customer.email }}{% endif %}" placeholder="{{ 'general.newsletter_form.email' | t }}" name="contact[email]" id="Email--{{ section.id }}" class="input-group__field input-group__field--email" aria-label="{{ 'general.newsletter_form.email' | t }}" autocorrect="off" autocapitalize="off" required>
+
+		<span class="input-group__btn-wrapper">
+			<button type="submit" name="subscribe" id="SubscribeSubmit--{{ section.id }}" class="input-group__btn" value="">
+			<span class="visually-hidden">{{ 'general.accessibility.subscribe_to_newsletter' | t }}</span>
+			{%- render 'icon-arrow' -%}
+			</button>
+		</span>
+	</div>
+{%- endform -%}

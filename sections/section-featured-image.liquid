@@ -1,0 +1,268 @@
+{%- comment -%} /sections/featured-image.liquid {%- endcomment -%}
+
+{%- liquid
+  assign enable_parallax = section.settings.enable_parallax
+  assign image = section.settings.image
+  assign image_position = section.settings.image_position
+  assign image_bg_pos = image_position | prepend: 'bg-pos-'
+  assign image_height = section.settings.image_height
+  assign title = section.settings.title
+  assign subheading = section.settings.subheading
+  assign button_text = section.settings.button_text
+  assign button_link = section.settings.button_link | default: '#'
+  assign button_style = section.settings.button_style
+  if button_link != blank
+    assign button_link =  button_link 
+  else
+    assign button_link = "#!"
+  endif
+  assign overlay_opacity = section.settings.overlay_opacity | times: 0.01 | round: 2
+  assign text_position = section.settings.text_position
+  assign aspect_ratio = image.aspect_ratio | default: 1.66
+-%}
+
+{%- style -%}
+  #FeaturedImage--{{ section.id }} { --overlay-opacity: {{ overlay_opacity }}; }
+{%- endstyle -%}
+
+{%- capture featured_image -%}
+  {%- unless image == blank -%}
+    <div
+      class="featured-image__bg {{ image_bg_pos }} lazyload"
+      data-bgset="{% render 'bgset', image: image %}"
+      data-sizes="auto"
+      data-parent-fit="cover"
+    ></div>
+    <noscript>
+      <div class="featured-image__bg {{ image_bg_pos }}" style="background-image: url('{{ image | img_url:'2048x' }}');{% if enable_parallax %}background-attachment: fixed;{% endif %}"></div>
+    </noscript>
+  {%- else -%}
+    <div class="featured-image__bg featured-image__bg--placeholder {{ image_bg_pos }}">
+      {{- 'image' | placeholder_svg_tag: 'placeholder-svg-filled' -}}
+    </div>
+  {%- endunless -%}
+{%- endcapture -%}
+
+{%- capture featured_content -%}
+  <div class="featured-image__content featured-image__content--{{ text_position }}">
+    <div class="wrapper featured-image__content-inner">
+      {%- if title != blank -%}
+        <h1 class="slide__heading main-heading">{{ title | escape }}</h1>
+      {%- endif -%}
+      {%- if subheading != blank -%}
+        <h2 class="slide__caption main-subheading">{{ subheading | escape }}</h2>
+      {%- endif -%}
+      {%- if button_text != blank -%}
+        <a class="btn btn--{{ button_style }} call-to-action" href="{{ button_link }}">{{ button_text | escape }}</a>
+      {%- endif -%}
+    </div>
+  </div>
+{%- endcapture -%}
+
+<section class="featured-image-section featured-image-section--{{ section.id }} {{ image_height }}{% if image == blank %} featured-image-section--placeholder{% endif %} {{ section.settings.text_color }}"
+  id="FeaturedImage--{{ section.id }}"
+  data-section-id="{{ section.id }}"
+  data-section-type="featured-image"
+  {% if enable_parallax %}
+    data-parallax-wrapper
+  {% endif %}
+  {% if image_height == 'original-height' %}
+    style="padding-top: {{ 1 | divided_by: aspect_ratio | times: 100 | round: 2 }}%;"
+  {% endif %}
+  >
+  <div class="featured-image__pane">
+    <div class="featured-image__scale{% if enable_parallax %} parallax--{{ section.id }}{% endif %}"
+      {% if enable_parallax %}
+        style="height: {{ 1 | divided_by: aspect_ratio | times: 100 }}vw;"
+        data-parallax-img
+      {% endif %}>
+    
+      {{- featured_image -}}
+
+      <div class="overlay"></div>
+    </div>
+  </div>
+  
+  {{- featured_content -}}
+</section>
+
+{% schema %}
+  {
+  "name": "Featured image",
+  "class": "transparent-header",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "image_height",
+      "label": "Height",
+      "default": "one-hundred-height-hero",
+      "options": [
+      {
+          "value": "one-hundred-height-hero",
+          "label": "Full screen"
+        },
+        {
+          "value": "original-height",
+          "label": "Original"
+        },
+        {
+          "value": "seven-fifty-height-hero",
+          "label": "750px"
+        },
+        {
+          "value": "sixty-fifty-height-hero",
+          "label": "650px"
+        },
+        {
+          "value": "five-fifty-height-hero",
+          "label": "550px"
+        },
+        {
+          "value": "four-fifty-height-hero",
+          "label": "450px"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "text_position",
+      "label": "Content alignment",
+      "default": "center-center",
+      "options": [
+        {
+          "value": "top-left",
+          "label": "Top left"
+        },
+        {
+          "value": "top-center",
+          "label": "Top center"
+        },
+        {
+          "value": "top-right",
+          "label": "Top right"
+        },
+        {
+          "value": "center-center",
+          "label": "Center"
+        },
+        {
+          "value": "bottom-left",
+          "label": "Bottom left"
+        },
+        {
+          "value": "bottom-center",
+          "label": "Bottom center"
+        },
+        {
+          "value": "bottom-right",
+          "label": "Bottom right"
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_parallax",
+      "label": "Enable parallax",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "select",
+      "label": "Position",
+      "id": "image_position",
+      "default": "center-center",
+      "options": [
+        { "label": "Top", "value": "center-top" },
+        { "label": "Right", "value": "right-center" },
+        { "label": "Center", "value": "center-center" },
+        { "label": "Left", "value": "left-center" },
+        { "label": "Bottom", "value": "center-bottom" }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Overlay opacity",
+      "min": 0,
+      "max": 95,
+      "step": 5,
+      "unit": "%",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Text"
+    },
+    {
+      "type": "select",
+      "id": "text_color",
+      "label": "Color",
+      "default": "text-light",
+      "options": [
+        {
+          "value": "text-light",
+          "label": "Light"
+        },
+        {
+          "value": "text-dark",
+          "label": "Dark"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Welcome to Palo Alto"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Describe in a few words your special products, collection, or brand."
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Text"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Link"
+    },
+    {
+      "type": "select",
+      "id": "button_style",
+      "label": "Style",
+      "default": "primary",
+      "options": [
+        { "label": "Primary", "value": "primary" },
+        { "label": "Secondary", "value": "secondary" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured image",
+      "category": "Image"
+    }
+  ]
+}
+{% endschema %}

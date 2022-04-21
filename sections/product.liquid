@@ -1,0 +1,292 @@
+{%- comment -%} /sections/product-template {%- endcomment -%}
+{%- assign bg_color = section.settings.bg_color -%}
+
+{%- if bg_color != 'rgba(0,0,0,0)' and bg_color != '' -%}
+  {%- style -%}
+    #ProductTemplate--{{ section.id }} { background: {{ bg_color }}; }
+    .shop-pay-terms { --payment-terms-background-color: {{ bg_color }} }
+  {%- endstyle -%}
+{%- endif -%}
+
+<section id="ProductTemplate--{{ section.id }}"
+  class="product-single"
+  data-section-type="product-template"
+  data-section-id="{{ section.id }}">
+  <div class="wrapper">
+    {%- render 'product' section: section, unique: section.id -%}
+  </div>
+</section>
+
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org/",
+  "@type": "Product",
+  "name": {{ product.title | strip_html | json }},
+  "url": {{ shop.url | append: product.url | json }},
+  {%- if product.featured_media -%}
+    {%- assign media_size = product.featured_media.preview_image.width | append: 'x' -%}
+    "image": [
+      {{ product.featured_media | img_url: media_size | prepend: "https:" | json }}
+    ],
+  {%- endif -%}
+  "description": {{ product.description | strip_html | json }},
+  {%- if current_variant.sku != blank -%}
+    "sku": {{ current_variant.sku | json }},
+  {%- endif -%}
+  "brand": {
+    "@type": "Thing",
+    "name": {{ product.vendor | json }}
+  },
+  {%- if current_variant.barcode -%}
+    "gtin8": "{{ product.variants.first.barcode }}",
+  {%- endif -%}
+  {%- if current_variant.barcode.size == 12 -%}
+    "gtin12": "{{ product.variants.first.barcode }}",
+  {%- endif -%}
+  {%- if current_variant.barcode.size == 13 -%}
+    "gtin13": "{{ product.variants.first.barcode }}",
+  {%- endif -%}
+  {%- if current_variant.barcode.size == 14 -%}
+    "gtin14": "{{ product.variants.first.barcode }}",
+  {%- endif -%}
+  "offers": [
+    {%- for variant in product.variants -%}
+      {
+        "@type" : "Offer",
+        {%- if variant.sku != blank -%}
+          "sku": {{ variant.sku | json }},
+        {%- endif -%}
+        "availability" : "http://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}",
+        "price" : {{ variant.price | divided_by: 100.00 | json }},
+        "priceCurrency" : {{ cart.currency.iso_code | json }},
+        "url" : {{ shop.url | append: variant.url | json }}
+      }{% unless forloop.last %},{% endunless %}
+    {%- endfor -%}
+  ]
+}
+</script>
+
+{% schema %}
+{
+  "name": "Product pages",
+  "class": "shopify-section--product",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "image_gallery",
+      "label": "Image gallery",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "zoom",
+          "label": "Hover to zoom"
+        },
+        {
+          "value": "lightbox",
+          "label": "Lightbox"
+        }
+      ],
+      "default": "zoom"
+    },
+    {
+      "type": "header",
+      "content": "Media",
+      "info": "Learn more about [media types](https://help.shopify.com/manual/products/product-media)"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_video_looping",
+      "label": "Enable video looping",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "@app"
+    },
+    {
+      "type": "title",
+      "name": "Title and price",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "select",
+          "id": "subheading",
+          "label": "Navigation",
+          "default": "breadcrumbs",
+          "options": [
+            { "value": "none", "label": "None" },
+            { "value": "breadcrumbs", "label": "Breadcrumbs" },
+            { "value": "collection", "label": "Collection" },
+            { "value": "vendor", "label": "Vendor" }
+          ]
+        },
+        {
+          "type": "header",
+          "content": "Star rating",
+          "info": "Requires an app to set the metafield value for reviews.rating"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_rating",
+          "label": "Show star rating",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "show_rating_count",
+          "label": "Show rating count",
+          "default": false
+        }
+      ]
+    },
+    {
+      "name": "Form",
+      "type": "form",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "header",
+          "content": "Form elements"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_payment_button",
+          "label": "Show dynamic checkout button",
+          "info": "Lets customers check out directly using a familiar payment method. [Learn more](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)",
+          "default": true
+        },
+        {
+          "type": "header",
+          "content": "Subscriptions",
+          "info": "Learn more about [subscriptions](https://help.shopify.com/en/manual/products/subscriptions)"
+        }
+      ]
+    },
+    {
+      "name": "Product description",
+      "type": "description",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Tabs"
+        },
+        {
+          "type": "paragraph",
+          "content": "You have the option to enable three extra tabs for more information on your product."
+        },
+        {
+          "type": "select",
+          "id": "tabs_style",
+          "label": "Tabs style",
+          "default": "accordions",
+          "options": [
+            { "label": "Accordions", "value": "accordions" },
+            { "label": "Disable tabs", "value": "tabs_disabled" }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "tab_title_1",
+          "label": "Tab heading",
+          "default": "Tab"
+        },
+        {
+          "type": "richtext",
+          "id": "tab_content_1",
+          "label": "Tab text",
+          "default": "<p>This content type will accept <strong>rich text</strong> to help with adding styles and links to additional pages or content. Use this to add supplementary information to help your buyers.</p>"
+        },
+        {
+          "type": "text",
+          "id": "tab_title_2",
+          "label": "Tab heading",
+          "default": "Info"
+        },
+        {
+          "type": "richtext",
+          "id": "tab_content_2",
+          "label": "Tab text",
+          "default": "<p>You can use product metafields to assign content to this tab that is unique to an individual product.  Use tabs to highlight unique features, sizing information, or other sales information.</p>"
+        },
+        {
+          "type": "text",
+          "id": "tab_title_3",
+          "label": "Tab heading"
+        },
+        {
+          "type": "richtext",
+          "id": "tab_content_3",
+          "label": "Tab text"
+        },
+        {
+          "type": "text",
+          "id": "tab_title_4",
+          "label": "Tab heading"
+        },
+        {
+          "type": "richtext",
+          "id": "tab_content_4",
+          "label": "Tab text"
+        },
+        {
+          "type": "text",
+          "id": "tab_title_5",
+          "label": "Tab heading"
+        },
+        {
+          "type": "richtext",
+          "id": "tab_content_5",
+          "label": "Tab text"
+        }
+      ],
+      "limit": 1
+    },
+    {
+      "name": "Social sharing",
+      "type": "social-sharing",
+      "limit": 1
+    },
+    {
+      "name": "Pickup availability",
+      "type": "pickup-availability",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Show customers where they can pick up the product. [Learn more](https://help.shopify.com/en/manual/shipping/setting-up-and-managing-your-shipping/local-methods/local-pickup#show-pickup-availability-to-your-customers)"
+        }
+      ]
+    },
+    {
+      "name": "Custom Liquid",
+      "type": "custom_liquid",
+      "settings": [
+        {
+          "type": "liquid",
+          "id": "custom_liquid",
+          "label": "Custom liquid",
+          "info": "Add app snippets or other Liquid code to create advanced customizations."
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

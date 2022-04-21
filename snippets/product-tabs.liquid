@@ -1,0 +1,30 @@
+{%- for i in (1..5) -%}
+  {%- assign tab_title = 'tab_title_' | append: forloop.index -%}
+  {%- assign tab_title = block_settings[tab_title] -%}
+
+  {%- assign tab_content = 'tab_content_' | append: forloop.index -%}
+  {%- assign tab_content = block_settings[tab_content] -%}
+
+  {%- if tab_title != '' and tab_content != '' -%}
+    {% capture tabs %}
+      {{ tabs }}
+      <div class="product-tab">
+        <button class="product-tab__title" aria-controls="ProductTab--page-{{ tab_title | handle }}-{{ forloop.index }}" data-collapsible-trigger>
+          {{- tab_title -}}
+          {%- render 'icon-plus' -%}
+          {%- render 'icon-minus' -%}
+        </button>
+
+        <div class="product-tab__content" id="ProductTab--page-{{ tab_title | handle }}-{{ forloop.index }}" data-collapsible-container>
+          <div class="product-tab__inner rte" data-collapsible-content>
+            {{- tab_content -}}
+          </div>
+        </div>
+      </div>
+    {% endcapture %}
+  {%- endif -%}
+{% endfor %}
+
+<div class="product-tabs">
+  {{ tabs }}
+</div>

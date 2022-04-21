@@ -1,0 +1,50 @@
+{%- style -%}
+.banner--{{ section_id }} { --overlay-opacity: {{ overlay_opacity }}; }
+{%- if height == 'original-height' -%}
+	.banner--{{ section_id }} { padding-top: {{ 1 | divided_by: image.aspect_ratio | times: 100 | round: 1 }}%; }
+{%- endif -%}
+{%- endstyle -%}
+
+<div class="banner-inner banner--{{ height }} banner--text-{{ text_position }} {{ text_color }} banner--{{ section_id }}" id="Banner--{{ section.id }}">
+	{%- if image != blank -%}
+		<div class="banner-img lazyload"
+			data-bgset="{% render 'bgset', image: image %}"
+			data-sizes="auto"
+			data-parent-fit="cover"
+		>
+		</div>
+		<noscript>
+			<div class="banner-img" style="background-image: url('{{ image | img_url: '1024x' }}');"></div>
+		</noscript>
+	{%- else -%}
+		{%- if height == 'original-height' -%}
+			<div class="banner-img--original banner-img--placeholder">
+				{{- 'image' | placeholder_svg_tag: 'placeholder-svg-filled' -}}
+			</div>
+		{%- else -%}
+			<div class="banner-img banner-img--placeholder">
+				{{- 'image' | placeholder_svg_tag: 'placeholder-svg-filled' -}}
+			</div>
+		{%- endif -%}
+	{%- endif -%}
+
+	<div class="banner-content">
+		<header class="collection__header">
+			<div class="wrapper wrapper--small {% if show_banner == false and template == 'collection' %}text-center{% endif %}">
+				<div class="banner-content__wrap">
+					{%- if subheading != blank -%}
+						<div class="section-header__subheading collection-subheading">{{ subheading }}</div>
+					{%- endif -%}
+
+					{%- unless heading == blank -%}
+						<h1 class="section-header__title collection__title">{{ heading }}</h1>
+					{%- endunless -%}
+
+					{%- unless text == blank -%}
+						<div class="rte rte--header collection__description">{{ text }}</div>
+					{%- endunless -%}
+				</div>
+			</div>
+		</header>
+	</div>
+</div>

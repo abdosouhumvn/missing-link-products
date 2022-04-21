@@ -1,0 +1,137 @@
+<!-- /sections/featured-blog.liquid -->
+
+{% comment %} Settings {% endcomment %}
+
+{%- liquid
+	assign title = section.settings.title
+	assign image_size = settings.image_size
+	assign bg_color = section.settings.bg_color
+	assign bg_color_brightness = bg_color | color_brightness
+
+	if bg_color == 'rgba(0,0,0,0)' or bg_color == ''
+		assign bg_color_brightness = settings.color_body_bg | color_brightness
+	endif
+
+	if bg_color_brightness < 45
+		assign overlay = '#fff'
+	else
+		assign overlay = '#000'
+	endif
+-%}
+
+{%- style -%}
+	{%- if bg_color != 'rgba(0,0,0,0)' and bg_color != '' -%}
+		#FeaturedBlog--{{ section.id }} { background-color: {{ bg_color }}; }
+	{%- endif -%}
+
+	#FeaturedBlog--{{ section.id }} {
+		--overlay: {{ overlay }};
+	}
+{%- endstyle -%}
+
+<section id="FeaturedBlog--{{ section.id }}" class="featured-blog" data-section-type="featured-blog" data-section-id="{{ section.id }}">
+	{%- if title != blank -%}
+		<div class="featured-blog__heading__container">
+			<div class="wrapper">
+				<h2 class="featured-blog__heading section__heading">{{ title }}</h2>
+
+				{%- if settings.show_spacer_lines -%}
+					<hr>
+				{%- endif -%}
+			</div>
+		</div>
+	{%- endif -%}
+
+	<div class="featured-blog__slider__container">
+		<div class="featured-blog__slider" data-slider>
+			{%- if section.blocks.size > 0 -%}
+				{%- for block in section.blocks -%}
+					{%- render 'featured-blog-item', block: block -%}
+				{%- endfor -%}
+			{%- else -%}
+				{%- for i in (1..3) -%}
+					{%- render 'featured-blog-item', block: block -%}
+				{%- endfor -%}
+			{%- endif -%}
+		</div>
+	</div>
+</section>
+
+{% comment %} Schema {% endcomment %}
+{% schema %}
+{
+	"name": "Blog posts",
+	"settings": [
+		{
+			"type": "text",
+			"id": "title",
+			"label": "Heading"
+		},
+		{
+			"type": "header",
+			"content": "Colors"
+		},
+		{
+			"type": "color",
+			"id": "bg_color",
+			"label": "Background"
+		}
+	],
+	"blocks": [
+		{
+			"type": "article",
+			"name": "Article",
+			"settings": [
+				{
+					"type": "article",
+					"id": "article",
+					"label": "Article"
+				},
+				{
+					"type": "header",
+					"content": "Featured products",
+					"info": "Desktop only"
+				},
+				{
+					"type": "product",
+					"id": "product1",
+					"label": "Product 1"
+				},
+				{
+					"type": "product",
+					"id": "product2",
+					"label": "Product 2"
+				},
+				{
+					"type": "product",
+					"id": "product3",
+					"label": "Product 3"
+				}
+			]
+		}
+	],
+	"presets": [
+		{
+			"category": "Text",
+			"name": "Blog posts",
+			"blocks": [
+				{
+					"type": "article"
+				},
+				{
+					"type": "article"
+				},
+				{
+					"type": "article"
+				},
+				{
+					"type": "article"
+				},
+				{
+					"type": "article"
+				}
+			]
+		}
+	]
+}
+{% endschema %}

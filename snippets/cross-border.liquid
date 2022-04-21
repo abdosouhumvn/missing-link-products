@@ -1,0 +1,76 @@
+{%- form 'localization', class: 'popout--footer', id: 'LocalizationForm' -%}
+  {%- if section.settings.show_locale_selector and shop.published_locales.size > 1 -%}
+    <div>
+      <h2 class="visually-hidden" id="lang-heading">
+        {{ 'footer.language' | t }}
+      </h2>
+
+      <div class="popout" data-popout-locale>
+        <button type="button" class="popout__toggle" aria-expanded="false" aria-controls="lang-list" aria-describedby="lang-heading" data-popout-toggle>
+          {{ localization.language.endonym_name }}
+          {%- render 'icon-arrow' -%}
+        </button>
+
+        <ul id="lang-list" class="popout-list" data-popout-list>
+          {% for language in localization.available_languages %}
+            <li class="popout-list__item {% if language == localization.language %}popout-list__item--current{% endif %}">
+              <a class="popout-list__option" href="#" lang="{{ locale.iso_code }}" {% if locale.iso_code == localization.language %}aria-current="true"{% endif %} data-value="{{ language.iso_code }}" data-popout-option>
+                <span>{{ language.endonym_name }}</span>
+              </a>
+            </li>
+          {%- endfor -%}
+        </ul>
+
+        <input type="hidden" name="locale_code" id="LocaleSelector" value="{{ form.current_locale.iso_code }}" data-popout-input/>
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- if section.settings.show_currency_selector and shop.enabled_currencies.size > 1 -%}
+    <div>
+      <h2 class="visually-hidden" id="currency-heading">
+        {{ 'footer.currency' | t }}
+      </h2>
+
+      <div class="popout" data-popout-currency>
+        {%- if section.settings.currency_type == 'currency'-%}
+          <button type="button" class="popout__toggle" aria-expanded="false" aria-controls="currency-list" aria-describedby="currency-heading" data-popout-toggle>
+            {{ form.current_currency.iso_code }} {%- if form.current_currency.symbol -%}{{ form.current_currency.symbol }}{%- endif -%}
+            {%- render 'icon-arrow' -%}
+          </button>
+
+          <ul id="currency-list" class="popout-list" data-popout-list>
+            {% for currency in form.available_currencies %}
+              <li class="popout-list__item {% if currency.iso_code == form.current_currency.iso_code %}popout-list__item--current{% endif %}">
+                <a class="popout-list__option" href="#" {% if currency.iso_code == form.current_currency.iso_code %}aria-current="true"{% endif %} data-value="{{ currency.iso_code }}" data-popout-option>
+                  <span>{{ currency.iso_code }} {%- if currency.symbol -%}{{ currency.symbol }}{%- endif -%}</span>
+                </a>
+              </li>
+            {%- endfor -%}
+          </ul>
+
+          <input type="hidden" name="currency_code" id="CurrencySelector" value="{{ form.current_currency.iso_code }}" data-popout-input/>
+        {%- endif -%}
+
+        {%- if section.settings.currency_type == 'country' -%}
+          <button type="button" class="popout__toggle" aria-expanded="false" aria-controls="currency-list" aria-describedby="currency-heading" data-popout-toggle>
+            {{ localization.country }} ({{ localization.country.iso_code }}) - {{ localization.country.currency.symbol }}
+            {%- render 'icon-arrow' -%}
+          </button>
+
+          <ul id="currency-list" class="popout-list" data-popout-list>
+            {% for country in localization.available_countries %}
+              <li class="popout-list__item {% if country == localization.country %}popout-list__item--current{% endif %}">
+                <a class="popout-list__option" href="#" {% if country == localization.country %}aria-current="true"{% endif %} data-value="{{ country.iso_code }}" data-popout-option>
+                  <span>{{ country.name }} ({{ country.iso_code }}) - {{ country.currency.symbol }}</span>
+                </a>
+              </li>
+            {%- endfor -%}
+          </ul>
+
+          <input type="hidden" name="country_code" id="CurrencySelector" value="{{ localization.country.iso_code }}" data-popout-input/>
+        {%- endif -%}
+      </div>
+    </div>
+  {%- endif -%}
+{%- endform -%}

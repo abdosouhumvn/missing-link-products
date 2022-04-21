@@ -1,0 +1,68 @@
+{%- liquid
+  assign cart_errors = ''
+  if settings.cart_type == 'page'
+    for item in cart.items
+      assign quantity_excessed = false
+      if item.variant.inventory_policy == 'deny' and item.variant.inventory_management != nil and item.variant.inventory_quantity < item.quantity
+        assign quantity_excessed = true
+      endif
+   
+
+      if quantity_excessed
+        capture cart_errors
+          echo cart_errors
+          echo '<span class="cart__errors__product">' | append: item.title | append: '</span>'
+        endcapture
+      endif
+    endfor
+  endif
+-%}
+
+<div class="cart-section{% if cart.item_count == 0 %} cart-section--empty{% endif %}" data-cart-section>
+  <div class="wrapper">
+    <h1 class="cart__title">{{ 'cart.general.title' | t }}</h1>
+
+    <div class="cart__errors errors" data-cart-errors{% if cart_errors != blank %} style="display: block"{% endif %}>
+      <p data-cart-errors-message>
+        {%- if cart_errors != blank -%}
+          {{ 'cart.general.limit_error' | t }}
+          {{ cart_errors }}
+        {%- endif -%}
+      </p>
+
+      <button class="cart__errors__close" type="button" aria-label="{{ 'general.accessibility.dismiss' | t }}" data-cart-errors-close>
+        {%- render 'icon-close' -%}
+      </button>
+    </div>
+
+    <div data-cart-form-container>
+      {%- if cart.item_count > 0 -%}
+        {%- render 'cart-items' -%}
+      {%- else -%}
+        {% comment %}
+          The cart is empty
+        {% endcomment %}
+        <div class="text-center">
+          <p>{{ 'cart.general.empty' | t }}</p>
+
+          <p><a href="{{ routes.root_url }}" class="btn">{{ 'cart.general.continue_shopping' | t }}</a></p>
+        </div>
+      {%- endif -%}
+
+      {%- for block in section.blocks -%}
+        {%- render block -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Cart",
+    "blocks": [
+      {
+        "type": "@app"
+      }
+    ]
+  }
+{% endschema %}

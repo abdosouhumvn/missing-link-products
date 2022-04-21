@@ -1,0 +1,23 @@
+{
+  "sections": {
+    "featured-image": {
+      "type": "section-featured-image",
+      "settings": {
+        "image_height": "five-fifty-height-hero"
+      }
+    },
+    "product-feature": {
+      "type": "section-product-feature",
+      "settings": {}
+    },
+    "main": {
+      "type": "main-page",
+      "settings": {}
+    }
+  },
+  "order": [
+    "featured-image",
+    "product-feature",
+    "main"
+  ]
+}

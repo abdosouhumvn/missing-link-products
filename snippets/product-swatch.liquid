@@ -1,0 +1,39 @@
+{%- comment -%} /snippets/product-swatch.liquid {%- endcomment -%}
+{%- assign assign file_extension = 'png' -%}
+
+<div class="variant-wrapper variant-wrapper--color" data-option="option{{ option.position }}">
+  <label class="variant-label--color visually-hidden" for="SingleOptionSelector-{{ index }}-{{ section.id }}">
+		{{- option.name -}}
+	</label>
+
+  <fieldset
+    id="SingleOptionSelector-{{ index }}-{{ product_id }}"
+    class="variant-input-wrap"
+    data-index="option{{ option.position }}">
+    <div class="swatch">
+      {%- for value in option.values -%}
+        {%- assign swatch_color = value | split: ' ' | last | handle -%}
+        <div data-value="{{ value | escape }}" class="swatch__element">
+          <input
+            id="option{{ option.position }}-{{ value | handle }}-{{ index }}-{{ unique }}"
+            class="swatch__input"
+            type="radio"
+            name="{{ option.name }}"
+            value="{{ value | escape }}"
+            data-color-swatch
+            data-single-option-selector
+            data-index="option{{ option.position }}"
+            {% if option.selected_value == value %}checked="checked"{% endif %}>
+          <label class="swatch__label" for="option{{ option.position }}-{{ value | handle }}-{{ index }}-{{ unique }}">
+            <span class="swatch__color swatch__color--{{ value | handle }}" style="color: {{ swatch_color }}; background-color: {{ swatch_color }}; background-image: url({{ value | handle | append: '.' | append: file_extension | asset_url }})"></span>
+            <span class="visually-hidden">{{ value }}</span>
+          </label>
+        </div>
+      {%- endfor -%}
+    </div>
+  </fieldset>
+  <label class="variant-label variant-label--color" for="SingleOptionSelector-{{ index }}-{{ product_id }}">
+    <span class="visually-hidden">{{ option.name }}</span>
+    <span class="variant-label__value" data-color-label>{{ option.selected_value }}</span>
+  </label>
+</div>

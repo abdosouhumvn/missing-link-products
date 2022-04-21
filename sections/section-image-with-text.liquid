@@ -1,0 +1,197 @@
+{%- liquid
+  assign show_image = true
+  assign section_height = section.settings.section_height
+  assign image_background = section.settings.image_background
+  assign bg_position = section.settings.bg_position
+  assign section_id = section.id
+  assign image = section.settings.image
+  assign text_position = section.settings.text_position
+  assign subheading = section.settings.subheading
+  assign heading = section.settings.heading
+  assign text = section.settings.text
+  assign video_url = section.settings.video_url
+  assign button_text = section.settings.button_text
+  assign button_url = section.settings.button_url | default: '#'
+  assign button_style = section.settings.button_style
+  assign bg_color = section.settings.bg_color
+-%}
+
+{%- if bg_color != 'rgba(0,0,0,0)' and bg_color != '' -%}
+  {%- style -%}
+    #ImageWithText--{{ section.id }} {
+      background-color: {{ bg_color }};
+    }
+  {%- endstyle -%}
+{%- endif -%}
+
+<section id="ImageWithText--{{ section.id }}"
+  class="rich-text{% if image_background %} rich-text--has-background{% endif %} featured-content-section {{ section_height }}"
+  data-section-id="{{ section.id }}"
+  data-section-type="image-with-text"
+  {% unless image_background %}
+    data-prevent-transparent-header
+  {% endunless %}>
+  <div class="featured-content-section__wrapper">
+    {%- render 'rich-text',
+      show_image: show_image, image_background: image_background, bg_position: bg_position, section_id: section_id, image: image,
+      text_position: text_position, subheading: subheading, heading: heading, text: text, video_url: video_url,
+      button_text: button_text, button_url: button_url, button_style: button_style -%}
+  </div>
+</section>
+
+{% schema %}
+{
+    "name": "Image with text",
+    "class": "rich-text transparent-header",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Layout"
+      },
+      {
+        "type": "select",
+        "id": "section_height",
+        "label": "Height",
+        "default": "sixty-fifty-height-hero",
+        "options": [
+          {
+            "value": "one-hundred-height-hero",
+            "label": "Full screen"
+          },
+          {
+            "value": "seven-fifty-height-hero",
+            "label": "750px"
+          },
+          {
+            "value": "sixty-fifty-height-hero",
+            "label": "650px"
+          },
+          {
+            "value": "five-fifty-height-hero ",
+            "label": "550px"
+          },
+          {
+            "value": "four-fifty-height-hero",
+            "label": "450px"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "text_position",
+        "label": "Block position",
+        "default": "left",
+        "options": [
+          {
+            "value": "left",
+            "label": "Left"
+          },
+          {
+            "value": "right",
+            "label": "Right"
+          }
+        ]
+      },
+      {
+        "type": "header",
+        "content": "Image"
+      },
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Image"
+      },
+      {
+        "type": "checkbox",
+        "id": "image_background",
+        "label": "Set image as a background",
+        "default": false
+      },
+      {
+        "type": "select",
+        "id": "bg_position",
+        "label": "Position",
+        "default": "center-center",
+        "options": [
+          { "label": "Top", "value": "center-top" },
+          { "label": "Right", "value": "right-center" },
+          { "label": "Center", "value": "center-center" },
+          { "label": "Left", "value": "left-center" },
+          { "label": "Bottom", "value": "center-bottom" }
+        ]
+      },
+      {
+        "type": "header",
+        "content": "Text"
+      },
+      {
+        "type": "text",
+        "id": "subheading",
+        "label": "Subheading",
+        "default": "Subheading"
+      },
+      {
+        "type": "text",
+        "id": "heading",
+        "label": "Heading",
+        "default": "Our Story"
+      },
+      {
+        "type": "richtext",
+        "id": "text",
+        "label": "Text",
+        "default": "<p>Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.</p>"
+      },
+      {
+        "type": "header",
+        "content": "Button"
+      },
+      {
+        "type": "text",
+        "id": "button_text",
+        "label": "Text",
+        "default": "Learn More"
+      },
+      {
+        "type": "url",
+        "id": "button_url",
+        "label": "Link"
+      },
+      {
+        "type": "select",
+        "id": "button_style",
+        "label": "Style",
+        "default": "primary",
+        "options": [
+          { "label": "Primary", "value": "primary" },
+          { "label": "Secondary", "value": "secondary" }
+        ]
+      },
+      {
+        "type": "header",
+        "content": "Video button"
+      },
+      {
+        "type": "video_url",
+        "id": "video_url",
+        "label": "Link",
+        "accept": ["youtube", "vimeo"]
+      },
+      {
+        "type": "header",
+        "content": "Colors"
+      },
+      {
+        "type": "color",
+        "id": "bg_color",
+        "label": "Background"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Image with text",
+        "category": "Image"
+      }
+    ]
+}
+{% endschema %}

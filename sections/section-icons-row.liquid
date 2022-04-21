@@ -1,0 +1,240 @@
+{% comment %} Icons row {% endcomment %}
+{%- liquid
+  assign bg_color = section.settings.bg_color
+  assign text_color = section.settings.text_color
+  assign alignment = section.settings.alignment
+-%}
+
+{%- style -%}
+  {%- if bg_color != 'rgba(0,0,0,0)' and bg_color != '' -%}
+    #IconsRow--{{ section.id }} {
+      --bg: {{ bg_color }}
+    }
+  {%- endif -%}
+  {%- if text_color != 'rgba(0,0,0,0)' and text_color != '' -%}
+    #IconsRow--{{ section.id }} {
+      --text: {{ text_color }};
+      --text-lighten: {{ text_color | color_lighen: 20 }};
+    }
+  {%- endif -%}
+  #IconsRow--{{ section.id }} .icon {
+    height: {{ section.settings.icons_width | append: 'px' }};
+  }
+  #IconsRow--{{ section.id }} .icons-row__icon {
+    width: {{ section.settings.icons_width | append: 'px' }};
+  }
+{%- endstyle -%}
+
+<section id="IconsRow--{{ section.id }}" class="icons-row" data-section-id="{{ section.id }}" data-section-type="icons-row">
+  <div class="wrapper">
+    <div class="icons-row__wrapper text-{{ alignment }}">
+      {%- if section.blocks.size > 0 -%}
+        <div class="icons-row__slider items--{{ section.blocks.size }}" data-slider>
+          {%- for block in section.blocks -%}
+            {%- assign title = block.settings.title -%}
+            {%- assign content = block.settings.content -%}
+            {%- assign image = block.settings.icon_image -%}
+            {%- assign icon = block.settings.icon_name -%}
+
+            <div class="icons-row__item" {{ block.shopify_attributes }}>
+              {%- if image != blank or icon != 'none' -%}
+                <div class="icons-row__icon">
+                  {%- if image != blank -%}
+                    {%- render 'responsive-image', image: image, image_class: 'icons-row__image', image_size: '512x512' -%}
+                  {%- else -%}
+                    {%- case icon -%}
+                    {%- when 'award' -%}
+                      {%- render 'icon-award' -%}
+                    {%- when 'basket' -%}
+                      {%- render 'icon-basket' -%}
+                    {%- when 'ball' -%}
+                      {%- render 'icon-ball' -%}
+                    {%- when 'calendar' -%}
+                      {%- render 'icon-calendar' -%}
+                    {%- when 'camera' -%}
+                      {%- render 'icon-camera' -%}
+                    {%- when 'comment' -%}
+                      {%- render 'icon-comment' -%}
+                    {%- when 'data' -%}
+                      {%- render 'icon-data' -%}
+                    {%- when 'dollar' -%}
+                      {%- render 'icon-dollar' -%}
+                    {%- when 'email' -%}
+                      {%- render 'icon-email' -%}
+                    {%- when 'eye' -%}
+                      {%- render 'icon-eye' -%}
+                    {%- when 'fruits' -%}
+                      {%- render 'icon-fruits' -%}
+                    {%- when 'house' -%}
+                      {%- render 'icon-house' -%}
+                    {%- when 'lock' -%}
+                      {%- render 'icon-lock' -%}
+                    {%- when 'money' -%}
+                      {%- render 'icon-money' -%}
+                    {%- when 'phone' -%}
+                      {%- render 'icon-phone' -%}
+                    {%- when 'reload' -%}
+                      {%- render 'icon-reload' -%}
+                    {%- when 'shop' -%}
+                      {%- render 'icon-shop' -%}
+                    {%- when 'sync' -%}
+                      {%- render 'icon-sync' -%}
+                    {%- when 'target' -%}
+                      {%- render 'icon-target' -%}
+                    {%- when 'wallet' -%}
+                      {%- render 'icon-wallet' -%}
+                    {%- endcase -%}
+                  {%- endif -%}
+                </div>
+              {%- endif -%}
+
+              {%- if title != blank -%}
+                <h3 class="icons-row__title">{{ title }}</h3>
+              {%- endif -%}
+
+              {%- if content != blank -%}
+                <p class="icons-row__content">{{ content }}</p>
+              {%- endif -%}
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- else -%}
+        <div class="icons-row__slider items--3" data-slider>
+          {%- for i in (1..3) -%}
+            <div class="icons-row__item" >
+              <div class="icons-row__icon">
+                {%- render 'icon-shop' -%}
+              </div>
+
+              <h3 class="icons-row__title">{{ 'homepage.onboarding.icons_row.title' | t }}</h3>
+
+              <p class="icons-row__content">{{ 'homepage.onboarding.icons_row.content' | t }}</p>
+
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Icons row",
+  "max_blocks": 6,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "alignment",
+      "label": "Alignment",
+      "options": [
+        { "label": "Center", "value": "center" },
+        { "label": "Left", "value": "left" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "icons_width",
+      "label": "Icons width",
+      "min": 40,
+      "max": 180,
+      "step": 5,
+      "unit": "px",
+      "default": 45
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background",
+      "default": "#fafafa"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#333"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "name": "Item",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon_name",
+          "label": "Icon",
+          "default": "shop",
+          "options": [
+            { "value": "award", "label": "Award" },
+            { "value": "basket", "label": "Basket" },
+            { "value": "ball", "label": "Ball" },
+            { "value": "calendar", "label": "Calendar" },
+            { "value": "camera", "label": "Camera" },
+            { "value": "comment", "label": "Comment" },
+            { "value": "data", "label": "Data" },
+            { "value": "dollar", "label": "Dollar" },
+            { "value": "email", "label": "Email" },
+            { "value": "eye", "label": "Eye" },
+            { "value": "fruits", "label": "Fruits" },
+            { "value": "house", "label": "House" },
+            { "value": "lock", "label": "Lock" },
+            { "value": "money", "label": "Money" },
+            { "value": "phone", "label": "Phone" },
+            { "value": "reload", "label": "Reload" },
+            { "value": "shop", "label": "Shop" },
+            { "value": "sync", "label": "Sync" },
+            { "value": "target", "label": "Target" },
+            { "value": "wallet", "label": "Wallet" },
+            { "value": "none", "label": "None" }
+          ]
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_image",
+          "label": "Icon image",
+          "info": "If image set it will override the icon"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Feature"
+        },
+        {
+          "type": "textarea",
+          "id": "content",
+          "label": "Content",
+          "default": "Palo Alto is a powerful Shopify theme that will set you apart from the rest with a variety of sections and features."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Icons row",
+      "category": "Text",
+      "blocks": [
+        {
+          "type": "text"
+        },
+        {
+          "type": "text"
+        },
+        {
+          "type": "text"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

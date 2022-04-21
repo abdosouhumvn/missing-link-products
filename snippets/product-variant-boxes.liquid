@@ -1,0 +1,87 @@
+{%- assign enable_color_swatches = settings.enable_color_swatches -%}
+
+{%- for option in product.options_with_values -%}
+  {%- assign downcased_option = option.name | downcase -%}
+  {%- assign is_color = false -%}
+  
+  {%- if color_label contains downcased_option -%}
+    {%- assign is_color = true -%}
+  {%- endif -%}
+
+  {%- if is_color -%}
+    {%- capture color_variants -%}
+      {{- color_variants -}}
+
+      {%- if enable_color_swatches -%}
+        {%- render 'product-swatch', index: forloop.index0, product_id: product.id, option: option, downcased_option: downcased_option, color_label: color_label, unique: unique -%}
+      {%- else -%}
+        <div class="variant-wrapper" data-option="option{{ option.position }}">
+          <label class="variant-label" for="SingleOptionSelector-{{ forloop.index0 }}-{{ product.id }}">
+            {{- option.name -}}
+          </label>
+
+          <fieldset
+            id="SingleOptionSelector-{{ forloop.index0 }}-{{product.id}}"
+            class="variant-input-wrap variant-input-wrap--boxes"
+            data-index="option{{ option.position }}">
+            {%- for value in option.values -%}
+              <div class="variant-field">
+                <input
+                  id="option{{ option.position }}-{{ value }}-{{ forloop.index0 }}"
+                  class="visually-hidden variant-input"
+                  type="radio"
+                  name="{{ option.name }}"
+                  value="{{ value | escape }}"
+                  data-single-option-selector
+                  data-index="option{{ option.position }}"
+                  {% if option.selected_value == value %}checked="checked"{% endif %}>
+                <label class="variant__button-label" for="option{{ option.position }}-{{ value }}-{{ forloop.index0 }}">
+                  {{- value -}}
+                </label>
+              </div>
+            {%- endfor -%}
+          </fieldset>
+        </div>
+      {%- endif -%}
+
+    {%- endcapture -%}
+
+  {%- else -%}
+
+    {%- capture non_color_variants -%}
+      {{- non_color_variants -}}
+
+      <div class="variant-wrapper" data-option="option{{ option.position }}">
+        <label class="variant-label" for="SingleOptionSelector-{{ forloop.index0 }}-{{ product.id }}">
+          {{- option.name -}}
+        </label>
+
+        <fieldset
+          id="SingleOptionSelector-{{ forloop.index0 }}-{{product.id}}"
+          class="variant-input-wrap variant-input-wrap--boxes"
+          data-index="option{{ option.position }}">
+          {%- for value in option.values -%}
+            <div class="variant-field">
+              <input
+                id="option{{ option.position }}-{{ value }}-{{ forloop.index0 }}"
+                class="visually-hidden variant-input"
+                type="radio"
+                name="{{ option.name }}"
+                value="{{ value | escape }}"
+                data-single-option-selector
+                data-index="option{{ option.position }}"
+                {% if option.selected_value == value %}checked="checked"{% endif %}>
+              <label class="variant__button-label" for="option{{ option.position }}-{{ value }}-{{ forloop.index0 }}">
+                {{- value -}}
+              </label>
+            </div>
+          {%- endfor -%}
+        </fieldset>
+      </div>
+    {%- endcapture -%}
+
+  {%- endif -%}
+{%- endfor -%}
+
+{{- color_variants -}}
+{{- non_color_variants -}}

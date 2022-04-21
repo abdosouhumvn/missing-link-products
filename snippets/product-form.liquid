@@ -1,0 +1,196 @@
+<!-- /snippets/product-form.liquid -->
+
+{%- liquid
+  assign variants_count = product.variants.size
+  assign enable_color_swatches = settings.enable_color_swatches
+  assign enable_variant_boxes = settings.enable_variant_boxes
+  assign color_label = 'color,colour,couleur,colore,farbe,색,色,färg,farve' | split: ','
+
+  comment
+    Disable quick buy button if there are subscription options for the product
+  endcomment
+
+  if show_payment_button and product.selling_plan_groups.size < 1 and settings.enable_accept_terms == false
+    assign show_payment_button = true
+  else
+    assign show_payment_button = false
+  endif
+
+  comment
+    Check if the product is on sale and set a variable to be used below.
+  endcomment
+
+  assign on_sale = false
+  if product.compare_at_price > product.price
+    assign on_sale = true
+  endif
+
+  comment
+    Check if the product is sold out and set a variable to be used below.
+  endcomment
+
+  assign sold_out = true
+  if current_variant.available
+    assign sold_out = false
+  endif
+
+  comment
+    #addToCartForm is a selector for the Ajax Cart plugin
+  endcomment
+
+  assign product_form_id = "AddToCartForm--" | append: unique
+-%}
+
+{%- form 'product', product, class: "product__form product__form--is-loading", data-product-form: '', id: product_form_id, data-enable-button: show_payment_button -%}
+
+  <div class="shop-pay-terms">{{ form | payment_terms }}</div>
+  {%- comment -%}
+    Variants
+  {%- endcomment -%}
+  <div class="variants-wrapper{% unless enable_variant_boxes %} variants-wrapper--grid{% endunless %}">
+    {%- liquid
+      unless product.has_only_default_variant
+        if enable_variant_boxes
+          render 'product-variant-boxes', product: product, color_label: color_label, unique: unique
+        else
+          assign product_options = product.options.size
+
+          for option in product.options_with_values
+            assign downcased_option = option.name | downcase
+            assign is_color = false
+
+            if color_label contains downcased_option
+              assign is_color = true
+            endif
+
+            if is_color
+              capture color_variants
+                echo color_variants
+
+                if enable_color_swatches
+                  render 'product-swatch', index: forloop.index0, product_id: product.id, option: option, downcased_option: downcased_option, color_label: color_label, unique: unique
+                else
+                  render 'product-option', index: forloop.index0, product_id: product.id, option: option, unique: unique
+                endif
+              endcapture
+
+            else
+              capture non_color_variants
+                echo non_color_variants
+
+                render 'product-option', index: forloop.index0, option: option
+              endcapture
+            endif
+          endfor
+
+          echo color_variants
+          echo non_color_variants
+        endif
+      endunless
+
+      for tag in product.tags
+        if tag contains '_preorder'
+          assign preorder = true
+        endif
+      endfor
+    -%}
+
+    {%- if variants_count > 1 -%}
+      <label for="productSelect--{{ unique }}" class="visually-hidden">{{ 'general.accessibility.select_variant' | t }}</label>
+      <select
+        name="id"
+        id="productSelect--{{ unique }}"
+        class="product-single__variants"
+        data-productid="{{ product.id }}"
+        data-product-select>
+        {%- for variant in product.variants -%}
+          {%- if variant.available -%}
+            <option
+              {% if variant == current_variant %} selected="selected" {% endif %}
+              data-sku="{{ variant.sku }}"
+              value="{{ variant.id }}">{{ variant.title | strip_html | escape }} - {{ variant.price | money_with_currency }}</option>
+          {%- else -%}
+            <option disabled="disabled">{{ variant.title | strip_html | escape }} - {{ 'products.product.sold_out' | t }}</option>
+          {%- endif -%}
+        {%- endfor -%}
+      </select>
+    {%- else -%}
+      <input name="id" data-productid="{{ product.id }}" type="hidden" value="{{ current_variant.id }}" data-product-select>
+    {%- endif -%}
+
+    {%- if settings.show_quantity -%}
+      {%- comment -%}
+        Quantity Selector
+      {%- endcomment -%}
+      <div class="quantity-wrapper{% if enable_variant_boxes %} quantity-wrapper--half{% endif %}">
+        <div class="popout" data-popout-option>
+          <button type="button" class="popout__toggle popout__toggle--product option__select" aria-expanded="false" aria-controls="lang-list" aria-describedby="lang-heading" data-popout-toggle data-popout-quantity>
+            <span class="quantity__text">{{ 'products.product.quantity' | t }}: </span>
+
+            <span class="popout__toggle-value" data-popout-text data-quantity-select>1</span>
+
+            {%- render 'icon-arrow' -%}
+          </button>
+
+          <ul id="option-list" class="popout-list popout-list-option popout-list--product" data-popout-list>
+            {%- for qty_num in (1..10) -%}
+              <li class="popout-list__item" data-popout-item>
+                <a class="popout-list__option popout-list__option--product" href="#" data-value="{{ qty_num }}" data-popout-option>
+                  <span>
+                    {{- qty_num -}}
+                    {%- if forloop.last -%}+{%- endif-%}
+                  </span>
+                </a>
+              </li>
+            {%- endfor -%}
+          </ul>
+
+          <button type="button" class="quantity__btn visually-hidden quantity__btn--decrease" data-quantity-button>
+            <span class="visually-hidden">{{ 'general.accessibility.decrease' | t }}</span>
+            {%- render 'icon-minus' -%}
+          </button>
+
+          <input type="hidden" name="quantity" value="1" min="1" pattern="[0-9]*" class="quantity__selector quantity__input" data-popout-input data-quantity-input/>
+
+          <button type="button" class="quantity__btn visually-hidden quantity__btn--increase" data-quantity-button>
+            <span class="visually-hidden">{{ 'general.accessibility.increase' | t }}</span>
+            {%- render 'icon-plus' -%}
+          </button>
+
+        </div>
+
+        <noscript>
+          <label for="quantity--{{ unique }}">{{ 'products.product.quantity' | t }}</label>
+          <input type="number" name="quantity" id="quantity--{{ unique }}" value="1" min="1">
+        </noscript>
+      </div>
+
+    {%- else -%}
+      <input type="hidden" name="quantity" value="1">
+    {%- endif -%}
+  </div>
+
+  {%- comment -%}
+    Buttons
+  {%- endcomment -%}
+  <div class="buttons-grid{% if show_payment_button %} buttons-grid--half{% endif %}">
+    <button type="submit" name="add" id="AddToCart--{{ unique }}" class="btn btn--submit"{% if sold_out %} disabled{% endif %} data-add-to-cart>
+      <span id="AddToCartText" data-add-to-cart-text>
+        {%- if sold_out -%}
+          {{- 'products.product.sold_out' | t -}}
+        {%- elsif preorder -%}
+          {{- 'products.product.preorder' | t -}}
+        {%- else -%}
+          {{- 'products.product.add_to_cart' | t -}}
+        {%- endif -%}
+      </span>
+      {%- render 'icon-loading' -%}
+    </button>
+
+    {%- if show_payment_button -%}
+      <div data-payment-button="{{ section.settings.show_payment_button }}" data-quickview-payment-button="{{ settings.show_payment_button }}">
+        {{- form | payment_button -}}
+      </div>
+    {%- endif -%}
+  </div>
+{%- endform -%}

@@ -1,0 +1,83 @@
+{%- comment -%} FAQ section {%- endcomment -%}
+
+{%- assign heading = section.settings.title -%}
+{%- assign subheading = section.settings.subheading -%}
+{%- assign text = section.settings.text -%}
+
+<section data-section-id="{{ section.id }}" data-section-type="faq" class="faq-section" style="background: {{ section.settings.bg_color }};">
+	{%- render 'faq',
+		heading: heading,
+		subheading: subheading,
+		text: text -%}
+</section>
+
+{% schema %}
+{
+	"name": "FAQ",
+	"settings": [
+		{
+			"type": "text",
+			"id": "title",
+			"label": "Heading",
+			"default": "FAQ"
+		},
+		 {
+			"type": "text",
+			"id": "subheading",
+			"label": "Subheading",
+			"default": "Questions and answers"
+		},
+		{
+			"type": "richtext",
+			"id": "text",
+			"label": "Text"
+		},
+		{
+			"type": "header",
+			"content": "Colors"
+		},
+		{
+			"type": "color",
+			"id": "bg_color",
+			"label": "Background"
+		}
+	],
+	"blocks": [
+		{
+			"name": "Item",
+			"type": "item",
+			"settings": [
+				{
+					"type": "text",
+					"id": "title",
+					"label": "Question",
+					"default": "Question"
+				},
+				{
+					"type": "richtext",
+					"id": "answer",
+					"label": "Answer",
+					"default": "<p>Use this answer block to discuss some commonly asked questions you've discovered from your customers interactions. You could discuss product details, size fit, shipping policies, or anything you think would help merchants make an informed decision about your product or collection. This section will appear across all products.</p>"
+				}
+			]
+		}
+	],
+		"presets": [
+		{
+			"category": "Text",
+			"name": "FAQ",
+			"blocks": [
+				{
+					"type": "item"
+				},
+				{
+					"type": "item"
+				},
+				{
+					"type": "item"
+				}
+			]
+		}
+	]
+}
+{% endschema %}

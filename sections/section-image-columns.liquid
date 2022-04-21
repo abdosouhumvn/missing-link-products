@@ -1,0 +1,310 @@
+<!-- /sections/image-columns.liquid -->
+
+{%- liquid
+  assign section_height = section.settings.section_height
+  assign heading = section.settings.title
+  assign text = section.settings.text
+  assign button_text = section.settings.button_text
+  assign button_url = section.settings.button_url | default: '#'
+  assign button_style = section.settings.button_style
+  assign text_color = section.settings.text_color
+  assign bg_color = section.settings.bg_color
+  if section.blocks.size == 0 and heading == blank and text == blank
+    assign columns = 2
+  else
+    assign columns = section.blocks.size | plus: 1
+  endif
+-%}
+
+{%- style -%}
+  {%- if bg_color != 'rgba(0,0,0,0)' and bg_color != '' -%}
+    .image-columns[data-section-id="{{ section.id }}"] { background: {{ bg_color }}; }
+  {%- endif -%}
+  {%- if text_color != 'rgba(0,0,0,0)' and text_color != '' -%}
+    .image-columns[data-section-id="{{ section.id }}"] { color: {{ text_color }}; }
+  {%- endif -%}
+{%- endstyle -%}
+
+<section data-section-id="{{ section.id }}" data-section-type="image-columns" class="image-columns image-columns--{{ columns }} {{ section_height }}">
+  {%- if section.blocks.size > 0 or heading != blank or text != blank -%}
+    {%- if section.blocks.size > 0 -%}
+      {%- for block in section.blocks -%}
+        {%- assign image_desktop = block.settings.image_desktop -%}
+        {%- assign image_mobile = block.settings.image_mobile -%}
+        {%- assign product = all_products[block.settings.product] -%}
+        {%- assign position_x = block.settings.position_x -%}
+        {%- assign position_y = block.settings.position_y -%}
+
+        <div class="image-column image-column--image" {{ block.shopify_attributes }}>
+          {%- unless image_desktop == blank -%}
+            <div class="image-column__image{% unless image_mobile == blank %} image-column__image--desktop{% endunless %} lazyload"
+              data-bgset="{% render 'bgset', image: image_desktop %}"
+              data-parent-fit="cover"
+              data-sizes="auto">
+            </div>
+            <noscript>
+              <div class="image-column__image image-column__image--desktop no-js-image" style="background-image: url({{ image_desktop | img_url: '2048x' }});"></div>
+            </noscript>
+          {%- else -%}
+            <div class="image-column__image{% unless image_mobile == blank %} image-column__image--desktop{% endunless %} image-column__image--placeholder placeholder-svg--overlayed">
+              {{- 'image' | placeholder_svg_tag: 'placeholder-svg-filled' -}}
+            </div>
+
+            {%- if product == empty -%}
+              <a href="#" class="image-column__dot" data-top="{{ position_y }}" data-left="{{ position_x }}" style="top: {{ position_y }}%; left: {{ position_x }}%;">
+                <div class="dot__product">
+                  <div class="dot__line"></div>
+                  <div class="dot__product__title">
+                    <h6>{{ 'homepage.onboarding.product_title' | t }}</h6>
+                    <p>{{ 10000 | money }}</p>
+                  </div>
+
+                  <div class="dot__product-image">
+                    <div class="dot__product-image-bg placeholder-svg">
+                      {{- 'product-1' | placeholder_svg_tag: 'placeholder-svg-filled' -}}
+                    </div>
+                  </div>
+                </div>
+              </a>
+            {%- endif -%}
+          {%- endunless -%}
+
+          {%- unless image_mobile == blank -%}
+            <div class="image-column__image image-column__image--mobile lazyload"
+              data-bgset="{% render 'bgset', image: image_mobile %}"
+              data-parent-fit="cover"
+              data-sizes="auto">
+            </div>
+            <noscript>
+              <div class="image-column__image image-column__image--mobile no-js-image" style="background-image: url({{ image_mobile | img_url: '2048x' }});"></div>
+            </noscript>
+          {%- endunless -%}
+
+          {%- if product != empty -%}
+            {%- assign image = product.featured_media.preview_image -%}
+
+            <a href="{{ product.url }}" class="image-column__dot" data-top="{{ position_y }}" data-left="{{ position_x }}" style="top: {{ position_y }}%; left: {{ position_x }}%;">
+              <div class="dot__product">
+                <div class="dot__line"></div>
+                <div class="dot__product__title">
+                  <h6>{{ product.title | strip_html | escape | truncatewords: 3 }}</h6>
+                  <p>{{ product.price | money }}</p>
+                </div>
+                {%- unless image == blank -%}
+                  <div class="dot__product-image">
+                    <div class="dot__product-image-bg lazyload"
+                      data-bgset="{% render 'bgset', image: image %}"
+                      data-sizes="auto"
+                      data-parent-fit="cover">
+                    </div>
+                    <noscript>
+                      <div class="dot__product-image-bg" style="background-image: url({{ image | img_url: '100x100' }});"></div>
+                    </noscript>
+                  </div>
+                {%- endunless -%}
+              </div>
+            </a>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    {%- endif -%}
+
+    <div class="image-column image-column--text">
+      <div class="image-column__text">
+        {%- if heading != blank -%}
+          <h3 class="rich-text__heading">{{ heading }}</h3>
+        {%- endif -%}
+        {%- if text != blank -%}
+          <div class="rich-text__text">{{ text }}</div>
+        {%- endif -%}
+        {%- if button_text != blank -%}
+          <div class="rich-text__buttons">
+            {%- if button_text != blank -%}
+              <a class="btn btn--{{ button_style }}" href="{{ button_url }}">{{ button_text }}</a>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  {%- else -%}
+    <div class="image-column image-column--image">
+      <div class="image-column__image{% unless image_mobile == blank %} image-column__image--desktop{% endunless %} image-column__image--placeholder placeholder-svg--overlayed">
+        {{- 'image' | placeholder_svg_tag: 'placeholder-svg-filled' -}}
+      </div>
+
+      <a href="#" class="image-column__dot" data-top="50" data-left="50" style="top: 50%; left: 50%;">
+        <div class="dot__product">
+          <div class="dot__line"></div>
+
+          <div class="dot__product__title">
+            <h6>{{ 'homepage.onboarding.product_title' | t }}</h6>
+
+            <p>{{ 10000 | money }}</p>
+          </div>
+
+          <div class="dot__product-image">
+            <div class="dot__product-image-bg placeholder-svg">
+              {{- 'product-1' | placeholder_svg_tag: 'placeholder-svg-filled' -}}
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <div class="image-column image-column--text">
+      <div class="image-column__text">
+        <h3 class="rich-text__heading">{{ 'homepage.onboarding.image_columns.heading' | t }}</h3>
+
+        <div class="rich-text__text">{{ 'homepage.onboarding.image_columns.text' | t }}</div>
+
+        <div class="rich-text__buttons">
+          <a class="btn btn--primary" href="#">{{ 'homepage.onboarding.image_columns.button_text' | t }}</a>
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+    "name": "Image columns",
+    "max_blocks": 2,
+    "settings": [
+        {
+      "type": "select",
+      "id": "section_height",
+      "label": "Section height",
+      "default": "sixty-fifty-height-hero",
+      "options": [
+        {
+            "value": "one-hundred-height-hero",
+            "label": "Full screen"
+          },
+          {
+            "value": "seven-fifty-height-hero",
+            "label": "750px"
+          },
+          {
+            "value": "sixty-fifty-height-hero",
+            "label": "650px"
+          },
+          {
+            "value": "five-fifty-height-hero ",
+            "label": "550px"
+          },
+          {
+            "value": "four-fifty-height-hero",
+            "label": "450px"
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default": "Our Story"
+      },
+      {
+        "type": "richtext",
+        "id": "text",
+        "label": "Text",
+        "default": "<p>Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.</p>"
+      },
+      {
+        "type": "text",
+        "id": "button_text",
+        "label": "Button text",
+        "default": "Shop now"
+      },
+      {
+        "type": "url",
+        "id": "button_url",
+        "label": "Button link"
+      },
+      {
+        "type": "select",
+        "id": "button_style",
+        "label": "Button style",
+        "default": "primary",
+        "options": [
+          { "label": "Primary", "value": "primary" },
+          { "label": "Secondary", "value": "secondary" }
+        ]
+      },
+      {
+        "type": "header",
+        "content": "Colors"
+      },
+      {
+        "type": "color",
+        "id": "text_color",
+        "label": "Text",
+        "default": "#000"
+      },
+      {
+        "type": "color",
+        "id": "bg_color",
+        "label": "Background",
+        "default": "#fff"
+      }
+    ],
+    "blocks": [
+      {
+        "name": "Image",
+        "type": "image",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image_desktop",
+            "label": "Image (desktop)"
+          },
+          {
+            "type": "image_picker",
+            "id": "image_mobile",
+            "label": "Image (mobile)"
+          },
+          {
+            "type": "product",
+            "id": "product",
+            "label": "Product"
+          },
+          {
+            "type": "header",
+            "content": "Dot position"
+          },
+          {
+            "type":    "range",
+            "id":      "position_x",
+            "min":     10,
+            "max":     90,
+            "step":    1,
+            "label":   "Horizontal",
+            "unit":    "%",
+            "default": 50
+          },
+          {
+            "type":    "range",
+            "id":      "position_y",
+            "min":     10,
+            "max":     90,
+            "step":    1,
+            "label":   "Vertical",
+            "unit":    "%",
+            "default": 50
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Image columns",
+        "category": "Image",
+        "blocks": [
+          {
+            "type": "image"
+          }
+        ]
+      }
+    ]
+}
+{% endschema %}

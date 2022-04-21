@@ -1,0 +1,27 @@
+{%- liquid
+   assign show_badge = settings.show_badge
+
+   if settings.product_badge_style == 'circle'
+     assign soldout = 'products.product.sold_out_html' | t | replace: ' ', '<br>'
+
+     if badge
+       assign badge = badge | replace: ' ', '<br>'
+     endif
+
+     if preorder
+       assign preorder_badge = 'products.product.preorder' | t | replace: ' ', '<br>' | replace: '-', '<br>'
+     endif
+   else
+     assign soldout = 'products.product.sold_out_html' | t
+   endif
+-%}
+
+{%- if badge and show_badge -%}
+  <div class="product__tag product__tag--custom product__tag--{{ settings.product_badge_style }}"><span>{{ badge }}</span></div>
+{%- elsif sold_out -%}
+  <div class="product__tag product__tag--{{ settings.product_badge_style }}"><span>{{ soldout }}</span></div>
+{%- elsif preorder and show_badge -%}
+  <div class="product__tag product__tag--custom product__tag--{{ settings.product_badge_style }}"><span>{{ preorder_badge }}</span></div>
+{%- elsif on_sale and show_badge -%}
+  <div class="product__tag product__tag--{{ settings.product_badge_style }}"><span>{{ 'products.product.on_sale_html' | t }}</span></div>
+{%- endif -%}

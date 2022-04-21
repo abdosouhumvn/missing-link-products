@@ -1,0 +1,114 @@
+{%- liquid
+	assign layout = section.settings.layout
+	assign columns = section.settings.columns
+	assign columns_small = 2
+	assign collection_limit = 50
+	assign bg_color = section.settings.bg_color
+	assign bg_color_brightness = bg_color | color_brightness
+
+	assign carousel = false
+	if layout == 'carousel'
+	 assign carousel = true
+	endif
+
+  if bg_color_brightness > 125
+	  assign text_color = '#000'
+  else
+	  assign text_color = '#fff'
+  endif
+
+	case columns
+		when 1
+			assign columns_small = 1
+		when 2
+			assign item_width = 'one-half'
+		when 3
+			assign item_width = 'one-third'
+		when 4
+			assign item_width = 'one-quarter'
+		else
+			assign item_width = 'one-whole'
+	endcase
+
+	assign grid_mobile = ' grid--mobile'
+	if section.settings.enable_slider
+  	assign grid_mobile = ' grid--mobile-carousel'
+	endif
+-%}
+
+{%- style -%}
+
+{%- if bg_color != 'rgba(0,0,0,0)' and bg_color != '' -%}
+#ListCollections--{{ section.id }} {
+	background-color: {{ bg_color }};
+}
+{%- endif -%}
+
+#ListCollections--{{ section.id }} {
+	--overlay-opacity: {{ section.settings.overlay_opacity | times: 0.01 }};
+}
+
+@media screen and (min-width: 1024px) {
+	#ListCollections--{{ section.id }} {
+		--grid: repeat({{ columns }}, minmax(0, 1fr));
+	}
+}
+
+@media screen and (min-width: 480px) and (max-width: 1023px) {
+	#ListCollections--{{ section.id }} {
+		--grid: repeat({{ columns_small }}, minmax(0, 1fr));
+	}
+}
+{%- endstyle -%}
+
+<section id="ListCollections--{{ section.id }}" class="list-collections-section list-collections-section--{{ layout }}" data-section-type="list-collections" data-section-id="{{ section.id }}">
+	<div class="wrapper">
+		{%- if section.settings.title != blank -%}
+			<h2 class="list-collections__title section__heading">{{ section.settings.title | escape }}</h2>
+
+			{%- if settings.show_spacer_lines -%}
+				<hr>
+			{%- endif -%}
+		{%- endif -%}
+
+		<div class="{% if carousel %}carousel__container{% else %}grid__container{% endif %}">
+			<div class="{% if carousel %}carousel{% else %}grid{{ grid_mobile }}{% endif %}"
+				data-color-style="{{ text_color }}"
+				{% if carousel %}
+					data-slider
+				{% endif %}
+				>
+				{%- liquid
+					if section.blocks.size > 0
+						for block in section.blocks limit: section.blocks.size
+							assign collection = collections[block.settings.collection]
+							assign custom_collection_image = block.settings.custom_collection_image
+						
+							render 'collection-grid-item', collection: collection, item_width: item_width, custom_collection_image: custom_collection_image, block_shopify_attributes: block.shopify_attributes, carousel: carousel
+						endfor
+					else
+          	comment
+							Show all collections if list collections template and no blocks
+						endcomment
+
+          	if template == 'list-collections'
+            	for collection in collections limit: collection_limit
+              	unless collection.handle == 'frontpage'
+									render 'collection-grid-item', collection: collection, item_width: item_width, carousel: carousel
+              	endunless
+            	endfor
+          	else
+            	comment
+								Show onboarding items if no blocks
+							endcomment
+
+            	for i in (0..columns)
+								render 'collection-grid-item', item_width: item_width, carousel: carousel
+            	endfor
+          	endif
+					endif
+				-%}
+			</div>
+		</div>
+	</div>
+</section>

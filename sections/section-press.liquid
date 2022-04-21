@@ -1,0 +1,193 @@
+{% comment %} Logos List {% endcomment %}
+
+{%- liquid
+  assign heading = section.settings.title
+  assign bg_color = section.settings.bg_color
+  assign blocks_count = section.blocks.size
+-%}
+
+{%- if bg_color != 'rgba(0,0,0,0)' and bg_color != '' -%}
+  {%- style -%}
+    #Press--{{ section.id }} {
+      background-color: {{ bg_color }};
+    }
+  {%- endstyle -%}
+{%- endif -%}
+
+<section id="Press--{{ section.id }}" class="press" data-section-id="{{ section.id }}" data-section-type="press">
+  <div class="wrapper wrapper--small">
+    {%- unless heading == blank -%}
+      <h4 class="press__heading subheading-text">{{ heading }}</h4>
+    {%- endunless -%}
+  </div>
+
+  {%- if blocks_count > 0 -%}
+    <div class="press__items" data-press-items data-count="{{ blocks_count }}">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign text = block.settings.text
+          assign image = block.settings.press_logo
+          assign link = block.settings.link
+          assign has_nested_links = false
+
+          if link != blank and text contains '</a>'
+            assign has_nested_links = true
+          endif
+        -%}
+
+        <div class="press__item" {{ block.shopify_attributes }}>
+          <div class="wrapper wrapper--small">
+            {%- if link != blank and has_nested_links == false -%}
+              <a href="{{ link }}" aria-label="{{ 'homepage.onboarding.press.read_more' | t }}">{{ text }}</a>
+            {%- elsif link != blank and has_nested_links -%}
+              {{- text -}}
+              <a href="{{ link }}" aria-label="{{ 'homepage.onboarding.press.read_more' | t }}" class="press__item__read-more">
+                {{- 'homepage.onboarding.press.read_more' | t -}}
+                {%- render 'icon-arrow-right' -%}
+              </a>
+            {%- else -%}
+              {{- text -}}
+            {%- endif -%}
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+
+    <div class="press__logos press__logos--{{ blocks_count }}">
+      <div class="press__logos-slider" data-logo-slider>
+        {%- for block in section.blocks -%}
+          {%- assign image = block.settings.press_logo -%}
+
+          <div class="press__logos-slide" data-logo-slide>
+            <div class="press__logo">
+              {%- unless image == blank -%}
+                {%- assign image_url_pattern = image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+                {%- assign image_widths = "[180, 360, 540, 720, 900, 1080, 1296, 1512, 1728, 2048, 2450, 2700, 3000, 3350, 3750, 4100]" -%}
+
+                <img class="lazyload press__logo-image"
+                  src="{{ 'blank.gif' | asset_img_url: '1x1' }}"
+                  data-src="{{ image_url_pattern }}"
+                  data-widths="{{ image_widths }}"
+                  data-aspectratio="{{ image.aspect_ratio }}"
+                  data-sizes="auto"
+                  alt="{{ image.alt }}"
+                  style="width: {{ block.settings.logo_width | append: 'px' }}">
+                  <noscript>
+                    <img src="{{ image | img_url: '1024x' }}" alt="{{ image.alt }}" class="press__logo-image" style="width: {{ block.settings.logo_width | append: 'px' }}">
+                  </noscript>
+              {%- else -%}
+                {%- capture counter -%}{%- cycle 1, 2, 3, 4, 5, 6 -%}{%- endcapture -%}
+                <div class="press__logo-image--placeholder placeholder-svg--overlayed" style="width: {{ block.settings.logo_width | append: 'px' }}">
+                  {{- 'product-' | append: counter | placeholder_svg_tag: 'placeholder-svg-filled' -}}
+                </div>
+              {%- endunless -%}
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  {%- else -%}
+    {%- comment -%} Onboarding items {%- endcomment -%}
+
+    <div class="press__items press__items--onboarding" data-press-items data-count="4">
+      {%- for i in (1..4) -%}
+        <div class="press__item" {{ block.shopify_attributes }}>
+          <div class="wrapper wrapper--small">
+            {{- 'homepage.onboarding.press.text' | t -}}
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+
+    <div class="press__logos press__logos--{{ blocks_count }}">
+      <div class="press__logos-slider" data-logo-slider>
+        {%- for i in (1..4) -%}
+          <div class="press__logos-slide" data-logo-slide>
+            <div class="press__logo">
+              {%- capture counter -%}{%- cycle 1, 2, 3, 4 -%}{%- endcapture -%}
+              <div class="press__logo-image--placeholder placeholder-svg--overlayed" style="width: {{ block.settings.logo_width | append: 'px' }}">
+                {{- 'product-' | append: counter | placeholder_svg_tag: 'placeholder-svg-filled' -}}
+              </div>
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Press",
+  "class": "press-section",
+  "max_blocks": 5,
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Press"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Press",
+      "type": "press",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Provide some information about what the company below thinks about your brand.</p>"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        },
+        {
+          "type": "image_picker",
+          "id": "press_logo",
+          "label": "Press logo"
+        },
+        {
+          "type": "range",
+          "id": "logo_width",
+          "label": "Custom logo width (in pixels)",
+          "min": 40,
+          "max": 180,
+          "default": 120,
+          "step": 10,
+          "unit":"px"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Press",
+      "category": "Text",
+      "blocks": [
+        {
+          "type": "press"
+        },
+        {
+          "type": "press"
+        },
+        {
+          "type": "press"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

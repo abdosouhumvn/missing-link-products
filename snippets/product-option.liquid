@@ -1,0 +1,21 @@
+{%- comment -%} /partials/product-option.liquid {%- endcomment -%}
+
+<div class="selector-wrapper" data-option="option{{ option.position }}">
+	<div class="popout" data-popout-option>
+		<button type="button" class="popout__toggle popout__toggle--product option__select" aria-expanded="false" aria-controls="lang-list" aria-describedby="lang-heading" data-popout-toggle>
+			{{- option.name -}}:
+			<span class="popout__toggle-value" data-popout-text>{{ option.selected_value }}</span>
+			{%- render 'icon-arrow' -%}
+		</button>
+		<ul id="option-list" class="popout-list popout-list-option popout-list--product" data-popout-list>
+			{%- for value in option.values -%}
+				<li class="popout-list__item{% if option.selected_value == value %} popout-list__item--current{% endif %}" data-popout-item>
+					<a class="popout-list__option popout-list__option--product" href="#" {% if option.selected_value == value %}aria-current="true"{% endif %} data-value="{{ value | escape }}" data-popout-option>
+						<span>{{ value }}</span>
+					</a>
+				</li>
+			{%- endfor -%}
+		</ul>
+		<input type="hidden" name="{{ option.name }}" value="{{ option.selected_value | escape }}" data-popout-input data-single-option-selector data-index="option{{ option.position }}" id="SingleOptionSelector-{{ index }}-{{ product_id }}" />
+	</div>
+</div>

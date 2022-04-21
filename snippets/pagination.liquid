@@ -1,0 +1,12 @@
+{%- comment -%}
+	Renders a pagination bar
+	Accepts:
+
+	- paginate: {Object} Paginate Liquid object (required)
+
+	Usage:
+	{%- render 'pagination', paginate: paginate -%}
+{%- endcomment -%}
+<div class="pagination" data-pagination>
+	{{- paginate | default_pagination | replace: '&laquo; Previous', '&larr;' | replace: 'Next &raquo;', '&rarr;' -}}
+</div>

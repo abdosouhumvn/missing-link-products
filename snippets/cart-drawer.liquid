@@ -1,0 +1,60 @@
+<!-- /snippets/cart-drawer.liquid -->
+
+<div id="CartDrawer" class="drawer drawer--right">
+  <div class="drawer__header">
+    <div class="drawer__title h3">{{ 'cart.general.title' | t }}</div>
+    <button type="button" class="drawer__close-button icon-fallback-text js-drawer-close">
+      <span class="visually-hidden">{{ 'general.accessibility.close_drawer' | t }}</span>
+      {%- render 'icon-close' -%}
+    </button>
+  </div>
+  <div class="cart-drawer__spacer-line"></div>
+
+  {%- assign free_shipping_text = 'cart.general.free_shipping_message_html' | t -%}
+
+{%- if settings.show_free_shipping_message and settings.free_shipping_limit != blank and free_shipping_text != blank -%}
+  {%- liquid
+    assign limit = settings.free_shipping_limit | plus: 0.0
+    assign subtotal_without_currency = cart.total_price | plus: 0 | divided_by: 100.0
+    assign amount_left = limit | minus: subtotal_without_currency | times: 100 | money_without_trailing_zeros 
+    assign free_shipping_message = 'cart.general.free_shipping_message_html' | t: amount: amount_left
+    assign qualified_shipping_message = 'cart.general.qualified_shipping_message' | t
+    assign class_message = ''
+
+    if subtotal_without_currency >= limit
+      if qualified_shipping_message != blank
+        assign class_message = 'is-success'
+        assign is_default_message_hidden = 'is-hidden'
+        assign is_progress_bar_hidden = 'cart__message__progress--hidden'
+      else
+        assign class_message = 'is-hidden'
+      endif
+    elsif subtotal_without_currency == 0
+      assign class_message = 'is-hidden'
+    endif
+  -%}
+
+  <div class="cart-dropdown__message cart__message {{ class_message }}" {{ block_attibutes }} data-cart-message="{% if qualified_shipping_message != blank %}true{% else %}false{% endif %}" data-limit="{{ limit }}">
+    {%- assign percent = limit | minus: subtotal_without_currency | times: 100 | divided_by: limit -%}
+    {%- assign percent = 100 | minus: percent -%}
+
+    <span class="cart__message__default {{ is_default_message_hidden }}" data-message-default>{{ free_shipping_message }}</span>
+
+    <progress class="cart__message__progress {{ is_progress_bar_hidden }}" data-cart-message-progress value="{{ subtotal_without_currency | divided_by: limit | times: 100.0  }}" max="100"></progress>
+
+    {%- if qualified_shipping_message != blank -%}
+      <span class="cart__message__success">{{ qualified_shipping_message }}</span>
+    {%- endif -%}
+  </div>
+{%- endif -%}
+
+  <div class="cart__errors errors" data-cart-errors>
+		<p data-cart-errors-message></p>
+
+		<button class="cart__errors__close" type="button" aria-label="{{ 'general.accessibility.dismiss' | t }}" data-cart-errors-close>
+			{%- render 'icon-close' -%}
+		</button>
+	</div>
+
+  <div id="CartContainer" data-api-cart></div>
+</div>

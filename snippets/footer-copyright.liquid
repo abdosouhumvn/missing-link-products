@@ -1,0 +1,6 @@
+{% capture powered_by_link %} {{ 'footer.powered_by' | t }} <a href="https://www.shopify.com/" rel="noopener" target="_blank" rel="nofollow">Shopify</a>.{% endcapture %}
+
+<div class="footer-copyright">
+  <span>&copy; {{ 'now' | date: "%Y" }}, {{ shop.name | link_to: routes.root_url }}.</span>
+  <span>{{ powered_by_link }}</span>
+</div>

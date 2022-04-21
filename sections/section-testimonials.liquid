@@ -1,0 +1,189 @@
+<!-- /sections/testimonials.liquid -->
+
+{%- liquid
+	assign total_blocks = section.blocks.size
+	assign bg_color = section.settings.bg_color
+-%}
+
+{%- if bg_color != 'rgba(0,0,0,0)' and bg_color != '' -%}
+	{%- style -%}
+		#Testimonials--{{ section.id }} {
+			background: {{ bg_color }};
+		}
+	{%- endstyle -%}
+{%- endif -%}
+
+<section id="Testimonials--{{ section.id }}" data-section-id="{{ section.id }}" data-section-type="testimonials" class="testimonials-section{% if section.settings.show_quotes %} has-quotes{% endif %}">
+	<div class="wrapper">
+		{%- if section.settings.title != blank -%}
+			<h2 class="testimonials__header">{{ section.settings.title | escape }}</h2>
+		{%- endif -%}
+
+		<div class="testimonials__wrapper">
+			<div class="testimonials__slider{% if section.blocks.size == 1 %} testimonials--single{% endif %}" data-slider>
+
+				{%- if section.blocks.size > 0 -%}
+					{%- for block in section.blocks -%}
+						{%- assign image = block.settings.image -%}
+
+						{%- assign customer_name = block.settings.customer_name -%}
+						{%- assign testimonial_text = block.settings.testimonial_text -%}
+
+						{%- unless image == blank and customer_name == blank and testimonial_text == blank -%}
+							<div class="testimonial__item{% if total_blocks == 2 %} testimonial__item--half{% endif%}" data-item {{ block.shopify_attributes }}>
+								<div class="testimonial__inner">
+									<div class="testimonial__text text-center">{{ testimonial_text }}</div>
+
+									{%- if image != blank or customer_name != blank -%}
+										<div class="testimonial__user">
+											{%- if image != blank -%}
+											{%- assign image_width = block.settings.image_width -%}
+											{%- assign image_height = image_width | divided_by: image.aspect_ratio -%}
+
+											<div class="testimonial__user__image">
+												{%- assign image_url_pattern = image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+												{%- assign image_widths = "[180, 360, 540, 720, 900, 1080, 1296, 1512, 1728, 2048, 2450, 2700, 3000, 3350, 3750, 4100]" -%}
+
+												{%- comment -%} Image height must be max 200px {%- endcomment -%}
+												{%- if image_height > 200 -%}
+													{%- assign image_height = 200 -%}
+													{%- assign image_width = image_height | times: image.aspect_ratio | round -%}
+												{%- endif -%}
+
+												<img
+													class="lazyload"
+													src="{{ 'blank.gif' | asset_img_url: '1x1' }}"
+													data-src="{{ image_url_pattern }}"
+													data-widths= "{{ image_widths }}"
+													data-aspectratio="{{image.aspect_ratio }}"
+													data-sizes="auto"
+													style="width: {{ image_width | append: 'px' }}; height: {{ image_height | append: 'px' }};"
+													alt="{{ image.alt | escape }}">
+												<noscript>
+													<img src="{{ image | img_url: '400x' }}" alt="{{ image.alt | escape }}" style="width: {{ image_width | append: 'px' }}; height: {{ image_height | append: 'px' }};">
+												</noscript>
+											</div>
+											{%- endif -%}
+
+											{%- if customer_name != blank -%}
+												<div class="testimonial__user__name">{{ customer_name | escape }}</div>
+											{%- endif -%}
+										</div>
+									{%- endif -%}
+
+								</div>
+							</div>
+						{%- endunless -%}
+					{%- endfor -%}
+				{%- else -%}
+					{%- for i in (1..3) -%}
+						{%- assign customer_name = 'homepage.onboarding.testimonials.customer_name_' | append: forloop.index | t -%}
+						<div class="testimonial__item" data-item>
+							<div class="testimonial__inner">
+								<div class="testimonial__text text-center">
+									<p>{{ 'homepage.onboarding.testimonials.testimonial' | t }}</p>
+								</div>
+
+								<div class="testimonial__user">
+									<div class="testimonial__user__name">{{ customer_name | escape }}</div>
+								</div>
+							</div>
+						</div>
+					{%- endfor -%}
+				{%- endif -%}
+			</div>
+		</div>
+	</div>
+</section>
+{% schema %}
+{
+	"name": "Testimonials",
+	"settings": [
+		{
+			"type": "text",
+			"id": "title",
+			"label": "Heading",
+			"default": "Testimonials"
+		},
+		{
+			"type": "checkbox",
+			"id": "show_quotes",
+			"label": "Show quotation marks",
+			"default": true
+		},
+		{
+			"type": "header",
+			"content": "Colors"
+		},
+		{
+			"type": "color",
+			"id": "bg_color",
+			"label": "Background"
+		}
+	],
+	"blocks": [
+		{
+			"type": "testimonial",
+			"name": "Testimonial",
+			"settings": [
+				{
+					"type": "richtext",
+					"id": "testimonial_text",
+					"label": "Testimonial",
+					"default": "<p>Use this testimonial as an opportunity for your customers to discuss your brand and what sets you apart from the competition.</p>"
+				},
+				{
+					"type": "image_picker",
+					"id": "image",
+					"label": "Customer photo"
+				},
+				{
+					"type": "range",
+					"id": "image_width",
+					"label": "Image width (in pixels)",
+					"min": 50,
+					"max": 200,
+					"default": 100,
+					"step": 5,
+					"unit": "px"
+				},
+				{
+					"type": "text",
+					"id": "customer_name",
+					"label": "Customer name",
+					"default": "John Doe"
+				}
+			]
+		}
+	],
+	"presets": [
+		{
+			"name": "Testimonials",
+			"category": "Text",
+			"blocks": [
+				{
+					"type": "testimonial",
+					"settings": {
+						"testimonial_text": "<p>Use this testimonial as an opportunity for your customers to discuss your brand and what sets you apart from the competition.</p>",
+						"customer_name":"Sherlock Holmes"
+					}
+				},
+				{
+					"type": "testimonial",
+					"settings": {
+						"testimonial_text": "<p>Use this testimonial as an opportunity for your customers to discuss your brand and what sets you apart from the competition.</p>",
+						"customer_name":"John Watson"
+					}
+				},
+				{
+					"type": "testimonial",
+					"settings": {
+						"testimonial_text": "<p>Use this testimonial as an opportunity for your customers to discuss your brand and what sets you apart from the competition.</p>",
+						"customer_name":"Mycroft Holmes"
+					}
+				}
+			]
+		}
+	]
+}
+{% endschema %}

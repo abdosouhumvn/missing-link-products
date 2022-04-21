@@ -1,0 +1,81 @@
+{%- liquid
+  assign text_color = section.settings.text_color
+  assign button_text = section.settings.button_text
+
+  if custom_collection_image
+    assign image = custom_collection_image
+  elsif collection.image
+    assign image = collection.image
+  elsif collection.products.first and collection.products.first.featured_media.preview_image
+    assign image = collection.products.first.featured_media.preview_image
+  endif
+
+  if collection.title == blank
+    assign collection_title = 'homepage.onboarding.collection_title' | t
+    assign collection_url = '#!'
+  else
+    assign collection_title = collection.title | strip_html | escape | truncatewords: 10
+    assign collection_url = collection.url
+  endif
+-%}
+
+<div class="list-collections__item{% if collection == empty %} list-collections__item--onboarding{% endif %}{% if carousel %} carousel__item{% endif %} {{ item_width }} mobile--one-whole"{% if carousel %} data-slider-item{% endif %}{% if block_shopify_attributes %} {{ block_shopify_attributes }}{% endif %}>
+  <a href="{{ collection_url }}" class="list-collections__item__image text-{{ text_color }}">
+    {%- unless collection == empty -%}
+      <div
+        class="list-collections__item__image-bg{% if image != blank %} lazyload{% endif %}"
+        {% if image != blank %}
+        data-bgset="{% render 'bgset', image: image %}"
+        data-aspectratio="{{ image.aspect_ratio }}"
+        data-sizes="auto"
+        {% endif %}
+      >
+        {%- if image == blank -%}
+          {%- assign image_url_pattern = collection.products.first.featured_image | img_url: '1024x' | replace: '_1024x.', '_{width}x.' -%}
+          {%- assign image_widths = "[180, 360, 540, 720, 960, 1024, 1280]" -%}
+          <img
+            class="no-image-placeholder lazyload"
+            src="{{ 'blank.gif' | asset_img_url: '1x1' }}"
+            data-src="{{ image_url_pattern }}"
+            data-widths= "{{ image_widths }}"
+            data-aspectratio="1"
+            data-sizes="auto"
+            width="1024"
+            height="1024"
+            alt="{{ collection.title | strip_html | escape }}">
+          <noscript>
+            <img
+              class="no-image-placeholder"
+              src="{{ product.featured_image | img_url: '1024x' }}"
+              width="1024"
+              height="1024"
+              alt="{{ collection.title | strip_html | escape }}">
+          </noscript>
+        {%- endif -%}
+      </div>
+
+      {%- if image != blank -%}
+        <noscript>
+          <div class="list-collections__item__image-bg" style="background-image: url( {{ image | img_url: '2048x' }} );"></div>
+        </noscript>
+      {%- endif -%}
+    {%- else -%}
+      <div class="list-collections__item__image-bg">
+        {%- capture current -%}{% cycle 1, 2, 3 %}{%- endcapture -%}
+        {{- 'collection-' | append: current | placeholder_svg_tag: 'placeholder-svg-filled' -}}
+      </div>
+    {%- endunless -%}
+
+    <div class="list-collections__item__content">
+      <h3 class="list-collections__item__title">
+        {{- collection_title -}}
+      </h3>
+
+      {%- unless button_text == blank -%}
+        <div class="list-collections__item__btn-wrapper">
+          <span class="btn btn--{{ section.settings.button_style }}">{{ button_text }}</span>
+        </div>
+      {%- endunless -%}
+    </div>
+  </a>
+</div>

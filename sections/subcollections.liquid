@@ -1,0 +1,238 @@
+<!-- /sections/subcollections.liquid -->
+
+{%- liquid
+  assign subcollections_links = linklists[collection.handle].links
+  assign subcollections_counter = 0
+  assign layout = section.settings.layout
+  assign carousel = false
+  assign bg_color = section.settings.bg_color
+  assign text_color = section.settings.text_color
+  assign overlay_color = section.settings.image_overlay_color
+  assign overlay_opacity = section.settings.image_overlay_opacity | times: 0.01 | round: 2
+
+  if text_color == 'text-light'
+    assign text_color = '#fff'
+  else
+    assign text_color = '#000'
+  endif
+-%}
+
+{%- capture subcollections -%}
+  {%- if subcollections_links.size > 0 -%}
+    {%- for link in subcollections_links -%}
+      {%- liquid
+        if link.type != 'collection_link' or link.object.handle == blank
+          continue
+        endif
+
+        assign subcollection_handle = link.object.handle
+        assign subcollection_handle_separator = subcollection_handle | append: ',' | prepend: ','
+        assign subcollection = collections[subcollection_handle]
+
+        if link.object.handle contains subcollection_handle_separator or subcollection.products.size == 0
+          continue
+        endif
+
+        assign subcollections_counter = subcollections_counter | plus: 1
+
+        if section.settings.image_source == 'product' or subcollection.image == blank
+          assign subcollection_image = subcollection.products.first.featured_media.preview_image
+          if subcollection_image == 'blank'
+            assign subcollection_image = false
+          endif
+        elsif subcollection.image
+          assign subcollection_image = subcollection.image
+        else
+          assign subcollection_image = false
+        endif
+      -%}
+
+      <div class="subcollection__item">
+        <a href="{{ subcollection.url }}" title="{{ subcollection.title | strip_html | escape }}" class="subcollection__item-image{% if subcollection_image %} lazyload{% endif %}"{% if subcollection_image %} data-bgset="{% render 'bgset', image: subcollection_image %}" data-sizes="auto" data-parent-fit="cover"{% endif %}>
+          <h3 class="subcollection__item-title h4"><span>{{ subcollection.title }}</span></h3>
+      
+          {%- unless subcollection_image -%}
+            {%- assign image_url_pattern = subcollection.products.first.featured_image | img_url: '540x' | replace: '_540x.', '_{width}x.' -%}
+            {%- assign image_widths = "[180, 360, 540, 720, 900, 1080, 1296, 1512, 1728, 2048, 2450, 2700, 3000, 3350, 3750, 4100]" -%}
+            <div class="placeholder-svg--overlayed">
+              <img
+                class="no-image-placeholder placeholder-svg--overlayed lazyload"
+                src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                data-src="{{ image_url_pattern }}"
+                data-widths= "{{ image_widths }}"
+                data-aspectratio="1"
+                data-sizes="auto"
+                width="540"
+                height="540"
+                alt="{{ subcollection.title | strip_html | escape }}">
+            </div>
+          {%- endunless -%}
+        </a>
+        <noscript>
+          <a href="{{ subcollection.url }}" title="{{ subcollection.title | strip_html | escape }}" class="subcollection__item-image"{% unless subcollection_image == 'blank' %} style="background-image: url({{ subcollection_image | img_url: '1024x' }});"{% endunless %}>
+            <h3 class="subcollection__item-title"><span>{{ subcollection.title }}</span></h3>
+      
+            {%- unless subcollection_image -%}
+              <div class="placeholder-svg--overlayed">
+                <img
+                  class="no-image-placeholder"
+                  src="{{ subcollection.products.first.featured_image | img_url: '1024x' }}"
+                  width="1024"
+                  height="1024"
+                  alt="{{ subcollection.title | strip_html | escape }}">
+              </div>
+            {%- endunless -%}
+          </a>
+        </noscript>
+      </div>
+    {%- endfor -%}
+  {%- endif -%}
+{%- endcapture -%}
+
+{%- if subcollections != blank -%}
+  {%- liquid
+    assign subcollections_counter = subcollections_counter | at_most: 8
+    assign carousel = false
+    if layout == 'carousel' and subcollections_counter > 4
+      assign carousel = true
+    endif
+
+    capture subcollection_classes
+      if carousel
+        echo 'subcollections__slider'
+      else
+        echo 'subcollections__list subcollections__list--' | append: subcollections_counter
+      endif
+    endcapture
+  -%}
+
+  {%- style -%}
+    {%- if bg_color != 'rgba(0,0,0,0)' and bg_color != '' -%}
+      #Subcollection--{{ section.id }} {
+        background-color: {{ bg_color }};
+      }
+    {%- endif -%}
+
+    #Subcollection--{{ section.id }} {
+      --overlay: {{ overlay_color }};
+      --overlay-opacity: {{ overlay_opacity }};
+    }
+
+    #Subcollection--{{ section.id }} .subcollection__item {
+      --text: {{ text_color }};
+      --collection-image-padding-top: {{ section.settings.image_aspect_ratio | times: 100 | append: '%' }};
+    }
+  {%- endstyle -%}
+
+  <div
+    id="Subcollection--{{ section.id }}"
+    class="subcollections"
+    data-section-type="subcollections"
+    data-section-id="{{ section.id }}"
+    data-subcollections>
+    <div class="wrapper wrapper--full">
+      <div class="{{ subcollection_classes }}"{% if carousel %} data-slider{% endif %}>
+        {{- subcollections -}}
+      </div>
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+  {
+    "name": "Subcollections",
+    "class": "subcollections-section",
+    "templates": ["collection"],
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Create a [navigation list](/admin/menus) with the same name as this collection and link to other collections. [Learn more](https://invisiblethemes.com/link/broadcast/docs/subcollection)"
+      },
+      {
+        "type": "select",
+        "id": "layout",
+        "label": "Layout",
+        "info": "Desktop only",
+        "options": [
+          {
+            "value": "grid",
+            "label": "Grid"
+          },
+          {
+            "value": "carousel",
+            "label": "Carousel"
+          }
+        ],
+        "default": "grid"
+      },
+      {
+        "type": "select",
+        "id": "image_source",
+        "label": "Image source",
+        "options": [
+          {
+            "value": "collection",
+            "label": "Use collection image"
+          },
+          {
+            "value": "product",
+            "label": "Use first product image"
+          }
+        ],
+        "default": "collection"
+      },
+      {
+        "type": "range",
+        "id": "image_aspect_ratio",
+        "label": "Image height ratio",
+        "info": "Wide to tall",
+        "min": 0.5,
+        "max": 1.5,
+        "step": 0.1,
+        "unit": ":1",
+        "default": 0.6
+      },
+      {
+        "type": "range",
+        "id": "image_overlay_opacity",
+        "label": "Image overlay opacity",
+        "min": 0,
+        "max": 95,
+        "step": 1,
+        "unit": "%",
+        "default": 0
+      },
+      {
+        "type": "color",
+        "id": "image_overlay_color",
+        "label": "Overlay color",
+        "default": "#000"
+      },
+      {
+        "type": "header",
+        "content": "Colors"
+      },
+      {
+        "type": "color",
+        "id": "bg_color",
+        "label": "Background"
+      },
+      {
+        "type": "select",
+        "id": "text_color",
+        "label": "Text color",
+        "default": "text-light",
+        "options": [
+          {
+            "value": "text-light",
+            "label": "Light"
+          },
+          {
+            "value": "text-dark",
+            "label": "Dark"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

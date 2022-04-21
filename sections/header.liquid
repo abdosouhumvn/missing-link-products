@@ -1,0 +1,832 @@
+{%- assign header_position = section.settings.header_position -%}
+{%- assign header_transparent = section.settings.header_transparent -%}
+{%- assign header_text_color = section.settings.header_text_color -%}
+{%- assign nav_position = section.settings.menu_position -%}
+
+{%- assign logo_width = section.settings.logo_max_width -%}
+{%- assign logo_height = 0 -%}
+{%- assign logo = section.settings.logo -%}
+{%- assign logo_not_home = section.settings.logo_not_home -%}
+
+{%- if logo -%}
+  {%- assign logo_aspect_ratio = logo.aspect_ratio -%}
+  {%- assign logo_height = logo_width | divided_by: logo_aspect_ratio -%}
+  {%- assign logo_height_scrolled = logo_height -%}
+{%- endif -%}
+
+{%- if logo_not_home -%}
+  {%- assign logo_height_scrolled = logo_width | divided_by: logo_not_home.aspect_ratio -%}
+  {%- assign logo_aspect_ratio = logo_not_home.aspect_ratio -%}
+
+  {%- unless logo -%}
+    {%- assign logo_height = logo_width | divided_by: logo_aspect_ratio -%}
+  {%- endunless -%}
+{%- endif -%}
+
+{%- if logo_height_scrolled > 40 -%}
+  {%- assign logo_height_scrolled = 40 -%}
+{%- endif -%}
+
+{%- assign header_height = 60-%}
+{%- if logo_height > 30 -%}
+  {%- assign header_height = logo_height | plus: 30 -%}
+{%- endif -%}
+
+{%- render 'nav-drawer' -%}
+
+{%- unless template == 'cart' -%}
+  {%- render 'cart-drawer' -%}
+{%- endunless -%}
+
+<header class="site-header site-header--{{ header_position }} site-header--nav-{{ nav_position }}{% if header_transparent %} site-header--transparent{% endif %} site-header--loading" role="banner"
+  data-section-id="{{ section.id }}"
+  data-height="{{ header_height }}"
+  data-section-type="header"
+  data-transparent="{{ header_transparent }}"
+  {% if header_transparent %}data-text-color="{{ header_text_color }}"{% endif %}
+  data-position="{{ header_position }}"
+  data-nav-position="{{ nav_position }}"
+  data-header-height
+  data-scroll-lock-fill-gap>
+  <div class="wrapper is-moved-by-drawer">
+    {%- if logo or logo_not_home -%}
+<style>
+	@media screen and (min-width: 768px) {
+		.logo__image-link { height: {{ logo_height | round | append: 'px' }}; }
+	}
+	.logo__image-link, .drawer__logo-image { width: {{ logo_width | append: 'px' }}; }
+	.has-scrolled .logo__image-link { width: {{ logo_height_scrolled | times: logo_aspect_ratio | round | append: 'px' }}; height: {{ logo_height_scrolled | round | append: 'px' }}; }
+</style>
+{%- endif -%}
+
+{%- capture logo_not_home -%}
+	{%- assign image = section.settings.logo_not_home -%}
+	{%- if image != blank -%}
+		<a href="{{ routes.root_url }}" aria-label="{{ shop.name }}" class="logo__image-link logo__image-link--other{% unless section.settings.logo %} logo__image-link--single{% endunless %}">
+			{%- assign image_url_pattern = image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+			{%- assign image_widths = "[50,60,70,80,90,100,110,120,130,140,150,160,170,180,200,220,240,260,280,300,320,340,360,380,400,420,440,460,480,500]" -%}
+			{%- assign logo_padding_top = 1 | divided_by: image.aspect_ratio | times: 100 | round: 1 -%}
+
+			<img
+				class="lazyload logo__image"
+				src="{{ 'blank.gif' | asset_img_url: '1x1' }}"
+				data-src="{{ image_url_pattern }}"
+				data-widths= "{{ image_widths }}"
+				data-aspectratio="{{ image.aspect_ratio }}"
+				data-sizes="auto"
+				loading="lazy"
+				width="{{ logo_width }}"
+				height="{{ logo_width | divided_by: image.aspect_ratio }}"
+				alt="{{ image.alt | escape }}">
+			<noscript>
+				<img src="{{ image | img_url: '1024x' }}" class="logo__image" alt="{{ image.alt | escape }}">
+			</noscript>
+			<span class="logo__image-push" style="padding-top: {{ logo_padding_top }}%"></span>
+		</a>
+	{%- endif -%}
+{%- endcapture -%}
+
+{%- capture logo_home -%}
+	{%- assign image = section.settings.logo -%}
+	{%- if image != blank -%}
+		<a href="{{ routes.root_url }}" aria-label="{{ shop.name }}" class="logo__image-link logo__image-link--home{% unless section.settings.logo_not_home %} logo__image-link--single{% endunless %}">
+			{%- assign image_url_pattern = image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+			{%- assign image_widths = "[50, 100, 150, 200, 250, 300, 350, 400, 500, 700, 800]" -%}
+			{%- assign logo_padding_top = 1 | divided_by: image.aspect_ratio | times: 100 | round: 1 -%}
+
+			<img
+				class="lazyload logo__image"
+				src="{{ 'blank.gif' | asset_img_url: '1x1' }}"
+				data-src="{{ image_url_pattern }}"
+				data-widths= "{{ image_widths }}"
+				data-aspectratio="{{ image.aspect_ratio }}"
+				data-sizes="auto"
+				loading="lazy"
+				width="{{ logo_width }}"
+				height="{{ logo_width | divided_by: image.aspect_ratio }}"
+				alt="{{ image.alt | escape }}">
+			<noscript>
+				<img src="{{ image | img_url: '1024x' }}" class="logo__image" alt="{{ image.alt | escape }}">
+			</noscript>
+			<span class="logo__image-push" style="padding-top: {{ logo_padding_top }}%"></span>
+		</a>
+	{%- endif -%}
+{%- endcapture -%}
+
+{%- if logo_not_home != blank or logo_home != blank or section.settings.show_shop_name -%}
+	<h1 class="logo">
+		{{- logo_not_home -}}
+		{{- logo_home -}}
+
+		{%- if section.settings.show_shop_name -%}
+			<a class="logo__text-link{% if logo_home != blank or logo_not_home != blank %} logo__text-link--has-image{% endif %}" href="{{ routes.root_url }}">{{ shop.name }}</a>
+		{%- endif -%}
+	</h1>
+{%- endif -%}
+    <!-- /partials/site-nav.liquid -->
+{%- assign has_logo = false -%}
+{%- assign cart_animation = settings.enable_cart_animation -%}
+{%- if section.settings.logo != blank or section.settings.logo_not_home != blank or section.settings.show_shop_name -%}
+  {%- assign has_logo = true -%}
+{%- endif -%}
+
+<nav class="navigation" role="navigation" id="NavStandard">
+  <ul class="nav nav--default{% if settings.nav_caps %} caps{% endif %}" id="AccessibleNav">
+    <li class="nav__item nav__item--compress">
+      <button type="button" class="icon-fallback-text nav__link nav__link--icon js-drawer-open-nav" aria-controls="NavDrawer" data-drawer="left">
+        <span class="visually-hidden">{{ 'general.accessibility.mobile_menu_toggle' | t }}</span>
+        {%- render 'icon-hamburger' -%}
+      </button>
+      <a href="{{ routes.cart_url }}" class="cart__toggle {% unless template == 'cart' or settings.cart_type == 'page' %}js-drawer-open-cart{% endunless %} cart__count{% if cart.item_count > 0 %} cart__count--has-items{% endif %}{% if cart_animation %} cart__count--animation{% endif %}" aria-controls="CartDrawer" aria-expanded="false" data-drawer="right">
+        <span class="visually-hidden">{{ 'general.accessibility.open_cart' | t }}</span>
+        {%- render 'icon-shopping-bag' -%}
+      </a>
+    </li>
+
+    {%- for link in linklists[section.settings.main-menu].links -%}
+
+      {%- capture dropdown_links -%}
+        {%- if link.links != blank -%}
+          {%- for sub_link in link.links -%}
+            <li class="dropdown__item dropdown__item--level-2{% if forloop.index == 1 %} dropdown__item--level-2--first{% endif %}{% if forloop.index == link.links.size %} dropdown__item--level-2--last{% endif %}{% if sub_link.levels == 1 %} dropdown__item--has-items{% endif %}" {% if sub_link.levels == 1 %}aria-haspopup="true"{% endif %}>
+              <a href="{{ sub_link.url }}" class="dropdown__link dropdown__link--level-2{% if sub_link.active %} dropdown__link--active{% endif %}">
+                {{- sub_link.title | escape -}}
+              </a>
+
+              {%- if sub_link.levels == 1 -%}
+                <button class="dropdown__trigger dropdown__trigger--level-2 dropdown__trigger--hover" aria-controls="NavDropdown--{{ link.handle }}-{{ sub_link.handle }}-{{ forloop.index0 }}" aria-expanded="false">
+                  <span class="visually-hidden">{{ 'general.accessibility.show_submenu' | t }}</span>
+                  {%- render 'icon-arrow' -%}
+                </button>
+
+                <ul id="NavDropdown--{{ link.handle }}-{{ sub_link.handle }}-{{ forloop.index0 }}" class="dropdown dropdown--level-3" aria-hidden="true">
+                  {%- for sub_sub_link in sub_link.links -%}
+                    <li class="dropdown__item dropdown__item--level-3{% if forloop.index == 1 %} dropdown__item--level-3--first{% endif %}">
+                      <a class="dropdown__link dropdown__link--level-3" href="{{ sub_sub_link.url }}">
+                        {{- sub_sub_link.title | escape -}}
+                      </a>
+                    </li>
+                  {%- endfor -%}
+                </ul>
+              {%- endif -%}
+            </li>
+          {%- endfor -%}
+        {%- endif -%}
+      {%- endcapture -%}
+
+      {%- if section.blocks.size > 0 -%}
+        {%- for block in section.blocks -%}
+          {%- assign link_title = link.title | escape | downcase -%}
+          {%- assign megamenu_title = block.settings.title | escape | downcase -%}
+          {%- assign megamenu = '' -%}
+          {%- assign dropdown_links_and_image = '' -%}
+          {%- assign links_large = block.settings.links_large -%}
+
+          {%- case block.type -%}
+
+            {%- when 'megamenu' -%}
+              {%- capture megamenu -%}
+                {%- if link_title == megamenu_title -%}
+                  <div id="NavDropdown--{{ link.handle }}-{{ forloop.index0 }}" class="megamenu" data-levels="{{ link.levels }}" aria-hidden="true">
+                    <div class="wrapper">
+                      <div class="megamenu-inner">
+                        {%- assign image_index = 0 -%}
+                        {%- assign sub_links_count = link.links.size -%}
+                        {%- if link.links != blank -%}
+                          {%- for sub_link in link.links -%}
+                            <ul class="megamenu__links megamenu__links--level-2">
+                              <li class="megamenu__item megamenu__item--level-2">
+                                <a href="{{ sub_link.url }}" class="megamenu__link megamenu__link--heading{% if sub_link.active %} megamenu__link--active{% endif %}">
+                                  {{- sub_link.title | escape -}}
+                                </a>
+
+                                {%- if sub_link.levels == 1 -%}
+                                  <ul class="megamenu__links megamenu__links--level-3{% if forloop.first and links_large %} megamenu__links--large{% endif %}" aria-expanded="false">
+                                    {%- for sub_sub_link in sub_link.links -%}
+                                      <li class="megamenu__item megamenu__item--level-3">
+                                        <a class="megamenu__link megamenu__link--level-3" href="{{ sub_sub_link.url }}">
+                                          {{- sub_sub_link.title | escape -}}
+                                        </a>
+                                      </li>
+                                    {%- endfor -%}
+                                  </ul>
+                                {%- endif -%}
+                              </li>
+                            </ul>
+                          {%- endfor -%}
+
+                          {%- for i in (1..4) -%}
+                            {%- assign image = i | prepend: 'image_' -%}
+                            {%- assign image = block.settings[image] -%}
+
+                            {%- assign image_link  = i | prepend: 'link_' -%}
+                            {%- assign image_link = block.settings[image_link] -%}
+
+                            {%- assign heading = i | prepend: 'title_' -%}
+                            {%- assign heading = block.settings[heading] -%}
+
+                            {%- if image != blank or heading != blank -%}
+                              <div class="megamenu__image megamenu__links--level-2" {{ block.shopify_attributes }}>
+                                {%- capture megamenu_image -%}
+                                  {%- if heading != empty -%}
+                                    <h4 class="megamenu__link--heading">{{ heading }}</h4>
+                                  {%- endif -%}
+                                  {%- if image -%}
+                                    <div class="megamenu__image-bg lazyload"
+                                    data-bgset="{% render 'bgset', image: image %}"
+                                    data-sizes="auto"
+                                    data-parent-fit="cover"
+                                    style="padding-top: {{ block.settings.image_aspect_ratio | times: 100 | append: '%' }}"
+                                    ></div>
+                                    <noscript>
+                                      <div class="megamenu__image-bg" style="background-image: url( {{ image | img_url: '1024x1024' }} );"></div>
+                                    </noscript>
+                                  {%- endif -%}
+                                {%- endcapture -%}
+
+                                {%- unless image_link == blank -%}
+                                  <a href="{{ image_link }}" class="megamenu__link-image">{{ megamenu_image }}</a>
+                                {%- else -%}
+                                  {{- megamenu_image -}}
+                                {%- endunless -%}
+                              </div>
+                            {%- endif -%}
+                          {%- endfor -%}
+                        {%- endif -%}
+                      </div>
+                    </div>
+                  </div>
+                  {%- comment -%} END MEGAMENU WRAPPER {%- endcomment -%}
+                  {%- break -%}
+                {%- endif -%}
+              {%- endcapture -%}
+
+            {%- when 'dropdown_image' -%}
+              {%- capture dropdown_links_and_image -%}
+                {%- assign link_title = link.title | escape | downcase -%}
+                {%- assign megamenu_title = block.settings.title | escape | downcase -%}
+
+                {%- if link_title == megamenu_title -%}
+
+                  {%- capture dropdown_image -%}
+                    {%- assign image = block.settings.image -%}
+                    {%- assign image_link = block.settings.link -%}
+                    {%- assign image_position = block.settings.image_position -%}
+
+                    {%- unless image_link == blank -%}
+                      <a href="{{ image_link }}" class="dropdown__link dropdown__link--image" title="{{ block.settings.image | strip_html | escape }}">
+                    {%- endunless -%}
+
+                    {%- unless image == blank -%}
+                      <div class="dropdown__image-container" style="padding-top: {{ block.settings.image_aspect_ratio | times: 100 | append: '%' }};">
+                        <div class="dropdown__image-bg lazyload"
+                          data-bgset="{% render 'bgset', image: image %}"
+                          data-sizes="auto"
+                          data-parent-fit="cover"
+                        ></div>
+                        <noscript>
+                          <div class="dropdown__image-bg" style="background-image: url( {{ image | img_url: '1024x1024' }} ); padding-top: {{ block.settings.image_aspect_ratio | times: 100 | append: '%' }};"></div>
+                        </noscript>
+                      </div>
+                    {%- else -%}
+                      <div class="dropdown__image-container dropdown__image-container--placeholder" style="padding-top: {{ block.settings.image_aspect_ratio | times: 100 | append: '%' }};">
+                        <div class="placeholder-svg placeholder-svg--overlayed">
+                          {{- 'image' | placeholder_svg_tag: 'placeholder-svg-filled' -}}
+                        </div>
+                      </div>
+                    {%- endunless -%}
+
+                    {%- unless image_link == blank -%}
+                      </a>
+                    {%- endunless -%}
+                  {%- endcapture -%}
+
+                  {%- capture dropdown_image_links -%}
+                    {%- if link.links != blank -%}
+                      {%- for sub_link in link.links -%}
+                        <li class="dropdown__item dropdown__item--level-2{% if sub_link.levels == 1 %} dropdown__item--has-items dropdown__item--collapsible{% endif %}" {% if sub_link.levels == 1 %}aria-haspopup="true"{% endif %}>
+                          <a href="{{ sub_link.url }}" class="dropdown__link dropdown__link--level-2{% if sub_link.levels == 1 %} dropdown__link--collapsible{% endif %}{% if sub_link.active %} dropdown__link--active{% endif %}">
+                            {{- sub_link.title | escape -}}
+                          </a>
+
+                          {%- if sub_link.levels == 1 -%}
+                            <button class="dropdown__trigger dropdown__trigger--collapsible" aria-controls="NavDropdown--{{ link.handle }}-{{ sub_link.handle }}-{{ forloop.index0 }}" aria-expanded="false" data-collapsible-trigger>
+                              <span class="visually-hidden">{{ 'general.accessibility.show_submenu' | t }}</span>
+                              {%- render 'icon-plus' -%}
+                              {%- render 'icon-minus' -%}
+                            </button>
+                            <div id="NavDropdown--{{ link.handle }}-{{ sub_link.handle }}-{{ forloop.index0 }}" class="dropdown__links-container" aria-hidden="true" data-collapsible-container>
+                              <ul class="dropdown__links dropdown__links--level-3" data-collapsible-content>
+                                {%- for sub_sub_link in sub_link.links -%}
+                                  <li class="dropdown__item dropdown__item--level-3">
+                                    <a class="dropdown__link dropdown__link--level-3" href="{{ sub_sub_link.url }}">
+                                      {{- sub_sub_link.title | escape -}}
+                                    </a>
+                                  </li>
+                                {%- endfor -%}
+                              </ul>
+                            </div>
+                          {%- endif -%}
+                        </li>
+                      {%- endfor -%}
+                    {%- endif -%}
+                  {%- endcapture -%}
+
+                  <div id="NavDropdown--{{ link.handle }}-{{ forloop.index0 }}" class="dropdown dropdown--level-2 dropdown--has-image{% if image_position == 'right' %} dropdown--has-image--reversed{% endif %}" data-levels="{{ link.levels }}" aria-hidden="true">
+                    <div class="dropdown__image dropdown__image--{{ image_position }}{% if dropdown_links == blank %} dropdown__image--no-links{% endif %}" {{ block.shopify_attributes }}>
+                      {{- dropdown_image -}}
+                    </div>
+
+                    {%- if dropdown_image_links != blank -%}
+                      <ul class="dropdown__links dropdown__links--has-image">
+                        {{- dropdown_image_links -}}
+                      </ul>
+                    {%- endif -%}
+                  </div>
+
+                  {%- break -%}
+                {%- endif -%}
+              {%- endcapture -%}
+          {%- endcase -%}
+
+        {%- endfor -%}
+      {%- endif -%}
+
+      {%- if dropdown_links != blank or dropdown_links_and_image != blank or megamenu != blank -%}
+        <li class="nav__item nav__item--level-1 nav__item--has-items nav__item--default{% if megamenu != blank %} nav__item--has-megamenu{% else %} nav__item--has-dropdown{% endif %}{% if dropdown_links_and_image != blank %} nav__item--has-dropdown--image{% endif %}" aria-haspopup="true" nav-item>
+          <a href="{{ link.url }}" class="nav__link{% if link.active %} nav__link--active{% endif %}" nav-link>
+            {{- link.title | escape -}}
+          </a>
+
+          {%- if megamenu != blank -%}
+            {{- megamenu -}}
+          {%- elsif dropdown_links_and_image != blank -%}
+            {{- dropdown_links_and_image -}}
+          {%- elsif dropdown_links != blank -%}
+            <div id="NavDropdown--{{ link.handle }}-{{ forloop.index0 }}" class="dropdown" data-levels="{{ link.levels }}" aria-hidden="true">
+              <ul class="dropdown__links">
+                {{- dropdown_links -}}
+              </ul>
+            </div>
+          {%- endif -%}
+
+        </li>
+      {%- else -%}
+        <li class="nav__item nav__item--level-1 nav__item--default" nav-item>
+          <a href="{{ link.url }}" class="nav__link{% if link.active %} nav__link--active{% endif %}">{{ link.title | escape }}</a>
+        </li>
+      {%- endif -%}
+    {%- endfor -%}
+
+    <li class="nav__item nav__item--default nav__item--icons" nav-item>
+      <ul class="nav__icons">
+        {%- if section.settings.show_search -%}
+          <li class="nav__item nav__item--icon">
+            <a href="{{ routes.search_url }}" class="nav__link nav__link--icon" aria-label="{{ 'layout.navigation.search' | t }}" data-nav-search-open>
+              <span class="visually-hidden">{{ 'general.accessibility.open_search_bar' | t }}</span>
+              {%- render 'icon-search' -%}
+            </a>
+          </li>
+        {%- endif -%}
+
+        {%- if shop.customer_accounts_enabled -%}
+          <li class="nav__item nav__item--icon">
+            <a href="{{ routes.account_url }}" class="nav__link nav__link--icon">
+              <span class="visually-hidden">{{ 'general.accessibility.my_account' | t }}</span>
+              {%- render 'icon-user' -%}
+            </a>
+          </li>
+        {%- endif -%}
+
+        <li class="nav__item nav__item--icon">
+          <a href="{{ routes.cart_url }}" class="nav__link nav__link--icon cart__toggle {% unless template == 'cart' or settings.cart_type == 'page' %}js-drawer-open-cart{% endunless %} cart__count{% if cart.item_count > 0 %} cart__count--has-items{% endif %}{% if cart_animation %} cart__count--animation{% endif %}" aria-controls="CartDrawer" aria-expanded="false" data-drawer="right">
+            <span class="visually-hidden">{{ 'general.accessibility.open_cart' | t }}</span>
+            {%- render 'icon-shopping-bag'  -%}
+          </a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+<div class="mobile-menu">
+  <button type="button" class="mobile-menu__toggle icon-fallback-text js-drawer-open-nav" aria-controls="NavDrawer" data-drawer="left">
+    <span class="visually-hidden">{{ 'general.accessibility.mobile_menu_toggle' | t }}</span>
+    {%- render 'icon-hamburger' -%}
+  </button>
+
+  <a href="{{ routes.cart_url }}" class="cart__toggle {% unless template == 'cart' or settings.cart_type == 'page' %}js-drawer-open-cart{% endunless %} cart__count{% if cart.item_count > 0 %} cart__count--has-items{% endif %}{% if cart_animation %} cart__count--animation{% endif %}" aria-controls="CartDrawer" aria-expanded="false" data-drawer="right">
+    <span class="visually-hidden">{{ 'general.accessibility.open_cart' | t }}</span>
+    {%- render 'icon-shopping-bag' -%}
+  </a>
+</div>
+  </div>
+  <div class="space-maker"></div>
+
+  {%- if section.settings.show_search -%}
+    <div class="nav-search" aria-expanded="false" data-nav-search>
+  <div class="nav-search__scroller" data-nav-search-scroller>
+    <div class="nav-search__container" data-nav-search-container>
+      <div class="wrapper">
+        <button class="nav-search__close" data-nav-search-close><span class="visually-hidden">
+          {{- 'general.accessibility.close_search_bar' | t -}}</span>
+          {%- render 'icon-close' -%}
+        </button>
+
+        <form action="{{ routes.search_url }}" method="get" class="search-form" role="search" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" maxlength="250" data-nav-search-form>
+          <div class="nav-search__input-group">
+            <label for="search-field" class="visually-hidden">{{ 'general.accessibility.search-field' | t }}</label>
+            <input class="nav-search__input" name="q" type="search" id="search-field" placeholder="{{ 'general.search.placeholder' | t }}" value="" data-nav-search-input>
+            <input type="hidden" name="type" value="product" data-nav-search-type>
+            <button type="submit" class="nav-search__submit"><span class="visually-hidden">{{ 'general.accessibility.submit_search_request' | t }}</span>{% render 'icon-search' %}</button>
+          </div>
+        </form>
+
+        {%- assign popular_links = section.settings.menu_searches_list -%}
+        {%- unless popular_links == blank -%}
+          <div class="results-popular">
+            <p class="results-popular__title">{{ 'general.search.popular' | t }}</p>
+            <ul class="results-popular__links">
+              {%- for link in linklists[popular_links].links -%}
+                <li><a href="{{ link.url }}" data-popular-search-link>{{ link.title | escape }}</a></li>
+              {%- endfor -%}
+            </ul>
+          </div>
+        {%- endunless -%}
+
+        {%- if section.settings.show_search_links -%}
+          <div class="results-popular">
+            <p class="results-popular__title">{{ 'general.search.browse_categories' | t }}</p>
+            <ul class="results-popular__links">
+              {%- for collection in collections -%}
+                <li><a href="{{ collection.url }}" class="results-popular__link" data-popular-search-link>{{ collection.title }}</a></li>
+              {%- endfor -%}
+            </ul>
+          </div>
+        {%- endif -%}
+
+        <div id="search-results" class="results" data-nav-search-results>
+          <ul class="results__list grid" data-products-wrap>
+            {% comment %} product-grid-item-template results append here {% endcomment %}
+          </ul>
+
+          <div class="pagination pagination--search" data-results-pagination>
+            <a href="{{ routes.search_url }}" class="btn">{{ "general.search.view_all" | t }}</a>
+          </div>
+        </div>
+
+        <div class="pagination__loading">{{ 'collections.pagination.loading' | t }}<span class="dots dots--animated"><span>.</span><span>.</span><span>.</span></span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script product-grid-item-template type="text/x-template">
+  <li class="result">
+    {% raw %}
+      <div class="result__image" data-aspectratio="{{ it.product.image.aspectRatio }}" data-product-image>
+        <a href="{{ it.product.url }}" class="result__image-link" aria-label='{{ it.product.title }}'>
+          <div class="result__image-img product__media lazyload fade-in"
+            data-bgset="{{ it.product.image.thumb }}"
+            data-aspectratio="{{ it.product.image.aspectRatio }}"
+            data-sizes="auto">
+            {% endraw %}
+            {%- if settings.show_badge -%}
+              {% raw %}
+              {{@if(it.product.badgeText)}}
+              <div class="product__tag{{ it.product.badgeClasses }}"><span>{{ it.product.badgeText | safe }}</span></div>
+              {{/if}}
+              {% endraw %}
+            {%- endif -%}
+            {% raw %}
+          </div>
+        </a>
+      </div>
+      <p class="result__title">
+        <a href="{{ it.product.url }}">{{ it.product.title }}</a>
+      </p>
+    {% endraw %}
+  </li>
+</script>
+
+<script noresult-item-template type="text/x-template">
+  <li class="result result--full">
+    {% raw %}
+    <p class="result__title">{{ it.item.text }}</p>
+    {% endraw %}
+  </li>
+</script>
+  {%- endif -%}
+</header>
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Organization",
+  "name": {{ shop.name | json }},
+  {%- if section.settings.logo or section.settings.logo_not_home -%}
+    {%- if section.settings.logo -%}
+      {%- assign logo = section.settings.logo -%}
+    {%- elsif section.settings.logo_not_home -%}
+      {%- assign logo = section.settings.logo_not_home -%}
+    {%- endif -%}
+    {%- assign image_size = logo.width | append:'x' -%}
+
+    "logo": {{ logo | img_url: image_size | prepend: "https:" | json }},
+  {%- endif -%}
+  "sameAs": [
+    {{ settings.instagram_link | json }},
+    {{ settings.facebook_link | json }},
+    {{ settings.twitter_link | json }},
+    {{ settings.youtube_link | json }},
+    {{ settings.vimeo_link | json }},
+    {{ settings.pinterest_link | json }},
+    {{ settings.tumblr_link | json }}
+  ],
+  "url": {{ shop.url | append: page.url | json }}
+}
+</script>
+
+{%- if template.name == 'index' -%}
+  {%- assign potential_action_target = shop.url | append: routes.search_url | append: "?q={search_term_string}" -%}
+  <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "WebSite",
+      "name": {{ shop.name | json }},
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {{ potential_action_target | json }},
+        "query-input": "required name=search_term_string"
+      },
+      "url": {{ shop.url | append: page.url | json }}
+    }
+  </script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Header",
+  "class": "header--sticky",
+  "settings": [
+    {
+      "type": "select",
+      "id": "header_position",
+      "label": "Position",
+      "default": "fixed",
+      "options": [
+        {
+          "value": "fixed",
+          "label": "Stick to top on scroll"
+        },
+        {
+          "value": "relative",
+          "label": "Hide on scroll"
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "header_transparent",
+      "label": "Enable transparent header",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "header_text_color",
+      "label": "Text color",
+      "info": "For transparent header only",
+      "default": "white",
+      "options": [
+        { "label": "White", "value": "white" },
+        { "label": "Black", "value": "black" }
+      ]
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Custom logo (Transparent header)",
+      "info": "Used on Home and Collection pages when the header is transparent"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo_not_home",
+      "label": "Custom logo (Default)",
+      "info": "Used on the other pages and on scroll when the header is sticky"
+    },
+    {
+      "type": "range",
+      "id": "logo_max_width",
+      "label": "Custom logo width (in pixels)",
+      "min": 30,
+      "max": 250,
+      "default": 100,
+      "step":10,
+      "unit":"px"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_shop_name",
+      "label": "Show shop name"
+    },
+    {
+      "type": "header",
+      "content": "Menu"
+    },
+    {
+      "type": "link_list",
+      "id": "main-menu",
+      "label": "Link list",
+      "default": "main-menu"
+    },
+    {
+      "type": "select",
+      "id": "menu_position",
+      "label": "Position",
+      "default": "right",
+      "options": [
+        { "label": "Right", "value": "right" },
+        { "label": "Center", "value": "center" }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Search"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_search",
+      "label": "Show search",
+      "default": true
+    },
+    {
+      "type": "link_list",
+      "id": "menu_searches_list",
+      "label": "Search menu",
+      "info": "This menu won't show dropdown items"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_search_links",
+      "label": "Show collection links",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Mega menu",
+      "type": "megamenu",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Submenu item",
+          "info": "This submenu will appear as a megamenu."
+        },
+        {
+          "type": "checkbox",
+          "id": "links_large",
+          "label": "Show first linklist in large type",
+          "default": false
+        },
+        {
+          "type": "range",
+          "id": "image_aspect_ratio",
+          "label": "Image aspect ratio",
+          "info": "Affects mega menu and dropdown images",
+          "min": 0.5,
+          "max": 1.5,
+          "step": 0.1,
+          "unit": ":1",
+          "default": 1
+        },
+        {
+          "type": "header",
+          "content": "Image 1"
+        },
+        {
+          "type": "text",
+          "id": "title_1",
+          "label": "Title"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_1",
+          "label": "Image",
+          "info": "Recommended size: 500 x 800 px"
+        },
+        {
+          "type": "url",
+          "id": "link_1",
+          "label": "Link"
+        },
+        {
+          "type": "header",
+          "content": "Image 2"
+        },
+        {
+          "type": "text",
+          "id": "title_2",
+          "label": "Title"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_2",
+          "label": "Image",
+          "info": "Recommended size: 500 x 800 px"
+        },
+        {
+          "type": "url",
+          "id": "link_2",
+          "label": "Link"
+        },
+        {
+          "type": "header",
+          "content": "Image 3"
+        },
+        {
+          "type": "text",
+          "id": "title_3",
+          "label": "Title"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_3",
+          "label": "Image",
+          "info": "Recommended size: 500 x 800 px"
+        },
+        {
+          "type": "url",
+          "id": "link_3",
+          "label": "Link"
+        },
+        {
+          "type": "header",
+          "content": "Image 4"
+        },
+        {
+          "type": "text",
+          "id": "title_4",
+          "label": "Title"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_4",
+          "label": "Image",
+          "info": "Recommended size: 500 x 800 px"
+        },
+        {
+          "type": "url",
+          "id": "link_4",
+          "label": "Link"
+        }
+      ]
+    },
+    {
+      "name": "Dropdown image",
+      "type": "dropdown_image",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Submenu item",
+          "info": "This submenu will appear as a dropdown with links and image."
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "Recommended size: 500 x 800 px"
+        },
+        {
+          "type": "range",
+          "id": "image_aspect_ratio",
+          "label": "Image aspect ratio",
+          "info": "Affects mega menu and dropdown images",
+          "min": 0.5,
+          "max": 1.5,
+          "step": 0.1,
+          "unit": ":1",
+          "default": 1
+        },
+        {
+          "type": "select",
+          "id": "image_position",
+          "label": "Image position",
+          "default": "left",
+          "options": [
+            { "label": "Left", "value": "left" },
+            { "label": "Right", "value": "right"}
+          ]
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,71 @@
+{%- unless heading == blank and subheading == blank and text == blank -%}
+	<div class="faq__header">
+		<div class="wrapper">
+			{%- if heading != blank -%}
+				<h1 class="faq__heading">{{ heading }}</h1>
+			{%- endif -%}
+
+			{%- if subheading != blank -%}
+				<h4 class="faq__subheading subheading-text">{{ subheading }}</h4>
+			{%- endif -%}
+
+			{%- if text != blank -%}
+				<div class="text-content rte">{{ text }}</div>
+			{%- endif -%}
+		</div>
+	</div>
+{%- endunless -%}
+
+{%- if section.blocks.size > 0 -%}
+	<div class="faq__content">
+		<div class="wrapper">
+			<ul class="faq__list">
+				{%- for block in section.blocks -%}
+					{%- assign question = block.settings.title -%}
+					{%- assign answer = block.settings.answer -%}
+
+					{%- unless question == blank -%}
+						<li class="faq__item{% if forloop.index == 1 %} faq__item--first{% endif %}" {{ block.shopify_attributes }} aria-haspopup="true">
+							<button class="faq__item-question h3" aria-controls="FAQ-item--{{ forloop.index0 }}-{{ section.id }}" data-collapsible-trigger>
+								{{- question -}}
+								{%- render 'icon-plus' -%}
+								{%- render 'icon-minus' -%}
+							</button>
+
+							<div class="faq__item-answer-wrapper" id="FAQ-item--{{ forloop.index0 }}-{{ section.id }}" aria-hidden="true" data-collapsible-container>
+								<div class="faq__item-answer rte" data-collapsible-content>
+									{{- answer -}}
+								</div>
+							</div>
+						</li>
+					{%- endunless -%}
+				{%- endfor -%}
+			</ul>
+		</div>
+	</div>
+{%- else -%}
+	{%- if template.name == "index" -%}
+		<div class="faq__content">
+			<div class="wrapper">
+				<ul class="faq__list">
+					{%- for i in (1..3) -%}
+						<li class="faq__item{% if forloop.index == 1 %} faq__item--first{% endif %}" {{ block.shopify_attributes }} aria-haspopup="true">
+							<button class="faq__item-question h3" aria-controls="FAQ-item--{{ forloop.index0 }}-{{ section.id }}" data-collapsible-trigger>
+								{{- 'homepage.onboarding.faq.question' | t -}}
+								{%- render 'icon-plus' -%}
+								{%- render 'icon-minus' -%}
+							</button>
+
+							<div class="faq__item-answer-wrapper" id="FAQ-item--{{ forloop.index0 }}-{{ section.id }}" aria-hidden="true" data-collapsible-container>
+								<div class="faq__item-answer rte" data-collapsible-content>
+									{{- 'homepage.onboarding.faq.answer' | t -}}
+								</div>
+							</div>
+						</li>
+					{%- endfor -%}
+				</ul>
+			</div>
+		</div>
+	{%- endif -%}
+{%- endif -%}
+

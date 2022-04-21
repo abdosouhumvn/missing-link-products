@@ -1,0 +1,40 @@
+{%- assign file_extension = 'png' -%}
+{%- assign value = 'White' -%}
+
+<div class="variant-wrapper variant-wrapper--color" data-option="option0">
+	<label class="variant-label--color visually-hidden" for="SingleOptionSelector-{{ index }}-{{ section.id }}">
+		{{- 'homepage.onboarding.color' | t -}}
+	</label>
+
+	<fieldset
+		id="SingleOptionSelector-{{ index }}-{{ section.id }}"
+		class="variant-input-wrap"
+		data-index="option0">
+		<div class="swatch">
+			{%- for i in (1..3) -%}
+				{%- capture value -%}{%- cycle 'White', 'Grey', 'Black' -%}{%- endcapture -%}
+				{%- assign swatch_color = value | split: ' ' | last | handle -%}
+				<div data-value="{{ value | capitalize }}" class="swatch__element">
+					<input
+						id="option-{{ value }}-{{ index }}-{{ section.id }}"
+						class="swatch__input"
+						type="radio"
+						name="color--{{ section.id }}"
+						value="{{ value | escape }}"
+						data-index="option0"
+						data-color-swatch
+            data-single-option-selector
+						{% if forloop.index == 1 %}checked{% endif %}>
+					<label class="variant__button-label--color swatch__label" for="option-{{ value }}-{{ index }}-{{ section.id }}">
+						<span class="swatch__color swatch__color--{{ value | downcase }}" style="color: {{ swatch_color }}; background-color: {{ swatch_color }}; background-image: url({{ value | append: '.' | append: file_extension | asset_url }})"></span>
+						<span class="visually-hidden">{{ value }}</span>
+					</label>
+				</div>
+			{%- endfor -%}
+		</div>
+	</fieldset>
+	<label class="variant-label variant-label--color" for="option-{{ value }}-{{ index }}-{{ section.id }}">
+    <span class="visually-hidden">{{ value }}</span>
+    <span class="variant-label__value" data-color-label>{{ value }}</span>
+  </label>
+</div>

@@ -1,0 +1,338 @@
+{%- liquid
+  comment
+    Fonts
+  endcomment
+
+  assign heading_font = settings.type_heading_font
+  assign base_font = settings.type_base_font
+  assign nav_font = settings.type_nav_font
+  assign button_font = settings.type_button_font
+
+  assign heading_font_bold = heading_font | font_modify: 'weight', 'bolder'
+  assign base_font_bold = base_font | font_modify: 'weight', 'bolder'
+
+  assign base_font_100 = base_font | font_modify: 'weight', '+100'
+  assign base_font_200 = base_font | font_modify: 'weight', '+200'
+  assign base_font_300 = base_font | font_modify: 'weight', '+300'
+  assign base_font_400 = base_font | font_modify: 'weight', '+400'  
+  if base_font_100 and base_font_100.weight > base_font.weight
+    assign base_font_bold = base_font_100
+  elsif base_font_200 and base_font_200.weight > base_font.weight
+    assign base_font_bold = base_font_200
+  elsif base_font_300 and base_font_300.weight > base_font.weight
+    assign base_font_bold = base_font_300
+  elsif base_font_400 and base_font_400.weight > base_font.weight
+    assign base_font_bold = base_font_400
+  endif
+
+  assign heading_font_100 = heading_font | font_modify: 'weight', '+100'
+  assign heading_font_200 = heading_font | font_modify: 'weight', '+200'
+  assign heading_font_300 = heading_font | font_modify: 'weight', '+300'
+  assign heading_font_400 = heading_font | font_modify: 'weight', '+400'  
+  if heading_font_100 and heading_font_100.weight > heading_font.weight
+    assign heading_font_bold = heading_font_100
+  elsif heading_font_200 and heading_font_200.weight > heading_font.weight
+    assign heading_font_bold = heading_font_200
+  elsif heading_font_300 and heading_font_300.weight > heading_font.weight
+    assign heading_font_bold = heading_font_300
+  elsif heading_font_400 and heading_font_400.weight > heading_font.weight
+    assign heading_font_bold = heading_font_400
+  endif
+
+  if nav_font == 'heading'
+    assign nav_font = heading_font
+    assign nav_font_bold = heading_font_bold
+  else
+    assign nav_font = base_font
+    assign nav_font_bold = base_font_bold
+  endif
+
+  if button_font == 'heading'
+    assign button_font = heading_font
+    assign button_font_bold = heading_font_bold
+  else
+    assign button_font = base_font
+    assign button_font_bold = base_font_bold
+  endif
+
+  assign input_font_size = settings.text_size | divided_by: 100.0 | append: 'rem'
+  if settings.text_size < 100
+    assign input_font_size = '1rem'
+  endif
+
+  assign btn_text_transform = 'none'
+  if settings.button_caps
+    assign btn_text_transform = 'uppercase'
+  endif
+
+  comment
+    Colors
+  endcomment
+
+  assign color_body_bg = settings.color_body_bg
+  if color_body_bg == 'rgba(0,0,0,0)'
+    assign color_body_bg = 'rgba(255, 255, 255, 1)'
+  endif
+
+  assign color_body_text = settings.color_body_text
+  if color_body_text == 'rgba(0,0,0,0)'
+    assign color_body_text = 'rgba(0,0,0,1)'
+  endif
+
+  assign color_input_bg = '#fff'
+  assign color_body_text_brightness = color_body_text | color_brightness | round
+  if color_body_text_brightness > 204
+    assign color_input_bg = '#000'
+  endif
+
+  assign color_accent = settings.color_accent
+  assign color_accent_text = '#fff'
+  assign color_accent_brightness = color_accent | color_brightness | round
+  if color_accent_brightness > 204
+    assign color_accent_text = '#000'
+  endif
+
+  assign color_border = settings.color_borders_and_lines
+  assign color_border_bg_brightness = color_border | color_brightness | round
+  if color_border_bg_brightness > 153
+    assign color_border_lighten_darken = color_border | color_darken: 30
+  else
+    assign color_border_lighten_darken = color_border | color_lighten: 30
+  endif
+
+  assign color_body_bg_brightness = color_body_bg | color_brightness | round
+  if color_body_bg_brightness > 153
+    assign color_body_bg_lighten_darken = color_body_bg | color_darken: 10
+    assign color_body_bg_lighten_darken_contrast = color_body_bg | color_darken: 30
+  else
+    assign color_body_bg_lighten_darken = color_body_bg | color_lighten: 10
+    assign color_body_bg_lighten_darken_contrast = color_body_bg | color_lighten: 30
+  endif
+
+  comment
+    Maximum color brightness is 255
+    Change button text color to black if brightness is more than 70.5% ( 70.5% of 255 is ~180 )
+    Change button border to match button text color in case button background is the same as the page body background
+  endcomment
+
+  comment
+    Button colors
+  endcomment
+
+  assign color_button_primary_bg = settings.color_button_primary
+  assign color_button_primary_text = '#fff'
+  assign color_button_primary_brightness = color_button_primary_bg | color_brightness | round
+  if color_button_primary_brightness > 180
+    assign color_button_primary_text = '#000'
+  endif
+
+  assign color_button_secondary_bg = settings.color_button_secondary
+  assign color_button_secondary_text = '#fff'
+  assign color_button_secondary_brightness = color_button_secondary_bg | color_brightness | round
+  if color_button_secondary_brightness > 125
+    assign color_button_secondary_text = '#000'
+  endif
+
+  comment
+    Border radius
+  endcomment
+
+  assign button_style = settings.button_style
+  case button_style
+    when 'square'
+      assign border_radius = 0
+    when 'rounded'
+      assign border_radius = 8
+    when 'pill'
+      assign border_radius = 27
+  endcase
+
+  comment
+    Grid
+  endcomment
+
+  assign columns = settings.products_per_row_on_desktop | plus: 0
+  assign columns_mobile = settings.products_per_row_on_mobile | plus: 0
+  assign columns_tablet = 2
+
+	if columns == 1
+    assign columns_tablet = 1
+  endif
+-%}
+
+{%- style -%}
+
+{%- comment -%} Typography {%- endcomment -%}
+{{ heading_font | font_face: font_display: 'swap' }}
+{{ base_font | font_face: font_display: 'swap' }}
+
+{% if heading_font_bold %}
+  {{ heading_font_bold | font_face: font_display: 'swap' }}
+{% endif %}
+
+{% if base_font_bold %}
+  {{ base_font_bold | font_face: font_display: 'swap' }}
+{% endif %}
+
+{%- assign base_font_italic = base_font | font_modify: 'style', 'italic' -%}
+{%- assign base_font_bold_italic = base_font_bold | font_modify: 'style', 'italic' -%}
+
+{% if base_font_italic %}
+  {{ base_font_italic | font_face: font_display: 'swap' }}
+{% endif %}
+
+{% if base_font_bold_italic %}
+  {{ base_font_bold_italic | font_face: font_display: 'swap' }}
+{% endif %}
+
+{%- comment -%} CSS variables defined in Theme settings {%- endcomment -%}
+:root {
+  {%- comment -%} Global colors {%- endcomment -%}
+  ---color-button-primary-bg: {{ color_button_primary_bg }};
+  ---color-button-primary-bg-alpha-50: {{ color_button_primary_bg | color_modify: 'alpha', 0.50 }};
+  ---color-button-primary-text: {{ color_button_primary_text }};
+  ---color-button-primary-text-alpha-50: {{ color_button_primary_text | color_modify: 'alpha', 0.50 }};
+  ---color-button-secondary-bg: {{ color_button_secondary_bg }};
+  ---color-button-secondary-text:{{ color_button_secondary_text }};
+  ---color-button-secondary-text-alpha-50: {{ color_button_primary_text | color_modify: 'alpha', 0.50 }};
+
+  ---color-text: {{ color_body_text }};
+  ---color-text-darken: {{ color_body_text | color_darken: 20 }};
+  ---color-text-lighten: {{ color_body_text | color_lighten: 20 }};
+  ---color-text-alpha-5: {{ color_body_text | color_modify: 'alpha', 0.05 }};
+  ---color-text-alpha-8: {{ color_body_text | color_modify: 'alpha', 0.08 }};
+  ---color-text-alpha-10: {{ color_body_text | color_modify: 'alpha', 0.10 }};
+  ---color-text-alpha-15: {{ color_body_text | color_modify: 'alpha', 0.15 }};
+  ---color-text-alpha-25: {{ color_body_text | color_modify: 'alpha', 0.25 }};
+  ---color-text-alpha-55: {{ color_body_text | color_modify: 'alpha', 0.55 }};
+  ---color-text-alpha-60: {{ color_body_text | color_modify: 'alpha', 0.60 }};
+  ---color-text-alpha-85: {{ color_body_text | color_modify: 'alpha', 0.85 }};
+  ---color-heading: {{ settings.color_headings }};
+
+  ---color-bg: {{ color_body_bg }};
+  ---color-bg-alpha-25: {{ color_body_bg | color_modify: 'alpha', 0.25 }};
+  ---color-bg-alpha-35: {{ color_body_bg | color_modify: 'alpha', 0.35 }};
+  ---color-bg-alpha-60: {{ color_body_bg | color_modify: 'alpha', 0.60 }};
+  ---color-bg-alpha-65: {{ color_body_bg | color_modify: 'alpha', 0.65 }};
+  ---color-bg-alpha-85: {{ color_body_bg | color_modify: 'alpha', 0.85 }};
+  ---color-bg-overlay: {{ color_body_bg | color_modify: 'alpha', 0.75 }};
+  ---color-bg-darken: {{ color_body_bg | color_darken: 10 }};
+  ---color-bg-lighten-darken: {{ color_body_bg_lighten_darken }};
+  ---color-bg-lighten-darken-contrast: {{ color_body_bg_lighten_darken_contrast }};
+  ---color-drawer-border: {{ color_body_bg | color_darken: 5 }};
+
+  ---color-accent: {{ color_accent }};
+  ---color-accent-text: {{ color_accent_text }};
+
+  ---color-tag-custom: {{ settings.color_custom_badge }};
+
+  ---color-border: {{ color_border }};
+  ---color-border-alpha-15: {{ color_border | color_modify: 'alpha', 0.15 }};
+  ---color-border-alpha-30: {{ color_border | color_modify: 'alpha', 0.30 }};
+  ---color-border-alpha-50: {{ color_border | color_modify: 'alpha', 0.50 }};
+  ---color-border-alpha-65: {{ color_border | color_modify: 'alpha', 0.65 }};
+  ---color-border-lighten-darken: {{ color_border_lighten_darken }};
+
+  ---color-product-grid-arrows: {{ settings.product_grid_slideshow_arrows }};
+
+  {%- comment -%} Hardcoded colors {%- endcomment -%}
+  ---color-disabled-grey: {{ color_body_text | color_modify: 'alpha', 0.35 }};
+  ---color-disabled-grey-darken: {{ color_body_text | color_modify: 'alpha', 0.45 }};
+  ---color-error-red: #D02E2E;
+  ---color-error-red-bg: rgba(208, 46, 46, 0.15);
+  ---color-success-green: #56AD6A;
+  ---color-success-green-bg: #ECFEF0;
+
+  {%- comment -%} Typography {%- endcomment -%}
+  ---font-stack-body: {{ base_font.family }}, {{ base_font.fallback_families }};
+  ---font-style-body: {{ base_font.style }};
+  ---font-adjust-body: {{ settings.text_size | divided_by: 100.0 }};
+
+  ---font-weight-body: {{ base_font.weight | default: 400 }};
+  ---font-weight-body-medium: {{ base_font_medium.weight | default: 500 }};
+  ---font-weight-body-bold: {{ base_font_bold.weight | default: 700 }};
+
+  ---font-stack-heading: {{ heading_font.family }}, {{ heading_font.fallback_families }};
+  ---font-style-heading: {{ heading_font.style }};
+  ---font-adjust-heading: {{ settings.heading_size | divided_by: 100.0 }};
+
+  ---font-weight-heading: {{ heading_font.weight | default: 400 }};
+  ---font-weight-heading-bold: {{ heading_font_bold.weight | default: 600 }};
+
+  ---font-stack-nav: {{ nav_font.family }}, {{ nav_font.fallback_families }};
+  ---font-style-nav: {{ nav_font.style }};
+  ---font-weight-nav: {{ nav_font.weight | default: 400 }};
+  ---font-weight-nav-bold: {{ nav_font_bold.weight | default: 400 }};
+  ---font-adjust-nav: {{ settings.nav_size | divided_by: 100.0 }};
+
+  ---font-stack-button: {{ button_font.family }}, {{ button_font.fallback_families }};
+  ---font-style-button: {{ button_font.style }};
+  ---font-weight-button: {{ button_font.weight | default: 400 }};
+  ---font-adjust-button: {{ settings.button_size | divided_by: 100.0 }};
+
+  ---transform-button-text: {{ btn_text_transform }};
+
+  {%- comment -%} Form input elements on mobile {%- endcomment -%}
+  ---font-size-input: {{ input_font_size }};
+
+  {%- comment -%} Button border radius {%- endcomment -%}
+  ---radius: {{ border_radius }}px;
+  ---radius-inner: {{ border_radius | minus: 2 | at_least: 0 }}px;
+  ---radius-small: {{ border_radius | at_most: 22 }}px;
+  ---radius-tiny: {{ border_radius | at_most: 14 }}px;
+  ---radius-dropdown: {{ border_radius | at_most: 16 }}px;
+  ---radius-checkbox: {{ border_radius | at_most: 3 }}px;
+
+  {%- comment -%} Product images aspect ratio and background size {%- endcomment -%}
+  ---product-media-padding-top: {{ settings.image_aspect_ratio | times: 100 | append: '%' }};
+  ---product-media-background-size: {{ settings.image_size | default: 'cover' }};
+
+  {%- comment -%} Icons {%- endcomment -%}
+  ---loading-svg: url( "{{ 'loading.svg' | asset_url }}" );
+  ---icon-check: url( "{{ 'icon-check.svg' | asset_url }}" );
+  ---icon-close: url( "{{ 'icon-close.svg' | asset_url }}" );
+  ---cart-loading-overlay: {{ color_body_bg | color_modify: 'alpha', 0.85 }} url( "{{ 'loading.svg' | asset_url }}" ) no-repeat center center;
+
+  {%- comment -%} Collection sticky bar initial height which is dynamically changed on window resize {%- endcomment -%}
+  --collection-sticky-bar-height: 0;
+  --collection-image-padding-top: 60%;
+
+  {%- comment -%} Site width {%- endcomment -%}
+  --site-width: 1320px;
+  --site-width-narrow: 840px;
+  --drawer-width: 320px;
+  --drawer-transition: transform 0.4s cubic-bezier(0.46, 0.01, 0.32, 1);
+
+  {%- comment -%} Heights {%- endcomment -%}
+  --full-height: 100vh;
+  --content-full: calc(100vh - 60px);
+  --header-height: 60px;
+  --announcement-height: 35px;
+
+  {%- comment -%} Gutters {%- endcomment -%}
+  --gutter: 60px;
+  --gutter-mobile: 25px;
+  --grid-gutter: 20px;
+
+  {%- comment -%} Grid variables {%- endcomment -%}
+  --grid: repeat({{ columns }}, minmax(0, 1fr));
+  --grid-tablet: repeat({{ columns_tablet }}, minmax(0, 1fr));
+  --grid-mobile: repeat({{ columns_mobile }}, minmax(0, 1fr));
+  --megamenu-grid: repeat(4, minmax(0, 1fr));
+  --grid-row: 1 / span {{ columns }};
+
+  {%- comment -%} Scrollbar width {%- endcomment -%}
+  --scrollbar-width: 0;
+
+  {%- comment -%} Overlay {%- endcomment -%}
+  --overlay: #000;
+  --overlay-opacity: 1;
+
+  {%- comment -%} Input elements {%- endcomment -%}
+  --input-bg: {{ color_input_bg }};
+
+  {%- comment -%} Color swatches {%- endcomment -%}
+  --swatch-size: 32px;
+}
+
+{%- endstyle -%}

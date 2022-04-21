@@ -1,0 +1,158 @@
+{%- capture onboarding_article_tags -%}
+	time_{% cycle '3', '5', '10', '7' %} min read,
+
+	{%- for i in (1..3) -%}
+		{{- 'homepage.onboarding.blog.tag' | t -}}
+		{%- unless forloop.index == 3 -%},{%- endunless -%}
+	{%- endfor -%}
+{%- endcapture -%}
+
+{%- liquid
+  assign article = articles[block.settings.article]
+	assign layout = 'vertical'
+	assign item_products = ''
+	assign has_products = false
+
+  unless article == empty
+    assign article_url = article.url
+		assign article_image_aspect_ratio = article.image.aspect_ratio | default: 1
+    assign article_title = article.title
+		assign article_tags = article.tags
+
+		if article_image_aspect_ratio > 1
+			assign layout = 'horizontal'
+ 		endif
+
+  else
+    assign article_url = '#!'
+		assign article_title = 'homepage.onboarding.blog.title' | t
+		assign article_tags = onboarding_article_tags | split: ','
+  endunless
+-%}
+
+{%- capture item_products -%}
+	{%- if article.image != blank -%}
+		{%- for i in (1..3) -%}
+			{%- liquid
+				assign product_index = 'product' | append: forloop.index
+				assign product_handle = block.settings[product_index]
+				assign product = all_products[product_handle]
+			-%}
+
+			{%- unless product == empty -%}
+				{%- assign has_products = true -%}
+
+				<a href="{{ product.url }}" class="blog-item__product blog-item__product--{{ forloop.index }}" data-item-product>
+					<div class="blog-item__product__image lazyload"
+						data-bgset="{% render 'bgset', image: product.featured_media.preview_image %}"
+						data-sizes="auto"
+						data-parent-fit="cover"
+					>
+					</div>
+					<div class="blog-item__product__details">
+						<h4 class="blog-item__product__title">{{ product.title | strip_html | escape }}</h4>
+						<p class="blog-item__product__price">{{ product.price | money }}</p>
+					</div>
+				</a>
+			{%- endunless -%}
+		{%- endfor -%}
+	{%- endif -%}
+
+	{%- if article == empty and has_products == false -%}
+		{%- assign has_products = true -%}
+
+		{%- for i in (1..3) -%}
+			<a href="#" class="blog-item__product blog-item__product--{{ forloop.index }}" data-item-product>
+				<div class="blog-item__product__image placeholder-svg">
+					{%- capture current -%}{%- cycle 1, 2, 3, 4 -%}{%- endcapture -%}
+					{{- 'product-' | append: current | placeholder_svg_tag: 'placeholder-svg-filled' -}}
+				</div>
+				<div class="blog-item__product__details">
+					<h4 class="blog-item__product__title">{{ 'homepage.onboarding.product_title' | t }}</h4>
+					<p class="blog-item__product__price">{{ 10000 | money }}</p>
+				</div>
+			</a>
+		{%- endfor -%}
+	{%- endif -%}
+{%- endcapture -%}
+
+<div class="blog-item blog-item--{{ layout }}{% if article != empty and article.image == blank %} blog-item--no-image{% endif %}" {{ block.shopify_attributes }} data-item>
+	<div class="blog-item__article">
+		<a href="{{ article_url }}" class="blog-item__article__link" aria-label="{{ article_title }}" title="{{ article_title }}">
+			<div class="overlay"></div>
+
+			{%- if article != empty -%}
+				{%- if article.image != blank -%}
+					<div class="blog-item__article__image lazyload"
+						data-bgset="{% render 'bgset', image: article.image %}"
+						data-sizes="auto"
+						data-parent-fit="cover"
+					></div>
+					<noscript>
+						<div class="blog-item__article__image" style="background-image: url( {{ article.image | img_url: '1024x' }} );"></div>
+					</noscript>
+				{%- endif -%}
+			{%- else -%}
+				<div class="blog-item__article__image placeholder-svg--overlayed">
+					{{- 'image' | placeholder_svg_tag: 'placeholder-svg-filled' -}}
+				</div>
+			{%- endif -%}
+		</a>
+
+		<div class="blog-item__article__content">
+			<h3 class="blog-item__article__title h4">{{ article_title }}</h3>
+
+			{%- if article_tags != blank -%}
+				{%- assign tag_time = '' -%}
+
+				<ul class="blog-item__article__tags">
+					{%- for tag in article_tags -%}
+						{%- assign article_handle_parts = article.handle | split: '/' -%}
+
+						{%- unless tag contains 'time_' -%}
+							{%- capture tag_url -%}
+								{%- if routes.root_url != '/' -%}
+									{{ shop.url }}{{ routes.root_url }}/blogs/{{ article_handle_parts.first }}/tagged/{{ tag | handle }}
+								{%- else -%}
+									{{ shop.url }}/blogs/{{ article_handle_parts.first }}/tagged/{{ tag | handle }}
+								{%- endif -%}
+							{%- endcapture -%}
+
+							<li class="blog-item__article__tag">
+								<a href="{{ tag_url }}">{{ tag }}</a>
+							</li>
+						{%- else -%}
+							{%- capture tag_time -%}
+								{%- assign tag_parts = tag | split: '_' -%}
+								<div class="blog-item__article__time">
+									{{- tag_parts.last -}}
+								</div>
+							{%- endcapture -%}
+						{%- endunless -%}
+					{%- endfor -%}
+				</ul>
+
+				{%- if tag_time != blank -%}
+					{{- tag_time -}}
+				{%- endif -%}
+
+			{%- endif -%}
+		</div>
+	</div>
+
+	{%- if has_products -%}
+		<button class="blog-item__button__show" aria-label="{{ 'general.accessibility.show_products' | t }}" data-button-show>
+			{%- render 'icon-shopping-bag' -%}
+		</button>
+
+		<div class="blog-item__products" data-item-products>
+			<button class="blog-item__button__hide" aria-label="{{ 'general.accessibility.hide_products' | t }}" data-button-hide>
+				{%- render 'icon-close' -%}
+			</button>
+
+			<div class="blog-item__products__slider" data-item-products-slider>
+				{{- item_products -}}
+			</div>
+		</div>
+	{%- endif -%}
+</div>

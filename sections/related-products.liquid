@@ -1,0 +1,95 @@
+{%- liquid
+  assign heading = section.settings.product_recommendations_heading
+  assign limit = section.settings.limit
+  assign bg_color = section.settings.bg_color
+-%}
+
+{%- style -%}
+  {%- if bg_color != 'rgba(0,0,0,0)' and bg_color != '' -%}
+		#RelatedProducts--{{ section.id }} { background-color: {{ bg_color }}; }
+    #RelatedProducts--{{ section.id }} .product-grid-item {
+      --bg: {{ bg_color }};
+    }
+  {%- endif -%}
+{%- endstyle -%}
+
+<section
+  id="RelatedProducts--{{ section.id }}"
+  data-section-type="related-products"
+  data-section-id="{{ section.id }}"
+  data-product-id="{{ product.id }}"
+  data-limit="{{ limit }}"
+  data-show-section="{{ section.settings.show_section }}">
+
+  <div class="related-products" data-related-products>
+    {%- if recommendations.performed -%}
+      {%- if recommendations.products_count > 0 -%}
+        
+          {%- if heading != blank -%}
+            <div class="featured-collection__title">
+              <div class="wrapper">
+                <h2 class="featured-collection__heading section__heading h4">{{ heading }}</h2>
+
+                {%- if settings.show_spacer_lines -%}
+                  <hr>
+                {%- endif -%}
+              </div>
+            </div>
+          {%- endif -%}
+
+          <div class="wrapper">
+            <div class="carousel__container">
+              <div class="carousel" data-collection-slider>
+                {%- for product in recommendations.products -%}
+                  {%- render 'product-grid-item', product: product, carousel: true -%}
+                {%- endfor -%}
+              </div>
+            </div>
+          </div>
+        </div>
+      {%- endif -%}
+    {%- else -%}
+      <div class="related__placeholder"></div>
+    {%- endif -%}
+  </div>
+
+</section>
+
+{% schema %}
+{
+  "name": "Product recommendations",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_section",
+      "label": "Show related products",
+      "info": "Dynamic recommendations change and improve with time. [Learn more](https://help.shopify.com/en/themes/development/recommended-products)",
+      "default": true
+    },
+    {
+			"type":    "range",
+			"id":      "limit",
+			"min":     1,
+			"max":     6,
+			"step":    1,
+			"label":   "Product limit",
+			"default": 4
+		},
+    {
+      "type": "text",
+      "id": "product_recommendations_heading",
+      "label": "Heading",
+      "default": "You May Also Like"
+    },
+    {
+			"type": "header",
+			"content": "Colors"
+		},
+		{
+			"type": "color",
+			"id": "bg_color",
+			"label": "Background"
+		}
+  ]
+}
+{% endschema %}
