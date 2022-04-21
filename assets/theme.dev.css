@@ -4161,7 +4161,7 @@ button.mfp-close {
 }
 
 .nav__item--level-1 > .nav__link {
-  font-weight: var(---font-weight-nav-bold);
+  font-weight: var(---font-weight-nav);
 }
 
 .nav__item--has-megamenu {

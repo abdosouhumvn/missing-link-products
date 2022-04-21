@@ -357,6 +357,7 @@
           <a href="{{ link.url }}" class="nav__link{% if link.active %} nav__link--active{% endif %}" nav-link>
             {{- link.title | escape -}}
           </a>
+          {%- render 'icon-chevron-down' -%}
 
           {%- if megamenu != blank -%}
             {{- megamenu -}}
