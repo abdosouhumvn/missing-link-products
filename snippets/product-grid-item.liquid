@@ -224,6 +224,13 @@
     <a class="product-grid-item__title" href="{{ product.url | within: collection }}" aria-label="{{ product.title | strip_html | escape }}" title="{{ product.title | strip_html | escape }}">
       {{- product.title | strip_html | escape -}}
     </a>
+    {% comment %}
+    <!-- /snippets/bv-inline-ratings.liquid --> <!-- Bazaarvoice Inline Rating -->
+    {% endcomment %}
+    {% render 'bv-inline-ratings', product: product %}
+    {% comment %}
+    <!-- End Bazaarvoice Inline Rating -->
+    {% endcomment %}
 
     {% comment %} Price {% endcomment %}
     <a class="product-grid-item__price price" href="{{ product.url | within: collection }}">
@@ -249,6 +256,8 @@
         </span>
       {%- endif -%}
     </a>
+
+    <a class="btn view_btn" href="{{ product.url | within: collection }}">{{ 'products.product.view_item' | t }}</a>
 
     {%- if settings.show_rating -%}
       <a href="{{ product.url | within: collection }}" class="product-grid-item__rating">

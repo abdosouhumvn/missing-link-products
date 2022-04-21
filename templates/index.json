@@ -98,56 +98,16 @@
         "transition": "slide"
       }
     },
-    "collection-list": {
-      "type": "section-list-collection",
-      "blocks": {
-        "collection-list-0": {
-          "type": "collection",
-          "settings": {
-            "collection": ""
-          }
-        },
-        "collection-list-1": {
-          "type": "collection",
-          "settings": {
-            "collection": ""
-          }
-        },
-        "collection-list-2": {
-          "type": "collection",
-          "settings": {
-            "collection": ""
-          }
-        },
-        "collection-list-3": {
-          "type": "collection",
-          "settings": {
-            "collection": ""
-          }
-        },
-        "collection-list-4": {
-          "type": "collection",
-          "settings": {
-            "collection": ""
-          }
-        }
-      },
-      "block_order": [
-        "collection-list-0",
-        "collection-list-1",
-        "collection-list-2",
-        "collection-list-3",
-        "collection-list-4"
-      ],
+    "featured-collection": {
+      "type": "section-collection",
       "settings": {
-        "layout": "carousel",
-        "columns": 3,
-        "title": "Collection list",
-        "button_text": "Shop all",
-        "button_style": "secondary",
-        "overlay_opacity": 20,
-        "bg_color": "",
-        "text_color": "light",
+        "collection": "our-products",
+        "products_rows": 6,
+        "products_layout": "grid",
+        "show_title": true,
+        "show_collection_button": false,
+        "button_style": "primary",
+        "bg_color": "#ffffff",
         "enable_slider": true
       }
     },
@@ -158,351 +118,132 @@
         "image_position": "inline",
         "text_position": "right",
         "text_alignment": "left",
+        "image_1": "shopify:\/\/shop_images\/Smartmouth_family_37fcb24f-a752-423d-abe5-20f5ba70bfba.png",
+        "image_link_1": "shopify:\/\/collections\/dental-chews",
+        "image_link_2": "",
+        "hide_image_2": false,
+        "heading": "Spotlight Product- Smartmouth™ Dental Chews",
+        "description": "<p>Multifunctional, textured hard chews that reduce plaque and tartar, freshen breath, deliver daily vitamins, and enhance overall health and well-being. Why give your dogs regular dental chews when you can give them more?<\/p><p><\/p>",
+        "button_text": "Shop Dental Health",
+        "button_link": "shopify:\/\/collections\/dental-chews",
+        "button_style": "primary",
+        "video_url": "",
+        "bg_color": ""
+      }
+    },
+    "165056461999e0a4ee": {
+      "type": "section-testimonials",
+      "blocks": {
+        "16505646190501a81d-0": {
+          "type": "testimonial",
+          "settings": {
+            "testimonial_text": "<p>Latte, my 3-legged, 115 lb., 2-year old Rottweiler has been on The Missing Link® Ultimate Canine Hip & Joint Formula for about 4 or 5 months now and WOW can we notice a difference!<\/p>",
+            "image_width": 100,
+            "customer_name": "Kari G."
+          }
+        },
+        "16505646190501a81d-1": {
+          "type": "testimonial",
+          "settings": {
+            "testimonial_text": "<p>My four-year-old Jack Russell terrier, Jasper, had easily lost 80% of his ability to use his front limbs. A friend recommended The Missing Link®. After five weeks he has made the most incredible recovery. Once again, he is exhibiting the traits of a Jack Russell terrier, non-stop energy. There is no doubt in my mind that The Missing Link® has been instrumental in helping my dog.<\/p>",
+            "image_width": 100,
+            "customer_name": "Robert H."
+          }
+        },
+        "16505646190501a81d-2": {
+          "type": "testimonial",
+          "settings": {
+            "testimonial_text": "<p>Leo is a German spitz mix. I tried all kinds of things to make his hair grow but nothing would work. It seemed to get worse! So my Vet told me to try The Missing Link® and I did. 3 months after using the product I noticed his hair stopped falling out, he started getting his dark color back, it was getting thick, and the best part it was extremely soft! It has also started to grow back. I finally found something that worked! I absolutely love it and so does Leo!<\/p>",
+            "image_width": 100,
+            "customer_name": "Leo"
+          }
+        }
+      },
+      "block_order": [
+        "16505646190501a81d-0",
+        "16505646190501a81d-1",
+        "16505646190501a81d-2"
+      ],
+      "settings": {
+        "title": "Reviews",
+        "show_quotes": true,
+        "bg_color": ""
+      }
+    },
+    "1650564623318d2f5a": {
+      "type": "section-product-feature",
+      "settings": {
+        "image_layout": "square",
+        "image_position": "inline",
+        "text_position": "right",
+        "text_alignment": "center",
+        "image_1": "shopify:\/\/shop_images\/Image_5.jpg",
         "image_link_1": "",
         "image_link_2": "",
         "hide_image_2": false,
-        "heading": "This is a heading for a Product feature block.",
-        "description": "<p>Use this text to share information about the point put forth above. Describe a product, your brand, or what makes you special.<\/p>",
-        "button_text": "Learn more",
-        "button_link": "",
+        "heading": "USE IT, LOVE IT.  OR YOUR MONEY BACK.  GUARANTEED",
+        "description": "<p>We stand by our products and if you’re unsatisfied for any reason, you can return the product for a full refund. No questions asked.<\/p>",
+        "button_text": "CONTACT US",
+        "button_link": "shopify:\/\/pages\/contact-us",
         "button_style": "primary",
         "video_url": "",
         "bg_color": ""
       }
     },
-    "featured-collection": {
-      "type": "section-collection",
+    "1650564737fb8e8ec9": {
+      "type": "section-product-feature",
       "settings": {
-        "collection": "",
-        "products_rows": 2,
-        "products_layout": "grid",
-        "show_title": true,
-        "show_collection_button": true,
-        "button_style": "primary",
-        "bg_color": "",
-        "enable_slider": true
-      }
-    },
-    "image-with-text": {
-      "type": "section-image-with-text",
-      "settings": {
-        "section_height": "sixty-fifty-height-hero",
+        "image_layout": "square",
+        "image_position": "inline",
         "text_position": "left",
-        "image_background": true,
-        "bg_position": "center-center",
-        "subheading": "Subheading",
+        "text_alignment": "center",
+        "image_1": "shopify:\/\/shop_images\/WhyAbsorbine_abdotcom.png",
+        "image_link_1": "shopify:\/\/pages\/about-us",
+        "image_link_2": "",
+        "hide_image_2": false,
         "heading": "Our Story",
-        "text": "<p>Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.<\/p>",
-        "button_text": "Learn More",
-        "button_url": "",
-        "button_style": "secondary",
+        "description": "<p>In the early 1990’s our founder and Veterinarian, Dr. Collette, was concerned by recurring health issues in his clients. Pets were coming in with stiff hips and joints, skin, coat and digestion issues and an overall lack of energy. He recognized that commercially processed kibble was not providing the nutrition needed for pets to thrive and thus created The Missing Link superfood supplements.<\/p><p>Since then food has come a long way, but the need for additional support is still very much needed. In honor of our founder, we continue to pioneer fresh, high-quality and effective solutions for a range of health needs your pet may have.<\/p>",
+        "button_text": "Read More",
+        "button_link": "shopify:\/\/pages\/about-us",
+        "button_style": "primary",
         "video_url": "",
         "bg_color": ""
       }
     },
-    "tabbed-collections": {
-      "type": "section-tabbed-collections",
-      "blocks": {
-        "collection-0": {
-          "type": "collection",
-          "settings": {
-            "collection": "",
-            "title": "",
-            "product": ""
-          }
-        },
-        "collection-1": {
-          "type": "collection",
-          "settings": {
-            "collection": "",
-            "title": "",
-            "product": ""
-          }
-        },
-        "collection-2": {
-          "type": "collection",
-          "settings": {
-            "collection": "",
-            "title": "",
-            "product": ""
-          }
-        }
-      },
-      "block_order": [
-        "collection-0",
-        "collection-1",
-        "collection-2"
-      ],
+    "16505656548511a844": {
+      "type": "section-rich-text",
       "settings": {
-        "title": "Featured collections",
+        "text_position": "center",
+        "top_image_width": 100,
+        "subheading": "",
+        "heading": "",
+        "text": "",
+        "button_text": "Shop Now",
+        "button_url": "shopify:\/\/collections\/all",
         "button_style": "primary",
+        "secondary_button_text": "",
+        "secondary_button_url": "",
+        "secondary_button_style": "secondary",
         "bg_color": ""
       }
     },
-    "icons-row": {
-      "type": "section-icons-row",
-      "blocks": {
-        "icons-row-0": {
-          "type": "text",
-          "settings": {
-            "icon_name": "shop",
-            "title": "Feature",
-            "content": "Palo Alto is a powerful Shopify theme that will set you apart from the rest with a variety of sections and features."
-          }
-        },
-        "icons-row-1": {
-          "type": "text",
-          "settings": {
-            "icon_name": "shop",
-            "title": "Feature",
-            "content": "Palo Alto is a powerful Shopify theme that will set you apart from the rest with a variety of sections and features."
-          }
-        },
-        "icons-row-2": {
-          "type": "text",
-          "settings": {
-            "icon_name": "shop",
-            "title": "Feature",
-            "content": "Palo Alto is a powerful Shopify theme that will set you apart from the rest with a variety of sections and features."
-          }
-        }
-      },
-      "block_order": [
-        "icons-row-0",
-        "icons-row-1",
-        "icons-row-2"
-      ],
+    "1650576661aa77443c": {
+      "type": "section-custom-html",
       "settings": {
-        "alignment": "left",
-        "icons_width": 45,
-        "bg_color": "#fafafa",
-        "text_color": "#333"
-      }
-    },
-    "press": {
-      "type": "section-press",
-      "blocks": {
-        "press-0": {
-          "type": "press",
-          "settings": {
-            "text": "<p>Provide some information about what the company below thinks about your brand.<\/p>",
-            "link": "",
-            "logo_width": 120
-          }
-        },
-        "press-1": {
-          "type": "press",
-          "settings": {
-            "text": "<p>Provide some information about what the company below thinks about your brand.<\/p>",
-            "link": "",
-            "logo_width": 120
-          }
-        },
-        "press-2": {
-          "type": "press",
-          "settings": {
-            "text": "<p>Provide some information about what the company below thinks about your brand.<\/p>",
-            "link": "",
-            "logo_width": 120
-          }
-        },
-        "press-3": {
-          "type": "press",
-          "settings": {
-            "text": "<p>Provide some information about what the company below thinks about your brand.<\/p>",
-            "link": "",
-            "logo_width": 120
-          }
-        }
-      },
-      "block_order": [
-        "press-0",
-        "press-1",
-        "press-2",
-        "press-3"
-      ],
-      "settings": {
-        "title": "Press",
-        "bg_color": ""
-      }
-    },
-    "video": {
-      "type": "section-video",
-      "disabled": true,
-      "settings": {
-        "video_height": "sixty-fifty-height-hero",
-        "text_position": "center-center",
-        "hero_video_link": "https:\/\/www.youtube.com\/watch?v=_9VUPq3SxOc",
-        "video_enable_sound": false,
-        "overlay_opacity": 20,
-        "text_color": "text-light",
-        "title": "Welcome to Palo Alto",
-        "main_subheading": "This subheading helps you provide some more detail to the title above.",
-        "button_text": "Welcome",
-        "button_link": "",
-        "button_style": "secondary"
-      }
-    },
-    "locations": {
-      "type": "section-locations",
-      "blocks": {
-        "locations-0": {
-          "type": "locations",
-          "settings": {
-            "title": "566 Emerson Street Palo Alto, California",
-            "working_time": "<p>Mon - Fri: 8am - 5pm<\/p><p>Sat: Closed<\/p><p>Sun: Closed<\/p>"
-          }
-        },
-        "locations-1": {
-          "type": "locations",
-          "settings": {
-            "title": "566 Emerson Street Palo Alto, California",
-            "working_time": "<p>Mon - Fri: 8am - 5pm<\/p><p>Sat: Closed<\/p><p>Sun: Closed<\/p>"
-          }
-        },
-        "locations-2": {
-          "type": "locations",
-          "settings": {
-            "title": "566 Emerson Street Palo Alto, California",
-            "working_time": "<p>Mon - Fri: 8am - 5pm<\/p><p>Sat: Closed<\/p><p>Sun: Closed<\/p>"
-          }
-        }
-      },
-      "block_order": [
-        "locations-0",
-        "locations-1",
-        "locations-2"
-      ],
-      "settings": {
-        "subheading": "Our stores",
-        "title": "Locations & hours",
-        "bg_color": ""
-      }
-    },
-    "logo-list": {
-      "type": "section-logo-list",
-      "blocks": {
-        "logo-list-0": {
-          "type": "item_logo",
-          "settings": {
-            "logos_width": 120,
-            "url": ""
-          }
-        },
-        "logo-list-1": {
-          "type": "item_logo",
-          "settings": {
-            "logos_width": 120,
-            "url": ""
-          }
-        },
-        "logo-list-2": {
-          "type": "item_logo",
-          "settings": {
-            "logos_width": 120,
-            "url": ""
-          }
-        },
-        "logo-list-3": {
-          "type": "item_logo",
-          "settings": {
-            "logos_width": 120,
-            "url": ""
-          }
-        },
-        "logo-list-4": {
-          "type": "item_logo",
-          "settings": {
-            "logos_width": 120,
-            "url": ""
-          }
-        }
-      },
-      "block_order": [
-        "logo-list-0",
-        "logo-list-1",
-        "logo-list-2",
-        "logo-list-3",
-        "logo-list-4"
-      ],
-      "settings": {
-        "bg_color": ""
-      }
-    },
-    "featured-blog": {
-      "type": "section-blog",
-      "blocks": {
-        "featured-blog-0": {
-          "type": "article",
-          "settings": {
-            "article": "",
-            "product1": "",
-            "product2": "",
-            "product3": ""
-          }
-        },
-        "featured-blog-1": {
-          "type": "article",
-          "settings": {
-            "article": "",
-            "product1": "",
-            "product2": "",
-            "product3": ""
-          }
-        },
-        "featured-blog-2": {
-          "type": "article",
-          "settings": {
-            "article": "",
-            "product1": "",
-            "product2": "",
-            "product3": ""
-          }
-        },
-        "featured-blog-3": {
-          "type": "article",
-          "settings": {
-            "article": "",
-            "product1": "",
-            "product2": "",
-            "product3": ""
-          }
-        },
-        "featured-blog-4": {
-          "type": "article",
-          "settings": {
-            "article": "",
-            "product1": "",
-            "product2": "",
-            "product3": ""
-          }
-        }
-      },
-      "block_order": [
-        "featured-blog-0",
-        "featured-blog-1",
-        "featured-blog-2",
-        "featured-blog-3",
-        "featured-blog-4"
-      ],
-      "settings": {
-        "title": "",
+        "title": "Instagram feed",
+        "html": "<div class=\"covet-pics-gallery\" data-id=\"137942\"><\/div>",
         "bg_color": ""
       }
     }
   },
   "order": [
     "slideshow",
-    "collection-list",
-    "product-feature",
     "featured-collection",
-    "image-with-text",
-    "tabbed-collections",
-    "icons-row",
-    "press",
-    "video",
-    "locations",
-    "logo-list",
-    "featured-blog"
+    "product-feature",
+    "165056461999e0a4ee",
+    "1650564623318d2f5a",
+    "1650564737fb8e8ec9",
+    "16505656548511a844",
+    "1650576661aa77443c"
   ]
 }

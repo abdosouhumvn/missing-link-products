@@ -16,6 +16,7 @@
     "type_base_font": "neuzeit_office_soft_rounded_n4",
     "text_size": 90,
     "nav_size": 90,
+    "button_caps": true,
     "products_per_row_on_desktop": 4,
     "product_grid_hover_image": false,
     "product_grid_slideshow": false,
