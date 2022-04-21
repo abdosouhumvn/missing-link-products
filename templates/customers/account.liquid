@@ -82,6 +82,11 @@
 										{{ customer.default_address.phone }}
 									{% endif %}
 								</p>
+								<!-- Begin ReCharge code -->
+								<p id="rc_link_container">
+									<a href="/tools/recurring/login">Manage Subscriptions</a>
+								</p>
+								<!-- End ReCharge code -->
 							{% else %}
 								<p>{{ customer.name }}</p>
 							{% endif %}

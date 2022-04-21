@@ -1,3 +1,6 @@
+<!-- Begin ReCharge code -->
+{% include 'subscription-cart-footer' %}
+<!-- End ReCharge code -->
 {%- liquid
   assign cart_errors = ''
   if settings.cart_type == 'page'
@@ -6,7 +9,7 @@
       if item.variant.inventory_policy == 'deny' and item.variant.inventory_management != nil and item.variant.inventory_quantity < item.quantity
         assign quantity_excessed = true
       endif
-   
+
 
       if quantity_excessed
         capture cart_errors

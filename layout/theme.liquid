@@ -155,6 +155,7 @@
 
   {{ content_for_header }}
 </head>
+<script src="https://demandforapps.com/aodtabs/js/aod-tabs.js"></script>
 
 {%- capture body_class -%}
 template-{{ template | replace: '.', ' ' | truncatewords: 1, '' | handle }}
@@ -183,5 +184,8 @@ template-{{ template | replace: '.', ' ' | truncatewords: 1, '' | handle }}
 	{%- render 'ajax-cart-template' -%}
 
 	{%- section 'popup' -%}
+  <!-- Begin ReCharge code -->
+  {% include 'subscription-theme-footer' %}
+  <!-- End ReCharge code -->
 </body>
 </html>

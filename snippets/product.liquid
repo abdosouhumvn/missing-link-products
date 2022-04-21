@@ -176,7 +176,7 @@
                 {%- when 'collection' -%}
                   {%- if collection or product.collections.size > 0 -%}
                     {%- assign collection = collection | default: product.collections[0] -%}
-              
+
                     <nav class="breadcrumbs">
                       <a href="{{ collection.url }}" title="{{ collection.title | strip_html | escape }}">{{ collection.title }}</a>
                     </nav>
@@ -202,46 +202,55 @@
                 {%- endif -%}
               </h1>
 
+              {% comment %}
+              <!-- /snippets/bv-summary.liquid -->
+              <!-- Bazaarvoice Summary Container -->
+              {% endcomment %}
+              {% render 'bv-summary' %}
+              {% comment %}
+              <!-- End Bazaarvoice Summary Container -->
+              {% endcomment %}
+
               <div class="product__price-and-badge">
-  {%- if block.settings.show_rating or settings.show_rating and section_type == 'quickview' -%}
-    {%- unless product == blank -%}
-      {%- render 'rating', show_rating_count: block.settings.show_rating_count, single_star: true, reviews: product.metafields.reviews -%}
-    {%- else -%}
-      {%- render 'rating', show_rating_count: block.settings.show_rating_count, single_star: true, onboarding: true -%}
-    {%- endunless -%}
-  {%- endif -%}
+                {%- if block.settings.show_rating or settings.show_rating and section_type == 'quickview' -%}
+                  {%- unless product == blank -%}
+                    {%- render 'rating', show_rating_count: block.settings.show_rating_count, single_star: true, reviews: product.metafields.reviews -%}
+                  {%- else -%}
+                    {%- render 'rating', show_rating_count: block.settings.show_rating_count, single_star: true, onboarding: true -%}
+                  {%- endunless -%}
+                {%- endif -%}
 
-  <p class="product__price" data-price-wrapper>
-    {%- unless product == blank -%}
-      <span data-product-price>{{ current_variant.price | money }} </span>
-    {%- else -%}
-      <span id="ProductPrice">{{ 1999 | money }}</span>
-    {%- endunless -%}
+                <p class="product__price" data-price-wrapper>
+                  {%- unless product == blank -%}
+                    <span data-product-price>{{ current_variant.price | money }} </span>
+                  {%- else -%}
+                    <span id="ProductPrice">{{ 1999 | money }}</span>
+                  {%- endunless -%}
 
-    <s class="product__price__sale" data-compare-price>
-      {%- if current_variant.compare_at_price -%}
-        {{- current_variant.compare_at_price | money -}}
-      {%- endif -%}
-    </s>
+                  <s class="product__price__sale" data-compare-price>
+                    {%- if current_variant.compare_at_price -%}
+                      {{- current_variant.compare_at_price | money -}}
+                    {%- endif -%}
+                  </s>
 
-    {%- if current_variant.unit_price_measurement -%}
-      {%- capture unit_price_separator -%}
-        <span aria-hidden="true">/</span><span class="visually-hidden">{{ 'general.accessibility.unit_price_separator' | t }}&nbsp;</span>
-      {%- endcapture -%}
+                  {%- if current_variant.unit_price_measurement -%}
+                    {%- capture unit_price_separator -%}
+                      <span aria-hidden="true">/</span><span class="visually-hidden">{{ 'general.accessibility.unit_price_separator' | t }}&nbsp;</span>
+                    {%- endcapture -%}
 
-      <span class="product__unit-price" data-unit-wrapper>
-        <span data-unit-price>
-          {{ current_variant.unit_price | money }}
-          {%- if current_variant.unit_price_measurement.reference_value != 1 -%}
-            {{- current_variant.unit_price_measurement.reference_value -}}
-          {%- endif -%}
-        </span>
-        {{ unit_price_separator }}
-        <span data-unit-base>{{ current_variant.unit_price_measurement.reference_unit }}</span>
-      </span>
-    {%- endif -%}
-    </p>
-</div>
+                    <span class="product__unit-price" data-unit-wrapper>
+                      <span data-unit-price>
+                        {{ current_variant.unit_price | money }}
+                        {%- if current_variant.unit_price_measurement.reference_value != 1 -%}
+                          {{- current_variant.unit_price_measurement.reference_value -}}
+                        {%- endif -%}
+                      </span>
+                      {{ unit_price_separator }}
+                      <span data-unit-base>{{ current_variant.unit_price_measurement.reference_unit }}</span>
+                    </span>
+                  {%- endif -%}
+                  </p>
+              </div>
             </div>
 
           {%- when 'form' -%}
@@ -266,7 +275,9 @@
             {%- comment -%} Product Description and product tabs {%- endcomment -%}
             <div class="product__description rte" {{ block.shopify_attributes }}>
               {%- unless product == blank -%}
-                {{- product.description -}}
+                <div class="aod_tabs_product_desc">
+                  {{- product.description -}}
+                </div>
 
                 {%- if template == 'product' and block.settings.tabs_style != 'tabs_disabled' and section_type != 'featured' -%}
                   {%- render 'product-tabs', block_settings: block.settings -%}
@@ -295,45 +306,45 @@
       </h1>
 
       <div class="product__price-and-badge">
-  {%- if block.settings.show_rating or settings.show_rating and section_type == 'quickview' -%}
-    {%- unless product == blank -%}
-      {%- render 'rating', show_rating_count: block.settings.show_rating_count, single_star: true, reviews: product.metafields.reviews -%}
-    {%- else -%}
-      {%- render 'rating', show_rating_count: block.settings.show_rating_count, single_star: true, onboarding: true -%}
-    {%- endunless -%}
-  {%- endif -%}
+        {%- if block.settings.show_rating or settings.show_rating and section_type == 'quickview' -%}
+          {%- unless product == blank -%}
+            {%- render 'rating', show_rating_count: block.settings.show_rating_count, single_star: true, reviews: product.metafields.reviews -%}
+          {%- else -%}
+            {%- render 'rating', show_rating_count: block.settings.show_rating_count, single_star: true, onboarding: true -%}
+          {%- endunless -%}
+        {%- endif -%}
 
-  <p class="product__price" data-price-wrapper>
-    {%- unless product == blank -%}
-      <span data-product-price>{{ current_variant.price | money }} </span>
-    {%- else -%}
-      <span id="ProductPrice">{{ 1999 | money }}</span>
-    {%- endunless -%}
+        <p class="product__price" data-price-wrapper>
+          {%- unless product == blank -%}
+            <span data-product-price>{{ current_variant.price | money }} </span>
+          {%- else -%}
+            <span id="ProductPrice">{{ 1999 | money }}</span>
+          {%- endunless -%}
 
-    <s class="product__price__sale" data-compare-price>
-      {%- if current_variant.compare_at_price -%}
-        {{- current_variant.compare_at_price | money -}}
-      {%- endif -%}
-    </s>
+          <s class="product__price__sale" data-compare-price>
+            {%- if current_variant.compare_at_price -%}
+              {{- current_variant.compare_at_price | money -}}
+            {%- endif -%}
+          </s>
 
-    {%- if current_variant.unit_price_measurement -%}
-      {%- capture unit_price_separator -%}
-        <span aria-hidden="true">/</span><span class="visually-hidden">{{ 'general.accessibility.unit_price_separator' | t }}&nbsp;</span>
-      {%- endcapture -%}
+          {%- if current_variant.unit_price_measurement -%}
+            {%- capture unit_price_separator -%}
+              <span aria-hidden="true">/</span><span class="visually-hidden">{{ 'general.accessibility.unit_price_separator' | t }}&nbsp;</span>
+            {%- endcapture -%}
 
-      <span class="product__unit-price" data-unit-wrapper>
-        <span data-unit-price>
-          {{ current_variant.unit_price | money }}
-          {%- if current_variant.unit_price_measurement.reference_value != 1 -%}
-            {{- current_variant.unit_price_measurement.reference_value -}}
+            <span class="product__unit-price" data-unit-wrapper>
+              <span data-unit-price>
+                {{ current_variant.unit_price | money }}
+                {%- if current_variant.unit_price_measurement.reference_value != 1 -%}
+                  {{- current_variant.unit_price_measurement.reference_value -}}
+                {%- endif -%}
+              </span>
+              {{ unit_price_separator }}
+              <span data-unit-base>{{ current_variant.unit_price_measurement.reference_unit }}</span>
+            </span>
           {%- endif -%}
-        </span>
-        {{ unit_price_separator }}
-        <span data-unit-base>{{ current_variant.unit_price_measurement.reference_unit }}</span>
-      </span>
-    {%- endif -%}
-    </p>
-</div>
+          </p>
+      </div>
 
       <div class="product__form__wrapper" data-product-form-wrapper>
         {%- comment -%} Product Form Snippet {%- endcomment -%}
@@ -348,6 +359,15 @@
     {%- endunless -%}
   </div>
 </div>
+
+{% comment %}
+<!-- /snippets/bv-ratings-reviews.liquid -->
+<!-- Bazaarvoice Ratings & Reviews -->
+{% endcomment %}
+{% render 'bv-ratings-reviews' %}
+{% comment %}
+<!-- End Bazaarvoice Ratings & Reviews -->
+{% endcomment %}
 
 <script type="application/json" id="ProductJson-{{ unique }}" data-product-json>{{ product | json }}</script>
 <script type="application/json" id="ModelJson-{{ unique }}">{{ product.media | where: 'media_type', 'model' | json }}</script>
