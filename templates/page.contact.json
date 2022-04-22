@@ -9,12 +9,6 @@
     "contact-form": {
       "type": "section-contact-form",
       "blocks": {
-        "contact-form-0": {
-          "type": "heading",
-          "settings": {
-            "title": "Contact us"
-          }
-        },
         "contact-form-1": {
           "type": "text",
           "settings": {
@@ -29,6 +23,13 @@
             "required": true
           }
         },
+        "525d6106-ca9f-4a7b-a024-d3e39ee3bca9": {
+          "type": "telephone",
+          "settings": {
+            "title": "Phone",
+            "required": false
+          }
+        },
         "contact-form-3": {
           "type": "body",
           "settings": {
@@ -38,40 +39,16 @@
         }
       },
       "block_order": [
-        "contact-form-0",
         "contact-form-1",
         "contact-form-2",
+        "525d6106-ca9f-4a7b-a024-d3e39ee3bca9",
         "contact-form-3"
-      ],
-      "settings": {}
-    },
-    "locations": {
-      "type": "section-locations",
-      "blocks": {
-        "locations-0": {
-          "type": "locations",
-          "settings": {}
-        },
-        "locations-1": {
-          "type": "locations",
-          "settings": {}
-        },
-        "locations-2": {
-          "type": "locations",
-          "settings": {}
-        }
-      },
-      "block_order": [
-        "locations-0",
-        "locations-1",
-        "locations-2"
       ],
       "settings": {}
     }
   },
   "order": [
     "main",
-    "locations",
     "contact-form"
   ]
 }
