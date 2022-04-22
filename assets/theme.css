@@ -57,3 +57,12 @@ https://flickity.metafizzy.co
 .rte .covet-pics-gallery p {
     margin: 1em 0;
 }
+
+.rc_layout__container .row {
+    justify-content: center;
+    margin: var(--gutter) 0;
+}
+
+input.input-full, textarea.input-full, select.input-full {
+    width: 100%;
+}

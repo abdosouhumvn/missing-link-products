@@ -1,7 +1,7 @@
 <!-- Subscriptions Powered by ReCharge Payments: Begin Liquid Code -->
 <!--
 	Subscription Product
-	http://rechargepayments.com: v3.5.9
+	http://rechargepayments.com: v3.5.10
 -->
 {% if product.metafields.subscriptions.shipping_interval_frequency %}
 	{% comment %}Subscriptions Powered by ReCharge Payments: Meta Fields{% endcomment %}
@@ -26,6 +26,13 @@
 	{% comment %}Subscription settings{% endcomment %}
 	{% assign subscription_product = product.metafields.subscriptions %}
 	{% assign shipping_interval_unit_type = subscription_product.shipping_interval_unit_type | default: 'Days' %}
+	{% if shipping_interval_unit_type == 'day' %}
+		{% assign shipping_interval_unit_type = 'Days' %}
+	{% elsif shipping_interval_unit_type == 'week' %}
+		{% assign shipping_interval_unit_type = 'Weeks' %}
+	{% elsif shipping_interval_unit_type == 'month' %}
+		{% assign shipping_interval_unit_type = 'Months' %}
+	{% endif %}
 	{% assign shipping_interval_frequency = subscription_product.shipping_interval_frequency | split: ',' | default: 30 %}
 	{% assign product_tags = product.tags | remove: ' ' | downcase %}
 	{% if subscription_product.is_subscription_only == 'true' or product_tags contains 'subscriptiononly' %}
@@ -93,9 +100,9 @@
 	{% assign widget_active_bg = widget_settings.background_color | default: "#F8F8F8" %}
 	{% assign widget_icon = widget_settings.widget_icon | default: "black" %}
 	{% if widget_icon == "white" %}
-		{% assign widget_icon = "//static.rechargecdn.com/static/images/widget/rc_widget__icon__white@2x.png" %}
+		{% assign widget_icon = "//rechargeassets-bootstrapheroes-rechargeapps.netdna-ssl.com/static/images/widget/rc_widget__icon__white@2x.png" %}
 	{% else %}
-		{% assign widget_icon = "//static.rechargecdn.com/static/images/widget/rc_widget__icon__black@2x.png" %}
+		{% assign widget_icon = "//rechargeassets-bootstrapheroes-rechargeapps.netdna-ssl.com/static/images/widget/rc_widget__icon__black@2x.png" %}
 	{% endif %}
 	{% assign popup_zindex = widget_settings.popup_zindex | default: "56" %}
 	{% assign popup_background_color = widget_settings.popup_background_color | default: "#474747" %}
@@ -174,7 +181,7 @@
 				{% endfor %}
 			{% endif %}
 		</select>
-		<div id="rc_radio_options" role="radiogroup" aria-labelledby="Purchase options" {% if first_option == "autodeliver" %}class="rc_reverse-options"{% endif %}>
+		<div id="rc_radio_options" role="radiogroup" aria-label="Purchase options" {% if first_option == "autodeliver" %}class="rc_reverse-options"{% endif %}>
 			{% unless subscription_only %}
 				<div class="rc_block rc_block__type rc_block__type__onetime {% unless select_subscription_first %}rc_block__type--active{% endunless %}">
 					<input type="radio" id="rc_purchase_type_onetime" name="purchase_type" value="onetime" {% unless select_subscription_first %}checked{% endunless %} class="rc_radio rc_radio__onetime">
@@ -246,7 +253,7 @@
 			{% if show_widget %}
 				<div class="rc_popup__hover">
 					{% if show_widget_icon %}
-						<img src="{{ widget_icon }}" height="21" width="18" alt="ReCharge Subscription services icon" class="rc_popup__icon">
+						<img src="{{ widget_icon }}" height="21" width="18" loading="lazy" decoding="async" alt="ReCharge Subscription services icon" class="rc_popup__icon">
 					{% endif %}
 					{{ subscription_details_label }}
 					<div class="rc_popup__block">
@@ -260,14 +267,14 @@
 						{% if show_poweredby %}
 							<div class="rc_popup__block__footer">
 								<a href="{{ poweredby_url }}" target="_blank" aria-label="ReCharge Payments homepage">
-									<img src="//static.rechargecdn.com/static/images/widget/rc_widget__banner@2x.png" height="28" width="153" alt="ReCharge Subscriptions company banner" class="rc_popup__badge">
+									<img src="//rechargeassets-bootstrapheroes-rechargeapps.netdna-ssl.com/static/images/widget/rc_widget__banner@2x.png" height="28" width="153" loading="lazy" decoding="async" alt="ReCharge Subscriptions company banner" class="rc_popup__badge">
 								</a>
 							</div>
 						{% endif %}
 					</div>
 				</div>
 			{% elsif show_widget == "link" %}
-				<a href="{{ learnmore_url }}" target="_blank" class="rc_popup__hover" aria-label="Learn more about ReCharge Payments">{% if show_widget_icon %}<img src="{{ widget_icon }}" height="21" width="18" alt="ReCharge Subscription services icon" class="rc_popup__icon"> {% endif %}{{ subscription_details_label }}</a>
+				<a href="{{ learnmore_url }}" target="_blank" class="rc_popup__hover" aria-label="Learn more about ReCharge Payments">{% if show_widget_icon %}<img src="{{ widget_icon }}" height="21" width="18" loading="lazy" decoding="async" alt="ReCharge Subscription services icon" class="rc_popup__icon"> {% endif %}{{ subscription_details_label }}</a>
 			{% endif %}
 		</div>
 	</div>
