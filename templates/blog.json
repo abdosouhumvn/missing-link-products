@@ -2,7 +2,11 @@
   "sections": {
     "main": {
       "type": "blog",
-      "settings": {}
+      "settings": {
+        "post_columns": 3,
+        "image_aspect_ratio": 0.6,
+        "show_rss_icon": false
+      }
     }
   },
   "order": [
