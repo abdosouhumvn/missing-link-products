@@ -5,15 +5,33 @@
       "blocks": {
         "title": {
           "type": "title",
-          "settings": {}
+          "settings": {
+            "subheading": "breadcrumbs",
+            "show_rating": true,
+            "show_rating_count": false
+          }
         },
         "form": {
           "type": "form",
-          "settings": {}
+          "settings": {
+            "show_payment_button": false
+          }
         },
         "description": {
           "type": "description",
-          "settings": {}
+          "settings": {
+            "tabs_style": "tabs_disabled",
+            "tab_title_1": "Tab",
+            "tab_content_1": "<p>This content type will accept <strong>rich text<\/strong> to help with adding styles and links to additional pages or content. Use this to add supplementary information to help your buyers.<\/p>",
+            "tab_title_2": "Info",
+            "tab_content_2": "<p>You can use product metafields to assign content to this tab that is unique to an individual product.  Use tabs to highlight unique features, sizing information, or other sales information.<\/p>",
+            "tab_title_3": "",
+            "tab_content_3": "",
+            "tab_title_4": "",
+            "tab_content_4": "",
+            "tab_title_5": "",
+            "tab_content_5": ""
+          }
         },
         "social-sharing": {
           "type": "social-sharing",
@@ -26,7 +44,11 @@
         "description",
         "social-sharing"
       ],
-      "settings": {}
+      "settings": {
+        "image_gallery": "zoom",
+        "enable_video_looping": false,
+        "bg_color": ""
+      }
     },
     "faq": {
       "type": "section-faq",
@@ -34,15 +56,24 @@
       "blocks": {
         "faq-0": {
           "type": "item",
-          "settings": {}
+          "settings": {
+            "title": "Question",
+            "answer": "<p>Use this answer block to discuss some commonly asked questions you've discovered from your customers interactions. You could discuss product details, size fit, shipping policies, or anything you think would help merchants make an informed decision about your product or collection. This section will appear across all products.<\/p>"
+          }
         },
         "faq-1": {
           "type": "item",
-          "settings": {}
+          "settings": {
+            "title": "Question",
+            "answer": "<p>Use this answer block to discuss some commonly asked questions you've discovered from your customers interactions. You could discuss product details, size fit, shipping policies, or anything you think would help merchants make an informed decision about your product or collection. This section will appear across all products.<\/p>"
+          }
         },
         "faq-2": {
           "type": "item",
-          "settings": {}
+          "settings": {
+            "title": "Question",
+            "answer": "<p>Use this answer block to discuss some commonly asked questions you've discovered from your customers interactions. You could discuss product details, size fit, shipping policies, or anything you think would help merchants make an informed decision about your product or collection. This section will appear across all products.<\/p>"
+          }
         }
       },
       "block_order": [
@@ -50,11 +81,21 @@
         "faq-1",
         "faq-2"
       ],
-      "settings": {}
+      "settings": {
+        "title": "FAQ",
+        "subheading": "Questions and answers",
+        "text": "",
+        "bg_color": ""
+      }
     },
     "related": {
       "type": "related-products",
-      "settings": {}
+      "settings": {
+        "show_section": true,
+        "limit": 4,
+        "product_recommendations_heading": "You May Also Like",
+        "bg_color": ""
+      }
     }
   },
   "order": [

@@ -3,21 +3,140 @@
     "featured-image": {
       "type": "section-featured-image",
       "settings": {
-        "image_height": "five-fifty-height-hero"
+        "image_height": "sixty-fifty-height-hero",
+        "text_position": "center-center",
+        "enable_parallax": false,
+        "image": "shopify:\/\/shop_images\/coming_home.jpg",
+        "image_position": "center-center",
+        "overlay_opacity": 20,
+        "text_color": "text-light",
+        "title": "Our Story",
+        "subheading": "The Missing Link for life™",
+        "button_text": "",
+        "button_link": "",
+        "button_style": "primary"
       }
     },
-    "product-feature": {
-      "type": "section-product-feature",
-      "settings": {}
+    "16505844625c2aa401": {
+      "type": "section-image-with-text",
+      "settings": {
+        "section_height": "seven-fifty-height-hero",
+        "text_position": "left",
+        "image": "shopify:\/\/shop_images\/dr-robert-colett.jpg",
+        "image_background": false,
+        "bg_position": "center-center",
+        "subheading": "",
+        "heading": "",
+        "text": "<p><br\/>In the early 1990’s our founder and Veterinarian, Dr. Robert Collette, was concerned by recurring health issues in his clients. Pets were coming in with chronic hip & joint pain, dry itchy skin, digestion issues and an overall lack of energy. He recognized that commercially processed kibble was not providing the nutrition needed for pets to thrive and thus created The Missing Link superfood supplements.<br\/><br\/><\/p>",
+        "button_text": "",
+        "button_url": "",
+        "button_style": "primary",
+        "video_url": "",
+        "bg_color": ""
+      }
+    },
+    "16505846732a2f6741": {
+      "type": "section-rich-text",
+      "settings": {
+        "text_position": "center",
+        "top_image_width": 100,
+        "subheading": "",
+        "heading": "",
+        "text": "<p>Since then food has come a long way, but the need for additional support is still very much needed. In honor of our founder, we continue to pioneer fresh, high-quality and effective solutions for a range of health needs your pet may have.<\/p><p> <\/p><p>Discover our sister brands Absorbine equine products and Absorbine Pet Care for additional animal health solutions.<\/p>",
+        "button_text": "",
+        "button_url": "",
+        "button_style": "primary",
+        "secondary_button_text": "",
+        "secondary_button_url": "",
+        "secondary_button_style": "secondary",
+        "bg_color": ""
+      }
+    },
+    "16505847369bb5737b": {
+      "type": "section-rich-text",
+      "settings": {
+        "text_position": "center",
+        "top_image_width": 100,
+        "subheading": "",
+        "heading": "Our Sister Brands",
+        "text": "",
+        "button_text": "",
+        "button_url": "",
+        "button_style": "primary",
+        "secondary_button_text": "",
+        "secondary_button_url": "",
+        "secondary_button_style": "secondary",
+        "bg_color": ""
+      }
+    },
+    "16505848119c52e436": {
+      "type": "section-image-with-text",
+      "settings": {
+        "section_height": "sixty-fifty-height-hero",
+        "text_position": "left",
+        "image": "shopify:\/\/shop_images\/Stocksy_txp510d0098Qch200_Small_874328_1.jpg",
+        "image_background": true,
+        "bg_position": "center-center",
+        "subheading": "Topical Pet Health Solutions",
+        "heading": "ABSORBINE PET",
+        "text": "<p>We’re on a mission to relentlessly develop trustworthy and high-quality topical solutions for pets in an ever-changing world.<\/p>",
+        "button_text": "Visit Absorbine Pet",
+        "button_url": "https:\/\/absorbinepet.com\/",
+        "button_style": "primary",
+        "video_url": "",
+        "bg_color": ""
+      }
+    },
+    "165058496910fe46bc": {
+      "type": "section-image-with-text",
+      "settings": {
+        "section_height": "sixty-fifty-height-hero",
+        "text_position": "right",
+        "image": "shopify:\/\/shop_images\/Stampede.jpg",
+        "image_background": true,
+        "bg_position": "center-center",
+        "subheading": "The Horse Worlds Most Trusted Name® since 1892",
+        "heading": "ABSORBINE",
+        "text": "<p><strong>Absorbine<\/strong>® offers the safest and highest quality horse care products for muscle and joint care, fly control, hoof care, grooming, and leather care as well as nutritional supplements.<\/p>",
+        "button_text": "Visit Absorbine®",
+        "button_url": "",
+        "button_style": "primary",
+        "video_url": "",
+        "bg_color": ""
+      }
+    },
+    "1650585092573a781d": {
+      "type": "section-rich-text",
+      "settings": {
+        "text_position": "center",
+        "top_image_width": 100,
+        "subheading": "The Missing Link's",
+        "heading": "Zoo and rescue Initiative",
+        "text": "<p>From a black rhino named Lucy at the Kansas City Zoo to a pack of wolves at the Wildlife Waystation in Los Angeles to a Maltese named EmmyLou in Ipswitch, MA, we’re bringing proven, healthy goodness to a wide variety of animals.  We believe in giving back in the best way we know how – by providing the best nutrition to our furry and feathered friends, both domestic and wild.  Check out how we’ve been able to help support the wellbeing of animals across the country – big and small!  <\/p>",
+        "button_text": "Zoo Blogs",
+        "button_url": "https:\/\/missing-link-products.myshopify.com\/blogs\/blog\/importance-nutrition-animals-black-rhino-study",
+        "button_style": "primary",
+        "secondary_button_text": "",
+        "secondary_button_url": "",
+        "secondary_button_style": "secondary",
+        "bg_color": ""
+      }
     },
     "main": {
       "type": "main-page",
-      "settings": {}
+      "settings": {
+        "show_page_title": false
+      }
     }
   },
   "order": [
     "featured-image",
-    "product-feature",
+    "16505844625c2aa401",
+    "16505846732a2f6741",
+    "16505847369bb5737b",
+    "16505848119c52e436",
+    "165058496910fe46bc",
+    "1650585092573a781d",
     "main"
   ]
 }

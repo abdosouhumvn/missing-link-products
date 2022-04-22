@@ -49,3 +49,11 @@ https://flickity.metafizzy.co
 .product-grid-item .btn.view_btn {
     max-width: 125px;
 }
+
+.rte p {
+    line-height: 2;
+}
+
+.rte .covet-pics-gallery p {
+    margin: 1em 0;
+}
